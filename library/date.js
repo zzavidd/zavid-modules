@@ -1,4 +1,3 @@
-
 module.exports = {
 
   /** Convert date to full string, options of having day of week */

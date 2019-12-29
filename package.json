@@ -4,7 +4,7 @@
   "description": "A library containing reusable code modules for projects developed by Zavid Egbue.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"No test specified\""
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",

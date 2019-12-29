@@ -1,5 +1,5 @@
-export default (component) => {
-  return module.exports = {
+module.exports = (component) => {
+  return {
     
     /** Handle text input fields */
     handleText: (e) => {
