@@ -2,8 +2,9 @@
   "name": "zavid-modules",
   "version": "1.2.0",
   "description": "A library containing reusable code modules for projects developed by Zavid Egbue.",
-  "main": "index.js",
+  "main": "./dist/main.js",
   "scripts": {
+    "build": "webpack --config ./webpack.config.js",
     "test": "node index.js",
     "webpack": "webpack"
   },
@@ -24,8 +25,11 @@
     "react-toastify": "^5.5.0"
   },
   "devDependencies": {
+    "css-loader": "^3.4.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
+    "style-loader": "^1.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }

@@ -1,8 +1,10 @@
 const { toast, cssTransition } = require('react-toastify');
 const classNames = require('classnames');
 
-const css = require('node-sass');
-css.render({ file: 'styles.scss' });
+const css = require('../assets/styles.scss');
+
+// const css = require('node-sass');
+// css.render({ file: 'styles.scss' });
 
 /** Alert transition styles */
 const animation = cssTransition({
