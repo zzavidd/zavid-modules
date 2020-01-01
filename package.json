@@ -4,7 +4,8 @@
   "description": "A library containing reusable code modules for projects developed by Zavid Egbue.",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,17 @@
   "bugs": {
     "url": "https://github.com/zzavidd/zavid-modules/issues"
   },
-  "homepage": "https://github.com/zzavidd/zavid-modules#readme"
+  "homepage": "https://github.com/zzavidd/zavid-modules#readme",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-toastify": "^5.5.0"
+  },
+  "devDependencies": {
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
 }

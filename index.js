@@ -1,9 +1,13 @@
-const handlers = require('./library/handlers');
-const date = require('./library/date');
-const request = require('./library/request');
+const alerts = require('./components/alert');
+
+const date = require('./constants/date');
+const handlers = require('./constants/handlers');
+const request = require('./constants/request');
 
 module.exports = {
-  zHandlers: handlers,
+  zAlerts: alerts,
+
   zDate: date,
+  zHandlers: handlers,
   zRequest: request
 }
