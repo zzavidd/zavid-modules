@@ -1,7 +1,12 @@
-require('webpack');
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: './index.js',
+  mode: 'none',
+  node: {
+    fs: 'empty',
+  },
   module: {
     rules: [
       {
