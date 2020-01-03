@@ -3,9 +3,6 @@ const classNames = require('classnames');
 
 const css = require('../assets/styles.scss');
 
-// const css = require('node-sass');
-// css.render({ file: 'styles.scss' });
-
 /** Alert transition styles */
 const animation = cssTransition({
   enter: css.fadeIn,
