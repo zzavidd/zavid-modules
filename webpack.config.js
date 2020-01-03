@@ -4,16 +4,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        test: /\.s(a|c)ss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       }
-    ],
+    ]
   },
-  node: {
-    fs: 'empty',
+  node: { fs: 'empty' },
+  resolve: {
+    extensions: [".js", ".scss"]
   }
 };
