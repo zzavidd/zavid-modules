@@ -1,7 +1,7 @@
 const { toast, cssTransition } = require('react-toastify');
 const classNames = require('classnames');
 
-require('../assets/styles.scss');
+require('../dist/app.bundle.css');
 
 /** Alert transition styles */
 const animation = cssTransition({
