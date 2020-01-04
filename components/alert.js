@@ -1,19 +1,19 @@
 const { toast, cssTransition } = require('react-toastify');
 const classNames = require('classnames');
 
-const css = require('../assets/styles.scss');
+require('../assets/styles.scss');
 
 /** Alert transition styles */
 const animation = cssTransition({
-  enter: css.fadeIn,
-  exit: css.fadeOut,
+  enter: 'fadeIn',
+  exit: 'fadeOut',
   duration: 500
 });
 
 /** Alert toast configurations */
 toast.configure({
   autoClose: 2500,
-  className: css.toastContainer,
+  className: 'toastContainer',
   closeButton: false,
   draggable: false,
   hideProgressBar: true,
@@ -22,7 +22,7 @@ toast.configure({
 });
 
 /** Default CSS classes */
-const classes = ['alert', css.message];
+const classes = ['alert', 'message'];
 
 module.exports = (styles) => {
   classes.push(styles);
