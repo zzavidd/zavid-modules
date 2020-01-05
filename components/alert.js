@@ -1,8 +1,6 @@
 const { toast, cssTransition } = require('react-toastify');
 const classNames = require('classnames');
 
-require('../dist/app.bundle.css');
-
 /** Alert transition styles */
 const animation = cssTransition({
   enter: 'fadeIn',
@@ -18,6 +16,12 @@ toast.configure({
   draggable: false,
   hideProgressBar: true,
   position: toast.POSITION.BOTTOM_CENTER,
+  style: {
+    left: '0 !important',
+    margin: '0 !important',
+    padding: '0 1em !important',
+    width: '100% !important'
+  },
   transition: animation
 });
 
@@ -67,7 +71,7 @@ module.exports = (styles) => {
       const notification = JSON.parse(sessionStorage.getItem('alert'));
       if (notification){
         const { type, message } = notification;
-        alert[type](message);
+        module.exports.alert[type](message);
         sessionStorage.clear();
       }
     },
@@ -78,9 +82,9 @@ module.exports = (styles) => {
      */
     displayErrorMessage: (err) => {
       if (process.env.NODE_ENV !== 'production'){
-        alert.error(err.toString());
+        module.exports.alert.error(err.toString());
       } else {
-        alert.error('Something went wrong. Please try again later.');
+        module.exports.alert.error('Something went wrong. Please try again later.');
         console.error(err.toString());
       }
     }
