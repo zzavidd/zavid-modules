@@ -5,8 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
-    "prepublish": "rm -rf ./dist && npm run build",
-    "test": "node index.js"
+    "test": "node ./dist/main.js"
   },
   "repository": {
     "type": "git",
