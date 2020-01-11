@@ -5,6 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
+    "publish": "np --no-tests --no-release-draft",
     "test": "node ./dist/main.js"
   },
   "repository": {

@@ -28,10 +28,10 @@ toast.configure({
 /** Default CSS classes */
 const classes = ['alert', 'message'];
 
-module.exports = (styles) => {
-  classes.push(styles);
+module.exports = {
+  // classes.push(styles);
   
-  return {
+  // return {
     alert: {
       /**
        * Show success alert message.
@@ -88,5 +88,5 @@ module.exports = (styles) => {
         console.error(err.toString());
       }
     }
+  // }
   }
-}
