@@ -1,11 +1,9 @@
 const { toast, cssTransition } = require('react-toastify');
 const classNames = require('classnames');
 
-const css = require('../assets/styles.scss');
-
 /** Alert transition styles */
 const animation = cssTransition({
-  enter: css.fadeIn,
+  enter: 'fadeIn',
   exit: 'fadeOut',
   duration: 500
 });
