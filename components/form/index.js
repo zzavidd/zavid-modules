@@ -57,14 +57,14 @@ import classNames from 'classnames';
 /** Template for text inputs */
 class Input extends Component {
   render() {
-    const classes = classNames('input', this.props.className);
+    // const classes = classNames('input', this.props.className);
     return (
       <input
         {...this.props}
         type={this.props.type}
         name={this.props.name}
         placeholder={this.props.placeholder}
-        className={classes}
+        className={'input'}
         autoComplete={'off'}
         value={this.props.value || ''}
         ref={this.props.ref}
