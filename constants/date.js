@@ -1,7 +1,12 @@
 module.exports = {
 
-  /** Convert date to full string, options of having day of week */
-  formatDate: (value, withDate) => {
+  /**
+   * Convert date to full string e.g. Monday 1st January 2020
+   * @param {string} value - The date value to be converted.
+   * @param {boolean} withDay - Option to include the day of the week.
+   * @returns The full date string.
+   */
+  formatDate: (value, withDay) => {
     if (!value) return '-';
   
     let dt = new Date(value);
@@ -39,12 +44,16 @@ module.exports = {
     }
   
     let result = `${date}${getDateSuffix(date)} ${month} ${year}`;
-    result = withDate ? `${day} ${result}` : result;
+    result = withDay ? `${day} ${result}` : result;
     
     return result;
   },
 
-  /** Convert date to full time string */
+  /**
+   * Convert time to 24-hour time e.g. 23:59
+   * @param {string} value - The time value to be converted.
+   * @returns The time in its new format.
+   */
   formatTime: (value) => {
     if (!value) return '-';
   
@@ -56,12 +65,21 @@ module.exports = {
     return result;
   },
 
+  /**
+   * Convert datetime to full date and time string.
+   * @param {string} value - The datetime value to be converted.
+   * @returns A full datetime stirng.
+   */
   formatDateTime: (value) => {
     if (!value) return '-';
     return `${module.exports.formatTime(value)} @ ${module.exports.formatDate(value)}`;
   },
 
-  /** Get date in YYYY-MM-DD format */
+  /**
+   * Convert date to ISO format..
+   * @param {string} date - The date value to be converted.
+   * @returns An ISO version of the date.
+   */
   formatISODate: (date) => {
     const value = new Date(date);
     let dd = doubleDigit(value.getDate());
@@ -71,9 +89,13 @@ module.exports = {
     return `${yyyy}-${mm}-${dd}`;
   },
 
-  /** Calculate the age from a birth date */
-  calculateAge: (bday) => {
-    const birthday = new Date(bday);
+  /**
+   * Calculates age from a provided date.
+   * @param {string} date - The date of birth which the age will be calculated from.
+   * @returns The calculated age.
+   */
+  calculateAge: (date) => {
+    const birthday = new Date(date);
     
     const dd = birthday.getDate();
     const mm = birthday.getMonth();
@@ -91,7 +113,11 @@ module.exports = {
   }
 }
 
-/** Get suffix of date */
+/**
+ * Retrieves the ordinal of the date.
+ * @param {string} day - A day number of the month.
+ * @returns The corresponding ordinal.
+ */
 const getDateSuffix = (day) => {
   let suffix = "";
   
@@ -105,7 +131,11 @@ const getDateSuffix = (day) => {
   return suffix;
 }
 
-/** Ensure all values are two significant figures */
+/**
+ * Converts a number to 2 significant figures.
+ * @param {number} value - An integer value.
+ * @returns The converted number as a string.
+ */
 const doubleDigit = (value) => {
   return value = (value < 10) ? '0' + value : value;
 }
