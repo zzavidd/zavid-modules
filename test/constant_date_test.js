@@ -2,8 +2,6 @@ const assert = require('chai').assert;
 const zDate = require('../constants/date.js');
 const zRequest = require('../constants/request.js');
 
-zRequest();
-
 describe('Date functions', () => {
     const datetime = '1996-12-02T08:39:39';
 
