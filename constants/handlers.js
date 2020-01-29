@@ -1,48 +1,79 @@
 module.exports = (component) => {
   return {
     
-    /** Handle text input fields */
-    handleText: (e) => {
-      const { name, value } = e.target;
+    /** 
+     * Handle changes to text input fields.
+     * @param {Event} event - The text change DOM event.
+     */
+    handleText: (event) => {
+      const { name, value } = event.target;
       component.setState({[name]: value});
     },
 
-    /** Handle radio changes */
-    handleRadio: (value, e) => {
-      const { name } = e.target;
+   /** 
+     * Handle selection of radio values.
+     * @param {*} value - The selected value.
+     * @param {Event} event - The radio button click DOM event.
+     */
+    handleRadio: (value, event) => {
+      const { name } = event.target;
       component.setState({[name]: value});
     },
 
-    /** Handle checkbox changes */
-    handleCheckbox: (e) => {
-      const { name, checked } = e.target;
+    /**
+     * Handles checking of checkboxes.
+     * @param {Event} event - The checkbox click DOM event.
+     */
+    handleCheckbox: (event) => {
+      const { name, checked } = event.target;
       component.setState({[name]: checked})
     },
 
-    /** Handle checkbox changes */
-    handleCheckboxButton: (e) => {
-      const { name, checked } = e;
+    /**
+     * Handles checking of checkbox buttons.
+     * @param {Event} event - The checkbox button click DOM event.
+     */
+    handleCheckboxButton: (event) => {
+      const { name, checked } = event;
       component.setState({[name]: !checked})
     },
 
-    /** Handle date selections */
-    handleBirthday: (birthday) => {component.setState({birthday}); },
-    handleDate: (date) => {component.setState({date}); },
-    handleDateWritten: (date_written) => { component.setState({date_written}); },
+    /**
+     * Handles the selection of dates.
+     * @param {string} date - The date value.
+     * @param {string} [name=date] - The name of the element.
+     */
+    handleDate: (date, name = 'date') => { component.setState({[name]: date}); },
+    // handleBirthday: (birthday) => {component.setState({birthday}); },
+    // handleDate: (date) => {component.setState({date}); },
+    // handleDateWritten: (date_written) => { component.setState({date_written}); }
 
-    /** Handle image selections */
-    handleImage: (image) => { component.setState({image}); },
+    /**
+     * Handles the upload of images with a file selector.
+     * @param {string} image - The base64 string of the image.
+     * @param {string} [name=image] - The name of the element.
+     */
+    handleImage: (image, name = 'image') => { component.setState({[name]: image}); },
 
-    /** Handle new rating */
-    handleRatingChange: (e) => {
-      const rating = parseInt(e.currentTarget.value)
+    /**
+     * Handles a rating selection.
+     * @param {Event} event - The click on the rator DOM element.
+     */
+    handleRatingChange: (event) => {
+      const rating = parseInt(event.currentTarget.value)
       component.setState({ rating });
     },
     
-    /** Store social media handle entries  */
+    /**
+     * Assigns social media handles.
+     * @param {Object} socials - The mapping of social media platforms to usernames.
+     */
     confirmSocials: (socials) => {component.setState({socials})},
 
-    /** Clear country selections */
-    clearSelection: (name) => { component.setState({[name]: ''})}
+    /**
+     * Clears the selection of a country.
+     * @param {string} countryField - The name of the country field element.
+     */
+    clearSelection: (countryField) => { component.setState({[countryField]: ''})}
   }
 }
