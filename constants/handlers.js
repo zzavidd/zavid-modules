@@ -1,3 +1,8 @@
+/**
+ * Handlers for DOM field elements.
+ * @module zavid-modules/handlers
+ * @param {React.Component} component - The component whose state requires updating.
+ */
 module.exports = (component) => {
   return {
     
