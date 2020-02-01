@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 // import { Form, Row } from 'react-bootstrap';
 import classNames from 'classnames';
 
-import css from 'src/assets/form.scss';
-
 // import { Icon } from '~/components/icon.js';
 
 // /** The heading of the form */
@@ -48,8 +46,40 @@ import css from 'src/assets/form.scss';
 /** For labels headlining form fields */
 export class Label extends Component {
   render() {
-    const classes = classNames(css.label, this.props.className);
-    return <label className={classes} style={{color: 'purple'}}>{this.props.children}</label>;
+    const { children, className } = this.props;
+    return <label className={className} style={css.label}>{children}</label>;
+  }
+}
+
+const common = {
+  input: {
+    background: 'none',
+    border: 'none',
+    // color: auto;
+    borderRadius: 0,
+    // border-bottom: auto;
+    // font-family: auto;
+    fontSize: '1.2em',
+    outline: 'none',
+    padding: .4,
+    width: '100%',
+    // @media (max-width: $break-md) { font-size: 1em; padding: .4em 0}
+  }
+}
+
+const css = {
+  label: {
+    display: 'block',
+    fontSize: '1.1em'
+  },
+  input: common.input,
+  textarea: {
+    ...common.input,
+    minHeight: '42px'
+  },
+  wordCount: {
+    margin: 0,
+    textAlign: 'right'
   }
 }
 
@@ -60,10 +90,11 @@ export class Label extends Component {
 /** Template for text inputs */
 class Input extends Component {
   render() {
-    const classes = classNames(css.input, this.props.className);
+    const classes = classNames(this.props.className);
     return (
       <input
         {...this.props}
+        style={css.input}
         type={this.props.type}
         name={this.props.name}
         placeholder={this.props.placeholder}
@@ -159,13 +190,13 @@ class TextArea extends Component {
   // };
 
   render() {
-    const { name, placeholder, value } = this.props;
-    const classes = classNames(css.textarea, this.props.className);
+    const { className, name, placeholder, value } = this.props;
     return (
       <textarea
         name={name}
         placeholder={placeholder}
-        className={classes}
+        className={className}
+        style={css.textarea}
         // rows={this.state.rows}
         value={value || ''}
         // onChange={this.handleTextChange}
@@ -199,7 +230,7 @@ export class LongTextArea extends Component {
       <div>
         <TextArea minRows={3} {...this.props} />
         {/* <label className={css.wordcount}>{this.state.wordCount}</label> */}
-        <label className={css.wordcount}>50000</label>
+        <label style={css.wordCount}>50000</label>
       </div>
     );
   }

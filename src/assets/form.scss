@@ -36,7 +36,7 @@
 .textarea {
   @extend .input;
   min-height: 42px;
-  + .wordcount {
+  + .wordCount {
     // color: $faded-white;
     // font-family: $title-font;
     margin: 0;
