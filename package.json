@@ -6,8 +6,8 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./webpack.config.js --mode production",
     "dev": "webpack --mode development",
-    "release": "np --no-tests --no-release-draft",
-    "test-main": "node ./dist/main.js",
+    "release": "np --no-release-draft",
+    "check": "node ./dist/main.js",
     "test": "mocha"
   },
   "repository": {
