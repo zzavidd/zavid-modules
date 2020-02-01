@@ -8,7 +8,7 @@ const request = require('./constants/request');
 module.exports = {
   zAlerts: alerts,
   zForm: form,
-
+  
   zDate: date,
   zHandlers: handlers,
   zRequest: request

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import { Form, Row } from 'react-bootstrap';
 import classNames from 'classnames';
 
+import css from 'src/assets/form.scss';
+
 // import { Icon } from '~/components/icon.js';
 
 // /** The heading of the form */
@@ -43,12 +45,13 @@ import classNames from 'classnames';
 //   }
 // }
 
-// /** For labels headlining form fields */
-// export class Label extends Component {
-//   render() {
-//     return <Form.Label className={css.label}>{this.props.children}</Form.Label>;
-//   }
-// }
+/** For labels headlining form fields */
+export class Label extends Component {
+  render() {
+    const classes = classNames(css.label, this.props.className);
+    return <label className={classes} style={{color: 'purple'}}>{this.props.children}</label>;
+  }
+}
 
 /***************************
  * INPUTS
@@ -57,14 +60,14 @@ import classNames from 'classnames';
 /** Template for text inputs */
 class Input extends Component {
   render() {
-    // const classes = classNames('input', this.props.className);
+    const classes = classNames(css.input, this.props.className);
     return (
       <input
         {...this.props}
         type={this.props.type}
         name={this.props.name}
         placeholder={this.props.placeholder}
-        className={'input'}
+        className={classes}
         autoComplete={'off'}
         value={this.props.value || ''}
         ref={this.props.ref}
@@ -138,67 +141,69 @@ export class TextInput extends Component {
 //  * TEXTAREAS
 //  **************************/
 
-// class TextArea extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = { rows: props.minRows };
-//   }
+class TextArea extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { rows: props.minRows };
+  // }
 
-//   handleTextChange = event => {
-//     this.props.onChange(event);
-//     const limit = this.props.minRows;
+  // handleTextChange = event => {
+  //   this.props.onChange(event);
+  //   const limit = this.props.minRows;
 
-//     const text = event.target.value;
-//     const lines = text.split(/\r*\n/).length;
-//     const rows = lines > limit ? lines : limit;
+  //   const text = event.target.value;
+  //   const lines = text.split(/\r*\n/).length;
+  //   const rows = lines > limit ? lines : limit;
 
-//     this.setState({ wordCount: text.length, rows });
-//   };
+  //   this.setState({ wordCount: text.length, rows });
+  // };
 
-//   render() {
-//     const { name, placeholder, value } = this.props;
-//     return (
-//       <textarea
-//         name={name}
-//         placeholder={placeholder}
-//         className={css.textarea}
-//         rows={this.state.rows}
-//         value={value || ''}
-//         onChange={this.handleTextChange}
-//       />
-//     );
-//   }
-// }
+  render() {
+    const { name, placeholder, value } = this.props;
+    const classes = classNames(css.textarea, this.props.className);
+    return (
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        className={classes}
+        // rows={this.state.rows}
+        value={value || ''}
+        // onChange={this.handleTextChange}
+      />
+    );
+  }
+}
 
-// /** For inline long text inputs */
+/** For inline long text inputs */
 // export class ShortTextArea extends Component {
 //   render() {
 //     return <TextArea minRows={1} {...this.props} />;
 //   }
 // }
 
-// /** For long text inputs with word counters */
-// export class LongTextArea extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       wordCount: props.value ? props.value.length : 0
-//     };
-//   }
+/** For long text inputs with word counters */
+export class LongTextArea extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     wordCount: props.value ? props.value.length : 0
+  //   };
+  // }
 
-//   static getDerivedStateFromProps(props) {
-//     return { wordCount: props.value ? props.value.length : 0 };
-//   }
+  // static getDerivedStateFromProps(props) {
+  //   return { wordCount: props.value ? props.value.length : 0 };
+  // }
 
-//   render() {
-//     return (
-//       <div>
-//         <TextArea minRows={3} {...this.props} />
-//         <label className={css.wordcount}>{this.state.wordCount}</label>
-//       </div>
-//     );
-//   }
-// }
+  render() {
+    return (
+      <div>
+        <TextArea minRows={3} {...this.props} />
+        {/* <label className={css.wordcount}>{this.state.wordCount}</label> */}
+        <label className={css.wordcount}>50000</label>
+      </div>
+    );
+  }
+}
 
 // /***************************
 //  * OTHERS

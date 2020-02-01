@@ -1,44 +1,58 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
+const dev = process.env.NODE_ENV !== 'production';
+
 module.exports = {
-  entry: path.join(__dirname, './index.js'),
-  output: {      
-    path: path.join(__dirname, './dist'),      
-    filename: 'main.js',      
-    library: 'ZavidLibrary',      
-    libraryTarget: 'umd',      
-    publicPath: '/dist/',      
-    umdNamedDefine: true  
+  entry: './src/index.js',
+  output: {
+    path: path.join(__dirname, './dist'),
+    filename: 'main.js',
+    library: 'ZavidLibrary',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+    globalObject: `(typeof self !== 'undefined' ? self : this)`,
   },
-  mode: 'none',
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader','sass-loader'],
+        test: /\.s?css$/,
+        use: [
+          dev ? 'style-loader': MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: { modules: true, importLoaders: 1 },
+          },
+          'resolve-url-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
+        }
       }
     ]
   },
-  node: { fs: 'empty' },
-  resolve: {      
-    alias: {          
-      'react': path.resolve(__dirname, './node_modules/react'),
-      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),      
-    },
-    extensions: [".js", ".scss"]
-  },  
-  externals: {   
-    "react": {          
-        commonjs: "react",          
-        commonjs2: "react",          
-        amd: "React",          
-        root: "React"      
-    },      
-    "react-dom": {          
-        commonjs: "react-dom",          
-        commonjs2: "react-dom",          
-        amd: "ReactDOM",          
-        root: "ReactDOM"      
-    }  
-  } 
+  target: 'node',
+  plugins: [
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: '[name].[hash].css',
+    })
+  ],
+  resolve: {
+    extensions: ['.js']
+  },
+  stats: {
+    entrypoints: false,
+    children: false
+  }
 };
