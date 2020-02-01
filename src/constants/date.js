@@ -3,7 +3,7 @@ module.exports = {
   /**
    * Convert date to full string e.g. Monday 1st January 2020
    * @param {string} value - The date value to be converted.
-   * @param {boolean} withDay - Option to include the day of the week.
+   * @param {boolean} [withDay] - Option to include the day of the week.
    * @returns The full date string.
    */
   formatDate: (value, withDay) => {
@@ -76,7 +76,7 @@ module.exports = {
   },
 
   /**
-   * Convert date to ISO format..
+   * Convert date to ISO format.
    * @param {string} date - The date value to be converted.
    * @returns An ISO version of the date.
    */
