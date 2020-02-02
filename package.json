@@ -7,7 +7,8 @@
     "build": "webpack --config ./webpack.config.js --mode production",
     "dev": "webpack --mode development",
     "release": "np --no-release-draft",
-    "test": "node ./dist/main.js && mocha"
+    "check": "node ./dist/main.js",
+    "test": "npm run check && mocha"
   },
   "repository": {
     "type": "git",

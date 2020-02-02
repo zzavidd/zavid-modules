@@ -1,3 +1,3 @@
-export { TextInput } from './input';
-export { LongTextArea } from './textarea';
-export { Label } from './other';
+export * from './input';
+export * from './textarea';
+export * from './other';
