@@ -1,5 +1,8 @@
+const request = require('request-promise');
+
 /**
- * Abstract function for requests.
+ * Abstract function for HTTP requests.
+ * @module zavid-modules/request
  * @param {string} request.url - The url to make the request to.
  * @param {string} [request.method=GET] - The method of the request. Defaults to GET.
  * @param {Object} [request.body] - The payload for the request.
@@ -16,27 +19,22 @@ module.exports = ({
   onError = console.error
 }) => {
   headers['Content-Type'] = 'application/json';
-  url = `/api${url}`;
   
-  fetch(url, { method, body, headers })
-  .then(res => Promise.all([res, res.json()]))
-  .then(([status, response]) => { 
-    if (status.ok){
-      onSuccess(response);
-    } else {
-      onError(response.message);
-    }
-  }).catch(error => {
+  request(url, { method, body, headers })
+  .then(response => {
+    const json = JSON.parse(response);
+    onSuccess(json);
+  }, error => {
     onError(error);
-  });
+  })
 }
 
 /**
- *  Function triggered on successful request.
- *  @callback onSuccessCallback
+ * Function triggered on successful request.
+ * @callback onSuccessCallback
  */
 
  /**
- *  Function triggered when request fails.
- *  @callback onErrorCallback
+ * Function triggered when request fails.
+ * @callback onErrorCallback
  */
