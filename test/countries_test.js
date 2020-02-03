@@ -14,7 +14,7 @@ describe('Country functions', () => {
 
   it('Get demonym', done => {
     const demonym = zCountries.getDemonym('Nigeria', allCountries);
-    assert.equal(demonym, 'Nigeria');
+    assert.equal(demonym, 'Nigerian');
     done();
   });
 
