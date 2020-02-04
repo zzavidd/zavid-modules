@@ -12,13 +12,13 @@ describe('Country functions', () => {
     });
   });
 
-  it('Get demonym', done => {
+  it('Retrieve country\'s demonym', done => {
     const demonym = zCountries.getDemonym('Nigeria', allCountries);
     assert.equal(demonym, 'Nigerian');
     done();
   });
 
-  it('List demonyms', done => {
+  it('List demonyms as string', done => {
     const countries = ['Nigeria', 'Ghana', 'Jamaica'];
     const demonymList = zCountries.demonymsToString(countries, allCountries);
     assert.equal(demonymList, 'Nigerian, Ghanaian & Jamaican');

@@ -28,12 +28,11 @@ describe('Date functions', () => {
     done();
   });
 
-  // it('Format to ISO date', done => {
-  //     const datetime2 = 'Monday 2nd December 1996';
-  //     const isoDate = zDate.formatISODate(datetime2);
-  //     assert.equal(isoDate, '1996-12-02');
-  //     done();
-  // });
+  it('Format to ISO date', done => {
+      const isoDate = zDate.formatISODate(datetime);
+      assert.equal(isoDate, '1996-12-02');
+      done();
+  });
   
   it('Calculate age from birthday', done => {
     const birthday = '1996-12-02';
