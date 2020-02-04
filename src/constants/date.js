@@ -1,3 +1,7 @@
+/**
+ * Custom date functions.
+ * @module zavid-modules/date
+ */
 module.exports = {
 
   /**
