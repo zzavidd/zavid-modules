@@ -1,4 +1,5 @@
-const request = require('request-promise');
+// const request = require('superagent/lib/client');
+const axios = require('axios');
 
 /**
  * Abstract function for HTTP requests.
@@ -19,14 +20,19 @@ module.exports = ({
   onError = console.error
 }) => {
   headers['Content-Type'] = 'application/json';
-  
-  request(url, { method, body, headers })
-  .then(response => {
-    const json = JSON.parse(response);
-    onSuccess(json);
-  }, error => {
-    onError(error);
+
+  axios({
+    url,
+    method,
+    data: body,
+    headers,
   })
+  .then(response => {
+    onSuccess(response.data);
+  })
+  .catch(error => {
+    onError(error.message);
+  });
 }
 
 /**
