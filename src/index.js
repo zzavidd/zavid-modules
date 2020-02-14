@@ -15,5 +15,5 @@ module.exports = {
   zDate: date,
   zHandlers: handlers,
   zRequest: request,
-  ZString: string
+  zString: string
 }
