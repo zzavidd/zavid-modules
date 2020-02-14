@@ -47,7 +47,11 @@ export class LongTextArea extends Component {
     return (
       <div>
         <TextArea minRows={3} {...this.props} />
-        <label style={css.wordCount}>{this.state.wordCount}</label>
+        <label
+          className={this.props.wordCountClassName}
+          style={css.wordCount}>
+          {this.state.wordCount}
+        </label>
       </div>
     );
   }

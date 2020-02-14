@@ -26,6 +26,7 @@ module.exports = {
   },
   wordCount: {
     margin: 0,
-    textAlign: 'right'
+    textAlign: 'right',
+    width: '100%'
   }
 }
