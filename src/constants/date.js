@@ -16,7 +16,7 @@ module.exports = {
     let dt = new Date(value);
   
     let day_number = dt.getDay() + 1;
-    let date = dt.getDate().toString();
+    let date = dt.getDate();
     let month_number = dt.getMonth() + 1;
     let year = dt.getFullYear();
     
@@ -47,7 +47,7 @@ module.exports = {
       case 12: month = "December"; break;
     }
   
-    let result = `${date}${getDateSuffix(date)} ${month} ${year}`;
+    let result = `${date}${module.exports.getDateSuffix(date)} ${month} ${year}`;
     result = withDay ? `${day} ${result}` : result;
     
     return result;
@@ -114,25 +114,25 @@ module.exports = {
     age += (td - dd) / 310;
     
     return Math.floor(age);
-  }
-}
+  },
 
-/**
- * Retrieves the ordinal of the date.
- * @param {string} day - A day number of the month.
- * @returns The corresponding ordinal.
- */
-const getDateSuffix = (day) => {
-  let suffix = "";
-  
-  switch(day) {
-    case '1': case '21': case '31': suffix = 'st'; break;
-    case '2': case '22': suffix = 'nd'; break;
-    case '3': case '23': suffix = 'rd'; break;
-    default: suffix = 'th';
+  /**
+   * Retrieves the ordinal of the date.
+   * @param {string} day - A day number of the month.
+   * @returns The corresponding ordinal.
+   */
+  getDateSuffix: (day) => {
+    let suffix = "";
+    
+    switch(day) {
+      case 1: case 21: case 31: suffix = 'st'; break;
+      case 2: case 22: suffix = 'nd'; break;
+      case 3: case 23: suffix = 'rd'; break;
+      default: suffix = 'th';
+    }
+    
+    return suffix;
   }
-  
-  return suffix;
 }
 
 /**
