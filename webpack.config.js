@@ -34,6 +34,5 @@ module.exports = {
   stats: {
     entrypoints: false,
     children: false
-  },
-  watch: true
+  }
 };
