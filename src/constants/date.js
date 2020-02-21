@@ -118,7 +118,7 @@ module.exports = {
 
   /**
    * Retrieves the ordinal of the date.
-   * @param {string} day - A day number of the month.
+   * @param {number} day - A day number of the month.
    * @returns The corresponding ordinal.
    */
   getDateSuffix: (day) => {

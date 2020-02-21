@@ -39,4 +39,17 @@ describe('Date functions', function() {
     // const now = dt.getTime();
     // assert.equal(age, now / (365 * 24 * 3600000))
   });
+
+  it('Get date ordinal suffix', function() {
+    const expect = function(actual, expected) {
+      assert.equal(zDate.getDateSuffix(actual), expected);
+    }
+
+    for (let i = 1; i < 31; i++) {
+      if (i === 1 || i === 21 || i === 31) expect(i, 'st');
+      else if (i === 2 || i === 22) expect(i, 'nd');
+      else if (i === 3 || i === 23) expect(i, 'rd');
+      else expect(i, 'th');
+    }
+  });
 });
