@@ -46,10 +46,12 @@ describe('Date functions', function() {
     }
 
     for (let i = 1; i < 31; i++) {
-      if (i === 1 || i === 21 || i === 31) expect(i, 'st');
-      else if (i === 2 || i === 22) expect(i, 'nd');
-      else if (i === 3 || i === 23) expect(i, 'rd');
-      else expect(i, 'th');
+      switch(i) {
+        case 1: case 21: case 31: expect(i, 'st'); break;
+        case 2: case 22: expect(i, 'nd'); break;
+        case 3: case 23: expect(i, 'rd'); break;
+        default: expect(i, 'th');
+      }
     }
   });
 });
