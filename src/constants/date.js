@@ -54,18 +54,32 @@ module.exports = {
   },
 
   /**
-   * Convert time to 24-hour time e.g. 23:59
+   * Convert datetime or time string to 12-hour time string e.g. 11:59pm
    * @param {string} value - The time value to be converted.
    * @returns The time in its new format.
    */
   formatTime: (value) => {
-    if (!value) return '-';
-  
-    let dt = new Date(value);
-    let hour = doubleDigit(dt.getHours());
-    let min = doubleDigit(dt.getMinutes());
+    if (!value) return null;
 
-    let result = `${hour}:${min}`;
+    const isDateTime = typeof value === 'object' || value.includes('T');
+
+    let hour, min;
+
+    if (isDateTime){
+      const dt = new Date(value);
+      hour = dt.getHours();
+      min = dt.getMinutes();
+    } else {
+      hour = parseInt(value.substring(0, 2));
+      min = parseInt(value.substring(3, 5));
+    }
+  
+    let period = module.exports.getTimePeriod(hour);
+
+    hour = module.exports.doubleDigit(module.exports.convertTo12HourNumber(hour));
+    min = module.exports.doubleDigit(min);
+
+    let result = `${hour}:${min}${period}`;
     return result;
   },
 
@@ -76,7 +90,7 @@ module.exports = {
    */
   formatDateTime: (value) => {
     if (!value) return '-';
-    return `${module.exports.formatTime(value)} @ ${module.exports.formatDate(value)}`;
+    return `${module.exports.formatISOTime(value, false)} @ ${module.exports.formatDate(value)}`;
   },
 
   /**
@@ -86,11 +100,43 @@ module.exports = {
    */
   formatISODate: (date) => {
     const value = new Date(date);
-    let dd = doubleDigit(value.getDate());
-    let mm = doubleDigit(value.getMonth() + 1);
+    let dd = module.exports.doubleDigit(value.getDate());
+    let mm = module.exports.doubleDigit(value.getMonth() + 1);
     let yyyy = value.getFullYear();
 
     return `${yyyy}-${mm}-${dd}`;
+  },
+
+  /**
+   * Convert datetime or time to ISO format.
+   * @param {string} time - The time value to be converted.
+   * @param {boolean} [withSeconds=true] - Option to include the seconds.
+   * @returns An ISO version of the time.
+   */
+  formatISOTime: (time, withSeconds = true) => {
+    if (!time) return null;
+
+    const isDateTime = typeof time === 'object' || time.includes('T');
+
+    if (isDateTime){
+      const dt = new Date(time);
+      hour = dt.getHours();
+      min = dt.getMinutes();
+      sec = dt.getSeconds();
+    } else {
+      hour = parseInt(time.substring(0, 2));
+      min = parseInt(time.substring(3, 5));
+      sec = parseInt(time.substring(6, 8));
+    }
+
+    hour = module.exports.doubleDigit(hour);
+    min = module.exports.doubleDigit(min);
+    sec = module.exports.doubleDigit(sec);
+
+    let result = `${hour}:${min}`;
+    if (withSeconds) result += `:${sec}`;
+
+    return result;
   },
 
   /**
@@ -132,14 +178,39 @@ module.exports = {
     }
     
     return suffix;
-  }
-}
+  },
 
-/**
- * Converts a number to 2 significant figures.
- * @param {number} value - An integer value.
- * @returns The converted number as a string.
- */
-const doubleDigit = (value) => {
-  return value = (value < 10) ? '0' + value : value;
+  /**
+   * Retrieves the period of the hour.
+   * @param {number} hour - An hour of the day.
+   * @returns The corresponding period.
+   */
+  getTimePeriod: (hour) => {
+    return hour < 12 ? 'am' : 'pm'
+  },
+
+  /**
+   * Convert hour to 12-hour convention.
+   * @param {number} hour - An hour of the day.
+   * @returns The 12-hour format of the hour.
+   */
+  convertTo12HourNumber: (hour) => {
+    // TODO: Needs testing
+    if (hour === 0) {
+      hour = 12;
+    } else if (hour > 12) {
+      hour = hour - 12;
+    }
+
+    return hour;
+  },
+
+  /**
+   * Converts a number to 2 significant figures.
+   * @param {number} value - An integer value.
+   * @returns The converted number as a string.
+   */
+  doubleDigit: (value) => {
+    return value = (value < 10) ? '0' + value : value;
+  }
 }

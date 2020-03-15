@@ -2,7 +2,8 @@ const assert = require('chai').assert;
 const zDate = require('../src/constants/date.js');
 
 describe('Date functions', function() {
-  const datetime = '1996-12-02T08:39:39';
+  const datetime = '1996-12-02T01:00:00';
+  const datetimePM = '1996-12-02T23:59:59';
 
   it('Format full date', function() {
     const fullDate = zDate.formatDate(datetime);
@@ -15,18 +16,27 @@ describe('Date functions', function() {
   });
 
   it('Format to time', function() {
-    const formattedTime = zDate.formatTime(datetime);
-    assert.equal(formattedTime, '08:39');
+    assert.equal(zDate.formatTime(datetime), '01:00am');
+    assert.equal(zDate.formatTime(datetimePM), '11:59pm');
   });
 
   it('Format to full date and time', function() {
-    const fullDateTime = zDate.formatDateTime(datetime);
-    assert.equal(fullDateTime, '08:39 @ 2nd December 1996');
+    const fullDateTimeAM = zDate.formatDateTime(datetime, false);
+    const fullDateTimePM = zDate.formatDateTime(datetimePM, false);
+    assert.equal(fullDateTimeAM, '01:00 @ 2nd December 1996');
+    assert.equal(fullDateTimePM, '23:59 @ 2nd December 1996');
   });
 
   it('Format to ISO date', function() {
       const isoDate = zDate.formatISODate(datetime);
       assert.equal(isoDate, '1996-12-02');
+  });
+
+  it('Format to ISO time', function() {
+    const isoTime = zDate.formatISOTime(datetime, true);
+    const isoTimePM = zDate.formatISOTime(datetimePM, true);
+    assert.equal(isoTime, '01:00:00');
+    assert.equal(isoTimePM, '23:59:59');
   });
   
   it('Calculate age from birthday', function() {

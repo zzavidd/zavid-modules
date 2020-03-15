@@ -49,9 +49,13 @@ module.exports = (component) => {
      * @param {string} [name=date] - The name of the element.
      */
     handleDate: (date, name = 'date') => { component.setState({[name]: date}); },
-    // handleBirthday: (birthday) => {component.setState({birthday}); },
-    // handleDate: (date) => {component.setState({date}); },
-    // handleDateWritten: (date_written) => { component.setState({date_written}); }
+
+    /**
+     * Handles the selection of time.
+     * @param {string} time - The time value.
+     * @param {string} [name=time] - The name of the element.
+     */
+    handleTime: (time, name = 'time') => { component.setState({[name]: time}); },
 
     /**
      * Handles the upload of images with a file selector.
