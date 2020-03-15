@@ -76,7 +76,7 @@ module.exports = {
   
     let period = module.exports.getTimePeriod(hour);
 
-    hour = module.exports.doubleDigit(module.exports.convertTo12HourNumber(hour));
+    hour = module.exports.convertTo12HourNumber(hour);
     min = module.exports.doubleDigit(min);
 
     let result = `${hour}:${min}${period}`;

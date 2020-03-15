@@ -16,7 +16,7 @@ describe('Date functions', function() {
   });
 
   it('Format to time', function() {
-    assert.equal(zDate.formatTime(datetime), '01:00am');
+    assert.equal(zDate.formatTime(datetime), '1:00am');
     assert.equal(zDate.formatTime(datetimePM), '11:59pm');
   });
 
