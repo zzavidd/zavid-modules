@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import * as css from './form.styles';
 
-class TextArea extends Component {
+class ITextArea extends Component {
   constructor(props) {
     super(props);
     this.state = { rows: props.minRows };
@@ -30,6 +30,15 @@ class TextArea extends Component {
   }
 }
 
+/** For shorter text inputs */
+export class ShortTextArea extends Component {
+  render() {
+    return (
+      <ITextArea minRows={1} {...this.props} />
+    );
+  }
+}
+
 /** For long text inputs with word counters */
 export class LongTextArea extends Component {
   constructor(props) {
@@ -46,7 +55,7 @@ export class LongTextArea extends Component {
   render() {
     return (
       <div>
-        <TextArea minRows={3} {...this.props} />
+        <ITextArea minRows={3} {...this.props} />
         <label
           className={this.props.wordCountClassName}
           style={css.wordCount}>
