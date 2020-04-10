@@ -9,6 +9,19 @@ const toPunctuatedList = (items, conjunction = '&') => {
   return str;
 }
 
+/**
+ * Created formatted slugs for URLs.
+ * @param {string} value - The value which the slug is based off.
+ * @returns {string} A clean slug.
+ */
+const constructCleanSlug = (value) => {
+  return value.toLowerCase()      // Turn to lowercase
+  .replace(/[^a-zA-Z 0-9]+/g, '')   // Remove all non-alphanumeric characters
+  .replace(/\b(a|an|and|the|but|or|so)\b/g, '') // Remove stopwords
+  .replace(/\s+/g, '-');            // Replace spaces with dashes
+};
+
 module.exports = {
-  toPunctuatedList
+  toPunctuatedList,
+  constructCleanSlug
 }

@@ -9,7 +9,7 @@
     "release": "np --no-release-draft",
     "check": "node ./dist/main.js",
     "test": "npm run check && mocha",
-    "mocha": "mocha"
+    "mocha": "mocha --no-timeout"
   },
   "repository": {
     "type": "git",

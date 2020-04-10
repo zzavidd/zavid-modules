@@ -13,4 +13,10 @@ describe('String functions', function() {
         const punctuatedListAnd = zString.toPunctuatedList(list, 'and');
         assert.equal(punctuatedListAnd, 'Abuja, Edo and Kaduna');
     });
+
+    it('Clean slug', function() {
+      const title = "Olaoluwa and Joseph from a town in Lagos";
+      const expectedOutput = "olaoluwa-joseph-from-town-in-lagos";
+      assert.equal(zString.constructCleanSlug(title), expectedOutput);
+  });
 });
