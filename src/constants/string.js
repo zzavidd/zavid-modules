@@ -21,7 +21,28 @@ const constructCleanSlug = (value) => {
   .replace(/\s+/g, '-');            // Replace spaces with dashes
 };
 
+/**
+ * Created simple slugs out of names
+ * e.g. "Zavid Egbue" -> "zavide"
+ * @param {string} name - The value which the slug is based off.
+ * @returns {string} Formatted first name and one character of last name.
+ */
+const constructSimpleNameSlug = (name) => {
+  let array = name.split(/[\W_]+/);
+
+  for (let i = 0; i < array.length; i++) {
+    if (i < 1) continue;
+    array[i] = array[i].substring(0, 1);
+  }
+
+  const slug = array.join();
+
+  return slug.toLowerCase()          // Turn to lowercase
+  .replace(/[^a-zA-Z 0-9]+/g, '');   // Remove all non-alphanumeric characters
+};
+
 module.exports = {
   toPunctuatedList,
-  constructCleanSlug
+  constructCleanSlug,
+  constructSimpleNameSlug
 }
