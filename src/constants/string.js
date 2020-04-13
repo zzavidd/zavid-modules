@@ -41,8 +41,20 @@ const constructSimpleNameSlug = (name) => {
   .replace(/[^a-zA-Z 0-9]+/g, '');   // Remove all non-alphanumeric characters
 };
 
+const commaSeparatedToArray = (tags) => {
+  let list = [];
+  tags.trim().split(',').forEach(tag => {
+    list.push(tag.toLowerCase().trim());
+  });
+
+  list = list.filter(el => el);
+
+  return list;
+}
+
 module.exports = {
   toPunctuatedList,
   constructCleanSlug,
-  constructSimpleNameSlug
+  constructSimpleNameSlug,
+  commaSeparatedToArray
 }

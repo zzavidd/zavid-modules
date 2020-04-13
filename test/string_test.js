@@ -25,4 +25,10 @@ describe('String functions', function() {
     const expectedOutput = "chynaam";
     assert.equal(zString.constructSimpleNameSlug(name), expectedOutput);
   });
+
+  it('Transform comma-separated list into array', function() {
+    const list = "woke, black women, nice, ";
+    const expectedOutput = ['woke', 'black women', 'nice'];
+    assert.deepEqual(zString.commaSeparatedToArray(list), expectedOutput);
+  });
 });
