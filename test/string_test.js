@@ -29,6 +29,12 @@ describe('String functions', function() {
   it('Transform comma-separated list into array', function() {
     const list = "woke, black women, nice, ";
     const expectedOutput = ['woke', 'black women', 'nice'];
-    assert.deepEqual(zString.commaSeparatedToArray(list), expectedOutput);
+    assert.deepEqual(zString.convertCsvToArray(list), expectedOutput);
+  });
+
+  it('Transform array of strings into comma-separated list', function() {
+    const list = ['array', 'of', 'strings', ''];
+    const expectedOutput = 'array, of, strings';
+    assert.equal(zString.convertArrayToCsv(list), expectedOutput);
   });
 });

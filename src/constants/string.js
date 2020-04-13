@@ -10,7 +10,7 @@ const toPunctuatedList = (items, conjunction = '&') => {
 }
 
 /**
- * Created formatted slugs for URLs.
+ * Create formatted slugs for URLs.
  * @param {string} value - The value which the slug is based off.
  * @returns {string} A clean slug.
  */
@@ -22,7 +22,7 @@ const constructCleanSlug = (value) => {
 };
 
 /**
- * Created simple slugs out of names
+ * Create simple slugs out of names
  * e.g. "Zavid Egbue" -> "zavide"
  * @param {string} name - The value which the slug is based off.
  * @returns {string} Formatted first name and one character of last name.
@@ -41,10 +41,15 @@ const constructSimpleNameSlug = (name) => {
   .replace(/[^a-zA-Z 0-9]+/g, '');   // Remove all non-alphanumeric characters
 };
 
-const commaSeparatedToArray = (tags) => {
+/**
+ * Transform a string of comma-separated values into an array.
+ * @param {string} words - A string of comma-separated values.
+ * @returns {string[]} A list of the values as an array.
+ */
+const convertCsvToArray = (words) => {
   let list = [];
-  tags.trim().split(',').forEach(tag => {
-    list.push(tag.toLowerCase().trim());
+  words.trim().split(',').forEach(word => {
+    list.push(word.toLowerCase().trim());
   });
 
   list = list.filter(el => el);
@@ -52,9 +57,20 @@ const commaSeparatedToArray = (tags) => {
   return list;
 }
 
+/**
+ * Transform an array of strings into a comma-separated list of values.
+ * @param {string[]} list - An array of string values.
+ * @returns {string} A comma-separated list of values.
+ */
+const convertArrayToCsv = (list) => {
+  list = list.filter(el => el);
+  return list.join(', ');
+}
+
 module.exports = {
   toPunctuatedList,
   constructCleanSlug,
   constructSimpleNameSlug,
-  commaSeparatedToArray
+  convertCsvToArray,
+  convertArrayToCsv
 }
