@@ -47,6 +47,8 @@ const constructSimpleNameSlug = (name) => {
  * @returns {string[]} A list of the values as an array.
  */
 const convertCsvToArray = (words) => {
+  if (!words) return [];
+
   let list = [];
   words.trim().split(',').forEach(word => {
     list.push(word.toLowerCase().trim());
@@ -63,6 +65,7 @@ const convertCsvToArray = (words) => {
  * @returns {string} A comma-separated list of values.
  */
 const convertArrayToCsv = (list) => {
+  if (!list || !list.length) return '';
   list = list.filter(el => el);
   return list.join(', ');
 }
