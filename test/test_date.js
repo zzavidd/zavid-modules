@@ -42,26 +42,43 @@ describe('Date functions', function() {
   it('Calculate age from birthday', function() {
     const birthday = '1996-12-02';
     const age = zDate.calculateAge(birthday);
-    assert.equal(age, 23);
-    
-    // TODO: Make dynamic
-    // const dt = new Date(birthday);
-    // const now = dt.getTime();
-    // assert.equal(age, now / (365 * 24 * 3600000))
+
+    const date = new Date(birthday);
+    const today = new Date();
+    const expectedAge = Math.abs(date - today) / (365 * 24 * 3600000);
+    assert.equal(age, Math.floor(expectedAge));
   });
 
-  it('Get date ordinal suffix', function() {
-    const expect = function(actual, expected) {
-      assert.equal(zDate.getDateSuffix(actual), expected);
-    }
+  it('Get days for specified month', function() {
+    const noMonth = zDate.getDatesForMonth();
+    const oddMonth = zDate.getDatesForMonth(zDate.MONTHS.JANUARY.NAME);
+    const evenMonth = zDate.getDatesForMonth(zDate.MONTHS.JUNE.NAME);
+    const intercalaryMonth = zDate.getDatesForMonth(zDate.MONTHS.FEBRUARY.NAME);
 
-    for (let i = 1; i < 31; i++) {
-      switch(i) {
-        case 1: case 21: case 31: expect(i, 'st'); break;
-        case 2: case 22: expect(i, 'nd'); break;
-        case 3: case 23: expect(i, 'rd'); break;
-        default: expect(i, 'th');
-      }
-    }
+    assert.lengthOf(noMonth, 31);
+    assert.lengthOf(oddMonth, 31);
+    assert.lengthOf(evenMonth, 30);
+    assert.lengthOf(intercalaryMonth, 28);
+  });
+
+  it('Get all months', function() {
+    const months = zDate.getAllMonths();
+    assert.equal(months[0], 'January');
+    assert.lengthOf(months, 12);
+  });
+
+  it('Get years within range', function() {
+    const startYear = 1950;
+    const endYear = 2030;
+
+    const noYears = zDate.getYearsInRange();
+    const specifiedYears = zDate.getYearsInRange(startYear, endYear)
+
+    const thisYear = (new Date()).getFullYear();
+
+    assert.equal(noYears[0], thisYear - 40);
+    assert.equal(noYears[noYears.length - 1], thisYear + 3);
+    assert.equal(specifiedYears[0], startYear)
+    assert.equal(specifiedYears[specifiedYears.length - 1], endYear)
   });
 });

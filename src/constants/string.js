@@ -1,7 +1,26 @@
 /**
+ * // TODO: Test
+ * Make a string title case.
+ * @param {string} string - The string to be converted.
+ * @returns {string} The string in title case.
+ */
+const toTitleCase = (string) => {
+  if (!string || typeof string !== 'string') return null;
+
+  const sentence = string.toLowerCase().split(" ");
+  for (let i = 0; i < sentence.length; i++){
+      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+  }
+
+  return sentence.join(' ');
+}
+
+/**
  * Convert an array of strings to a list
  * @param {string[]} items - An array of strings.
- * @param {string} [conjunction=&] - The conjunction word or character to separate the final two elements of the list.
+ * @param {string} [conjunction] - The conjunction word or character to separate the final
+ * two elements of the list. Defaults to '&'
+ * @returns {string} A correct-conjoined list.
  */
 const toPunctuatedList = (items, conjunction = '&') => {
   const elements = [items.slice(0, -1).join(', '), items.slice(-1)[0]];
@@ -71,6 +90,7 @@ const convertArrayToCsv = (list) => {
 }
 
 module.exports = {
+  toTitleCase,
   toPunctuatedList,
   constructCleanSlug,
   constructSimpleNameSlug,
