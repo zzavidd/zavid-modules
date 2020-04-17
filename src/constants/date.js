@@ -38,7 +38,7 @@ const formatDate = (value, withDay) => {
 
   const date = dt.getDate();
   const day = toTitleCase(Object.keys(DAYS)[dt.getDay() - 1])
-  const month = toTitleCase(Object.keys(MONTHS)[dt.getMonth()]);
+  const month = getMonthByNumber(dt.getMonth() + 1);
   const year = dt.getFullYear();
 
   let result = `${date}${getDateSuffix(date)} ${month} ${year}`;
@@ -190,6 +190,16 @@ const getDatesForMonth = (month = MONTHS.JANUARY.NAME) => {
 }
 
 /**
+ * Retrieves a month string by its number.
+ * @param {number} number - A month number between 1 and 12.
+ * @returns {string} An array of the month strings.
+ */
+const getMonthByNumber = (number) => {
+  if (number < 1 || number > 12) throw new RangeError('Number specified not within bounds');
+  return toTitleCase(Object.keys(MONTHS)[number - 1]);
+}
+
+/**
  * Retrieves all of the months of the year.
  * @returns {string[]} An array of the month strings.
  */
@@ -235,6 +245,7 @@ module.exports = {
   calculateAge,
 
   getDatesForMonth,
+  getMonthByNumber,
   getAllMonths,
   getYearsInRange,
 

@@ -61,6 +61,11 @@ describe('Date functions', function() {
     assert.lengthOf(intercalaryMonth, 28);
   });
 
+  it('Get month by number', function() {
+    const month = zDate.getMonthByNumber(1);
+    assert.equal(month, 'January');
+  });
+
   it('Get all months', function() {
     const months = zDate.getAllMonths();
     assert.equal(months[0], 'January');
