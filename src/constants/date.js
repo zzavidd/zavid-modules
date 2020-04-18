@@ -1,18 +1,19 @@
+const { TYPE, validateArgumentType } = require('./error');
 const { toTitleCase } = require('./string');
 
 const DAYS = {
+  SUNDAY: 'Sunday',
   MONDAY: 'Monday',
   TUESDAY: 'Tuesday',
   WEDNESDAY: 'Wednesday',
   THURSDAY: 'Thursday',
   FRIDAY: 'Friday',
-  SATURDAY: 'Saturday',
-  SUNDAY: 'Sunday'
+  SATURDAY: 'Saturday'
 }
 
 const MONTHS = {
   JANUARY: { NAME: "January", DAYS: 31, NUMBER: 1 },
-  FEBRUARY: { NAME: "February", DAYS: 28, NUMBER: 2 },
+  FEBRUARY: { NAME: "February", DAYS: 29, NUMBER: 2 },
   MARCH: { NAME: "March", DAYS: 31, NUMBER: 3 },
   APRIL: { NAME: "April", DAYS: 30, NUMBER: 4 },
   MAY: { NAME: "May", DAYS: 31, NUMBER: 5 },
@@ -27,35 +28,36 @@ const MONTHS = {
 
 /**
  * Convert date to full string e.g. Monday 1st January 2020
- * @param {string} value - The date value to be converted.
- * @param {boolean} [withDay] - Option to include the day of the week.
+ * @param {(string|Date)} value - The date value to be converted.
+ * @param {boolean} [withWeekday] - Option to include the day of the week.
  * @returns {string} The full date string.
  */
-const formatDate = (value, withDay) => {
-  if (!value) return '-';
+const formatDate = (value, withWeekday) => {
+  if (!value) return null;
+  // validateArgumentType(value, [TYPE.STRING, TYPE.DATE], 'Cannot format the date of an argument that is neither type String or Date.');
 
-  let dt = new Date(value);
+  const date = new Date(value);
+  const weekday = toTitleCase(Object.keys(DAYS)[date.getDay()]);
+  const day = date.getDate();
+  const month = getMonthByNumber(date.getMonth() + 1);
+  const year = date.getFullYear();
 
-  const date = dt.getDate();
-  const day = toTitleCase(Object.keys(DAYS)[dt.getDay() - 1])
-  const month = getMonthByNumber(dt.getMonth() + 1);
-  const year = dt.getFullYear();
-
-  let result = `${date}${getDateSuffix(date)} ${month} ${year}`;
-  result = withDay ? `${day} ${result}` : result;
+  let result = `${getDateAndSuffix(day)} ${month} ${year}`;
+  result = withWeekday ? `${weekday} ${result}` : result;
   
   return result;
 }
 
 /**
  * Convert datetime or time string to 12-hour time string e.g. 11:59pm
- * @param {string} value - The time value to be converted.
- * @returns {string} The time in its new format.
+ * @param {(string|object)} value - The time value to be converted.
+ * @returns {object} The time in its new format.
  */
 const formatTime = (value) => {
   if (!value) return null;
+  validateArgumentType(value, [TYPE.STRING, TYPE.OBJECT], 'Cannot format a non-string argument to time.');
 
-  const isDateTime = typeof value === 'object' || value.includes('T');
+  const isDateTime = typeof(value) === TYPE.OBJECT || value.includes('T');
 
   let hour, min;
 
@@ -68,7 +70,7 @@ const formatTime = (value) => {
     min = parseInt(value.substring(3, 5));
   }
 
-  let period = getTimePeriod(hour);
+  const period = getTimePeriod(hour);
 
   hour = convertTo12HourNumber(hour);
   min = makeDoubleDigit(min);
@@ -83,7 +85,7 @@ const formatTime = (value) => {
  * @returns {string} A full datetime stirng.
  */
 const formatDateTime = (value) => {
-  if (!value) return '-';
+  if (!value) return null;
   return `${formatISOTime(value, false)} @ ${formatDate(value)}`;
 }
 
@@ -110,7 +112,7 @@ const formatISODate = (date) => {
 const formatISOTime = (time, withSeconds = true) => {
   if (!time) return null;
 
-  const isDateTime = typeof time === 'object' || time.includes('T');
+  const isDateTime = typeof(time) === TYPE.OBJECT || time.includes('T');
 
   if (isDateTime){
     const dt = new Date(time);
@@ -157,21 +159,12 @@ const calculateAge = (date) => {
 }
 
 /**
- * Retrieves the ordinal of the date.
+ * Retrieves the date together with its ordinal.
  * @param {number} day - A day number of the month.
- * @returns {string} The corresponding ordinal.
+ * @returns {string} The day with its corresponding ordinal.
  */
-const getDateSuffix = (day) => {
-  let suffix = "";
-  
-  switch(day) {
-    case 1: case 21: case 31: suffix = 'st'; break;
-    case 2: case 22: suffix = 'nd'; break;
-    case 3: case 23: suffix = 'rd'; break;
-    default: suffix = 'th';
-  }
-  
-  return suffix;
+const getDateAndSuffix = (day) => {
+  return `${day}${getDateSuffix(day)}`
 }
 
 /**
@@ -184,7 +177,7 @@ const getDatesForMonth = (month = MONTHS.JANUARY.NAME) => {
 
   const array = [];
   for (let i = 1; i <= daysInMonth; i++){
-    array.push(`${i}${getDateSuffix(i)}`);
+    array.push(getDateAndSuffix(i));
   }
   return array;
 }
@@ -195,6 +188,7 @@ const getDatesForMonth = (month = MONTHS.JANUARY.NAME) => {
  * @returns {string} An array of the month strings.
  */
 const getMonthByNumber = (number) => {
+  validateArgumentType(number, [TYPE.NUMBER], 'Cannot retrieve the month using a non-integer number.');
   if (number < 1 || number > 12) throw new RangeError('Number specified not within bounds');
   return toTitleCase(Object.keys(MONTHS)[number - 1]);
 }
@@ -230,13 +224,45 @@ const getYearsInRange = (startYear, endYear) => {
 }
 
 /**
+ * Returns a list of hours for dropdowns.
+ * @returns {object} The object containing the hours.
+ */
+const getAllHours = () => {
+  const hours = [];
+  for (let i = 0; i <= 23; i++) {
+    hours.push({
+      label: makeDoubleDigit(i),
+      value: i.toString()
+    });
+  }
+  return hours;
+}
+
+/**
+ * Returns a list of minutes for dropdowns.
+ * @param {number} [increment] The minute interval. Defaults to 1.
+ * @returns {object} The object containing the minutes.
+ * 
+ */
+const getAllMinutes = (increment = 1) => {
+  const minutes = [];
+  for (let i = 0; i <= 59; i += increment) {
+    minutes.push({
+      label: makeDoubleDigit(i),
+      value: i.toString()
+    });
+  }
+  return minutes;
+};
+
+/**
  * Custom date functions.
  * @module zavid-modules/date
  */
 module.exports = {
   formatDate,
   formatISODate,
-  getDateSuffix,
+  getDateAndSuffix,
 
   formatTime,
   formatISOTime,
@@ -248,8 +274,29 @@ module.exports = {
   getMonthByNumber,
   getAllMonths,
   getYearsInRange,
+  
+  getAllHours,
+  getAllMinutes,
 
   MONTHS
+}
+
+/**
+ * Retrieves the ordinal of the date.
+ * @param {number} day - A day number of the month.
+ * @returns {string} The corresponding ordinal.
+ */
+const getDateSuffix = (day) => {
+  let suffix = "";
+  
+  switch(day) {
+    case 1: case 21: case 31: suffix = 'st'; break;
+    case 2: case 22: suffix = 'nd'; break;
+    case 3: case 23: suffix = 'rd'; break;
+    default: suffix = 'th';
+  }
+  
+  return suffix;
 }
 
 /**

@@ -58,7 +58,7 @@ describe('Date functions', function() {
     assert.lengthOf(noMonth, 31);
     assert.lengthOf(oddMonth, 31);
     assert.lengthOf(evenMonth, 30);
-    assert.lengthOf(intercalaryMonth, 28);
+    assert.lengthOf(intercalaryMonth, 29);
   });
 
   it('Get month by number', function() {
@@ -85,5 +85,20 @@ describe('Date functions', function() {
     assert.equal(noYears[noYears.length - 1], thisYear + 3);
     assert.equal(specifiedYears[0], startYear)
     assert.equal(specifiedYears[specifiedYears.length - 1], endYear)
+  });
+
+  it('Get all hours', function() {
+    const hours = zDate.getAllHours();;
+    assert.lengthOf(hours, 24);
+  });
+
+  it('Get all minutes', function() {
+    const noIncrement = zDate.getAllMinutes();
+    const fiveIncrement = zDate.getAllMinutes(5);
+
+    assert.lengthOf(noIncrement, 60);
+    assert.equal(noIncrement[noIncrement.length - 1].value, 59);
+    assert.lengthOf(fiveIncrement, 12);
+    assert.equal(fiveIncrement[fiveIncrement.length - 1].value, 55);
   });
 });
