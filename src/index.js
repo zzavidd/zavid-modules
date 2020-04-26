@@ -1,4 +1,3 @@
-const alerts = require('./components/alert');
 const form = require('./components/form');
 
 const countries = require('./constants/countries');
@@ -8,7 +7,6 @@ const request = require('./constants/request');
 const string = require('./constants/string');
 
 module.exports = {
-  zAlerts: alerts,
   zForm: form,
   
   zCountries: countries,
