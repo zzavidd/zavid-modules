@@ -86,7 +86,7 @@ const formatTime = (value) => {
  */
 const formatDateTime = (value) => {
   if (!value) return null;
-  return `${formatISOTime(value, false)} @ ${formatDate(value)}`;
+  return `${formatISOTime(value, false)}, ${formatDate(value)}`;
 }
 
 /**

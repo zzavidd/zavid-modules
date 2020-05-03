@@ -23,8 +23,8 @@ describe('Date functions', function() {
   it('Format to full date and time', function() {
     const fullDateTimeAM = zDate.formatDateTime(datetime, false);
     const fullDateTimePM = zDate.formatDateTime(datetimePM, false);
-    assert.equal(fullDateTimeAM, '01:00 @ 2nd December 1996');
-    assert.equal(fullDateTimePM, '23:59 @ 2nd December 1996');
+    assert.equal(fullDateTimeAM, '01:00, 2nd December 1996');
+    assert.equal(fullDateTimePM, '23:59, 2nd December 1996');
   });
 
   it('Format to ISO date', function() {
