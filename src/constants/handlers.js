@@ -59,10 +59,10 @@ module.exports = (component) => {
 
     /**
      * Handles the upload of images with a file selector.
-     * @param {string} image - The base64 string of the image.
+     * @param {string} file - The base64 string of the image.
      * @param {string} [name=image] - The name of the element.
      */
-    handleImage: (image, name = 'image') => { component.setState({[name]: image}); },
+    handleFile: (file, name = 'image') => { component.setState({[name]: file}); },
 
     /**
      * Handles a rating selection.
