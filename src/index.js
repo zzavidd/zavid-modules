@@ -6,6 +6,7 @@ const file = require('./constants/file');
 const handlers = require('./constants/handlers');
 const request = require('./constants/request');
 const string = require('./constants/string');
+const text = require('./constants/text');
 
 module.exports = {
   zForm: form,
@@ -15,5 +16,6 @@ module.exports = {
   zFile: file,
   zHandlers: handlers,
   zRequest: request,
-  zString: string
+  zString: string,
+  zText: text
 }
