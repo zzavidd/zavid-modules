@@ -8,7 +8,7 @@ module.exports = {
       transition: 'transform .2s ease-in-out',
       WebkitTransition: 'transform .2s ease-in-out',
       '& hover': { transform: `scale(${scale})` }
-    }
+    };
   },
 
   /**
@@ -18,9 +18,9 @@ module.exports = {
   fontScaler: (size) => {
     return {
       fontSize: `${size}em`
-    }
+    };
     // @media (max-width: $break-xl) { font-size: ($size * 1.2) + em; }
     // @media (max-width: $break-lg) { font-size: ($size * 1.17) + em; }
     // @media (max-width: $break-sm) { font-size: ($size * 0.85) + em; }
   }
-}
+};

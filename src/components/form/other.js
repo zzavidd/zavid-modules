@@ -5,6 +5,10 @@ import * as css from './form.styles';
 export class Label extends Component {
   render() {
     const { children, className } = this.props;
-    return <label className={className} style={css.label}>{children}</label>;
+    return (
+      <label className={className} style={css.label}>
+        {children}
+      </label>
+    );
   }
 }

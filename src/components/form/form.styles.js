@@ -7,11 +7,11 @@ const templates = {
     outline: 'none',
     width: '100%'
   }
-}
+};
 
 module.exports = {
   label: {
-    display: 'block',
+    display: 'block'
     // fontSize: '1.1em'
   },
   input: templates.input,
@@ -24,4 +24,4 @@ module.exports = {
     textAlign: 'right',
     width: '100%'
   }
-}
+};

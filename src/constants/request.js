@@ -24,22 +24,22 @@ module.exports = ({
     url,
     method,
     data: body,
-    headers,
+    headers
   })
-  .then(response => {
-    onSuccess(response.data);
-  })
-  .catch(error => {
-    onError(error.message);
-  });
-}
+    .then((response) => {
+      onSuccess(response.data);
+    })
+    .catch((error) => {
+      onError(error.message);
+    });
+};
 
 /**
  * Function triggered on successful request.
  * @callback onSuccessCallback
  */
 
- /**
+/**
  * Function triggered when request fails.
  * @callback onErrorCallback
  */

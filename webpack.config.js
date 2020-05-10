@@ -25,9 +25,7 @@ module.exports = {
     ]
   },
   target: 'node',
-  plugins: [
-    new CleanWebpackPlugin()
-  ],
+  plugins: [new CleanWebpackPlugin()],
   resolve: {
     extensions: ['.js']
   },

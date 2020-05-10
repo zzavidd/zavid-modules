@@ -8,7 +8,7 @@ class ITextArea extends Component {
     this.state = { rows: props.minRows };
   }
 
-  handleTextChange = event => {
+  handleTextChange = (event) => {
     this.props.onChange(event);
     const text = event.target.value;
     this.setState({ wordCount: text.length });
@@ -33,9 +33,7 @@ class ITextArea extends Component {
 /** For shorter text inputs */
 export class ShortTextArea extends Component {
   render() {
-    return (
-      <ITextArea minRows={1} {...this.props} />
-    );
+    return <ITextArea minRows={1} {...this.props} />;
   }
 }
 
@@ -56,9 +54,7 @@ export class LongTextArea extends Component {
     return (
       <div>
         <ITextArea minRows={3} {...this.props} />
-        <label
-          className={this.props.wordCountClassName}
-          style={css.wordCount}>
+        <label className={this.props.wordCountClassName} style={css.wordCount}>
           {this.state.wordCount}
         </label>
       </div>

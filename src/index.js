@@ -10,7 +10,7 @@ const text = require('./constants/text');
 
 module.exports = {
   zForm: form,
-  
+
   zCountries: countries,
   zDate: date,
   zFile: file,
@@ -18,4 +18,4 @@ module.exports = {
   zRequest: request,
   zString: string,
   zText: text
-}
+};

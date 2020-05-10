@@ -3,8 +3,8 @@ const TYPE = {
   NUMBER: 'number',
   OBJECT: 'object',
   BOOLEAN: 'boolean',
-  DATE: 'Date',
-}
+  DATE: 'Date'
+};
 
 /**
  * Throw type error if invalid argument.
@@ -14,13 +14,13 @@ const TYPE = {
  * @returns {boolean} True if valid. False is not.
  */
 const validateArgumentType = (value, types, message) => {
-  const isValid = types.some(element => typeof(value) === element);
+  const isValid = types.some((element) => typeof value === element);
   if (!isValid) throw new TypeError(message);
   return true;
-}
+};
 
 module.exports = {
   TYPE,
 
   validateArgumentType
-}
+};

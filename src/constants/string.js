@@ -7,13 +7,13 @@
 const toTitleCase = (string) => {
   if (!string || typeof string !== 'string') return null;
 
-  const sentence = string.toLowerCase().split(" ");
-  for (let i = 0; i < sentence.length; i++){
-      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+  const sentence = string.toLowerCase().split(' ');
+  for (let i = 0; i < sentence.length; i++) {
+    sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
   }
 
   return sentence.join(' ');
-}
+};
 
 /**
  * Convert an array of strings to a list
@@ -26,7 +26,7 @@ const toPunctuatedList = (items, conjunction = '&') => {
   const elements = [items.slice(0, -1).join(', '), items.slice(-1)[0]];
   const str = elements.join(items.length < 2 ? '' : ` ${conjunction} `);
   return str;
-}
+};
 
 /**
  * Create formatted slugs for URLs.
@@ -34,10 +34,11 @@ const toPunctuatedList = (items, conjunction = '&') => {
  * @returns {string} A clean slug.
  */
 const constructCleanSlug = (value) => {
-  return value.toLowerCase()      // Turn to lowercase
-  .replace(/[^a-zA-Z 0-9]+/g, '')   // Remove all non-alphanumeric characters
-  .replace(/\b(a|an|and|the|but|or|so)\b/g, '') // Remove stopwords
-  .replace(/\s+/g, '-');            // Replace spaces with dashes
+  return value
+    .toLowerCase() // Turn to lowercase
+    .replace(/[^a-zA-Z 0-9]+/g, '') // Remove all non-alphanumeric characters
+    .replace(/\b(a|an|and|the|but|or|so)\b/g, '') // Remove stopwords
+    .replace(/\s+/g, '-'); // Replace spaces with dashes
 };
 
 /**
@@ -56,8 +57,9 @@ const constructSimpleNameSlug = (name) => {
 
   const slug = array.join();
 
-  return slug.toLowerCase()          // Turn to lowercase
-  .replace(/[^a-zA-Z 0-9]+/g, '');   // Remove all non-alphanumeric characters
+  return slug
+    .toLowerCase() // Turn to lowercase
+    .replace(/[^a-zA-Z 0-9]+/g, ''); // Remove all non-alphanumeric characters
 };
 
 /**
@@ -69,14 +71,17 @@ const convertCsvToArray = (words) => {
   if (!words) return [];
 
   let list = [];
-  words.trim().split(',').forEach(word => {
-    list.push(word.toLowerCase().trim());
-  });
+  words
+    .trim()
+    .split(',')
+    .forEach((word) => {
+      list.push(word.toLowerCase().trim());
+    });
 
-  list = list.filter(el => el);
+  list = list.filter((el) => el);
 
   return list;
-}
+};
 
 /**
  * Transform an array of strings into a comma-separated list of values.
@@ -85,9 +90,9 @@ const convertCsvToArray = (words) => {
  */
 const convertArrayToCsv = (list) => {
   if (!list || !list.length) return '';
-  list = list.filter(el => el);
+  list = list.filter((el) => el);
   return list.join(', ');
-}
+};
 
 module.exports = {
   toTitleCase,
@@ -96,4 +101,4 @@ module.exports = {
   constructSimpleNameSlug,
   convertCsvToArray,
   convertArrayToCsv
-}
+};

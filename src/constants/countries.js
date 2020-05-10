@@ -8,9 +8,9 @@ const zString = require('../constants/string.js');
 const loadCountries = (callback) => {
   zRequest({
     url: 'https://restcountries.eu/rest/v2/all',
-    onSuccess: callback,
+    onSuccess: callback
   });
-}
+};
 
 /**
  * Retrieve demonym from country
@@ -18,9 +18,9 @@ const loadCountries = (callback) => {
  * @param {Object[]} data - The list of countries loaded from {@link loadCountries}.
  */
 const getDemonym = (value, data) => {
-  const matchedCountry = data.find(country => country.name === value);
+  const matchedCountry = data.find((country) => country.name === value);
   return matchedCountry ? matchedCountry.demonym : value;
-}
+};
 
 /**
  * Display a comma-separated list of countries from array.
@@ -31,7 +31,7 @@ const demonymsToString = (countries, data) => {
   if (!countries) return '';
 
   const array = [];
-  countries.forEach(country => {
+  countries.forEach((country) => {
     if (!country || country === '') return;
     var demonym = module.exports.getDemonym(country, data);
     array.push(demonym);
@@ -39,13 +39,13 @@ const demonymsToString = (countries, data) => {
 
   const str = zString.toPunctuatedList(array);
   return str;
-}
+};
 
 module.exports = {
   loadCountries,
   getDemonym,
   demonymsToString
-}
+};
 
 /**
  * Function triggered on successful request.

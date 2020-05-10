@@ -1,5 +1,5 @@
 module.exports = {
-  mediaQueries = {
+  mediaQueries: {
     sm: '576px',
     md: '768px',
     lg: '992px',
@@ -13,4 +13,4 @@ module.exports = {
   //   @media (max-width: $break-lg) { width: 80%; }
   //   @media (max-width: $break-sm) { width: 100%; }
   // }
-}
+};

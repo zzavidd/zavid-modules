@@ -7,13 +7,13 @@ const EMPHASIS = {
   UNDERLINE: 'underline',
   STRIKETHROUGH: 'strikethrough',
   HYPERLINK: 'hyperlink'
-}
+};
 
 const SECTIONS = {
   TITLE: 'title',
   SUBTITLE: 'subtitle',
   IMAGE: 'image'
-}
+};
 
 /** The regex for an emphasis constant */
 const emphasisRegexMapping = {
@@ -23,15 +23,15 @@ const emphasisRegexMapping = {
   },
   [EMPHASIS.ITALIC]: {
     pure: new RegExp(/\*(.*?)\*/),
-    split: new RegExp(/(\*.*?\*)/),
+    split: new RegExp(/(\*.*?\*)/)
   },
   [EMPHASIS.UNDERLINE]: {
     pure: new RegExp(/\_(.*?)\_/),
-    split: new RegExp(/(\_.*?\_)/),
+    split: new RegExp(/(\_.*?\_)/)
   },
   [EMPHASIS.STRIKETHROUGH]: {
     pure: new RegExp(/\~(.*?)\~/),
-    split: new RegExp(/(\~.*?\~)/),
+    split: new RegExp(/(\~.*?\~)/)
   },
   [EMPHASIS.HYPERLINK]: {
     pure: new RegExp(/\[(.*?)\]\((.*?)\)/),
@@ -43,9 +43,11 @@ const sectionRegexMapping = {
   [SECTIONS.TITLE]: new RegExp(/^\#\s(.*?)$/),
   [SECTIONS.SUBTITLE]: new RegExp(/^\#\#\s(.*?)$/),
   [SECTIONS.IMAGE]: new RegExp(/^\!\[(.*?)\]\((.*?)\)$/)
-}
+};
 
-const emphasisRegexList = Object.values(emphasisRegexMapping).map(regex => regex.split.source);
+const emphasisRegexList = Object.values(emphasisRegexMapping).map(
+  (regex) => regex.split.source
+);
 const combinedRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
 /**
@@ -59,13 +61,14 @@ const applyEmphasisFormatting = (fullText, hyperlinkClass) => {
 
   const fragments = fullText.split(combinedRegex).filter((e) => e != null);
   const finalText = fragments.map((fragment, key) => {
-
     let transformation;
 
-    const foundEmphasis = Object.entries(emphasisRegexMapping).find(([, regex]) => regex.pure.test(fragment));
+    const foundEmphasis = Object.entries(
+      emphasisRegexMapping
+    ).find(([, regex]) => regex.pure.test(fragment));
 
-    if (foundEmphasis){
-      const [emphasis, {pure: regex}] = foundEmphasis;
+    if (foundEmphasis) {
+      const [emphasis, { pure: regex }] = foundEmphasis;
       const [, text] = fragment.match(regex);
 
       switch (emphasis) {
@@ -76,7 +79,11 @@ const applyEmphasisFormatting = (fullText, hyperlinkClass) => {
           transformation = <em key={key}>{text}</em>;
           break;
         case EMPHASIS.UNDERLINE:
-          transformation = <a key={key} style={{textDecoration: 'underline'}}>{text}</a>;
+          transformation = (
+            <a key={key} style={{ textDecoration: 'underline' }}>
+              {text}
+            </a>
+          );
           break;
         case EMPHASIS.STRIKETHROUGH:
           transformation = <del key={key}>{text}</del>;
@@ -122,25 +129,27 @@ exports.prefixFormatting = (text, hyperlinkClass) => {
 
     let transformedParagraph;
 
-    const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) => regex.test(paragraph));
+    const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) =>
+      regex.test(paragraph)
+    );
 
-    if (foundSection){
+    if (foundSection) {
       const [section, regex] = foundSection;
       const [, text] = paragraph.match(regex);
 
       switch (section) {
         case SECTIONS.TITLE:
-          transformedParagraph = <h1 key={key}>{text}</h1>
+          transformedParagraph = <h1 key={key}>{text}</h1>;
           break;
         case SECTIONS.SUBTITLE:
-          transformedParagraph = <h2 key={key}>{text}</h2>
+          transformedParagraph = <h2 key={key}>{text}</h2>;
           break;
         case SECTIONS.IMAGE:
           const imgSrc = paragraph.match(regex)[2];
           console.log(text, imgSrc);
           transformedParagraph = (
             <div key={key}>
-              <img src={imgSrc} alt={text} style={{width: '100%'}}/>
+              <img src={imgSrc} alt={text} style={{ width: '100%' }} />
             </div>
           );
           break;
@@ -149,9 +158,7 @@ exports.prefixFormatting = (text, hyperlinkClass) => {
       }
     } else {
       transformedParagraph = (
-        <p key={key}>
-          {applyEmphasisFormatting(paragraph, hyperlinkClass)}
-        </p>
+        <p key={key}>{applyEmphasisFormatting(paragraph, hyperlinkClass)}</p>
       );
     }
 

@@ -5,24 +5,23 @@
  */
 module.exports = (component) => {
   return {
-    
-    /** 
+    /**
      * Handle changes to text input fields.
      * @param {Event} event - The text change DOM event.
      */
     handleText: (event) => {
       const { name, value } = event.target;
-      component.setState({[name]: value});
+      component.setState({ [name]: value });
     },
 
-   /** 
+    /**
      * Handle selection of radio values.
      * @param {*} value - The selected value.
      * @param {Event} event - The radio button click DOM event.
      */
     handleRadio: (value, event) => {
       const { name } = event.target;
-      component.setState({[name]: value});
+      component.setState({ [name]: value });
     },
 
     /**
@@ -31,7 +30,7 @@ module.exports = (component) => {
      */
     handleCheckbox: (event) => {
       const { name, checked } = event.target;
-      component.setState({[name]: checked})
+      component.setState({ [name]: checked });
     },
 
     /**
@@ -40,7 +39,7 @@ module.exports = (component) => {
      */
     handleCheckboxButton: (event) => {
       const { name, checked } = event;
-      component.setState({[name]: !checked})
+      component.setState({ [name]: !checked });
     },
 
     /**
@@ -48,41 +47,51 @@ module.exports = (component) => {
      * @param {string} date - The date value.
      * @param {string} [name=date] - The name of the element.
      */
-    handleDate: (date, name = 'date') => { component.setState({[name]: date}); },
+    handleDate: (date, name = 'date') => {
+      component.setState({ [name]: date });
+    },
 
     /**
      * Handles the selection of time.
      * @param {string} time - The time value.
      * @param {string} [name=time] - The name of the element.
      */
-    handleTime: (time, name = 'time') => { component.setState({[name]: time}); },
+    handleTime: (time, name = 'time') => {
+      component.setState({ [name]: time });
+    },
 
     /**
      * Handles the upload of images with a file selector.
      * @param {string} file - The base64 string of the image.
      * @param {string} [name=image] - The name of the element.
      */
-    handleFile: (file, name = 'image') => { component.setState({[name]: file}); },
+    handleFile: (file, name = 'image') => {
+      component.setState({ [name]: file });
+    },
 
     /**
      * Handles a rating selection.
      * @param {Event} event - The click on the rator DOM element.
      */
     handleRatingChange: (event) => {
-      const rating = parseInt(event.currentTarget.value)
+      const rating = parseInt(event.currentTarget.value);
       component.setState({ rating });
     },
-    
+
     /**
      * Assigns social media handles.
      * @param {Object} socials - The mapping of social media platforms to usernames.
      */
-    confirmSocials: (socials) => {component.setState({socials})},
+    confirmSocials: (socials) => {
+      component.setState({ socials });
+    },
 
     /**
      * Clears the selection of a country.
      * @param {string} countryField - The name of the country field element.
      */
-    clearSelection: (countryField) => { component.setState({[countryField]: ''})}
-  }
-}
+    clearSelection: (countryField) => {
+      component.setState({ [countryField]: '' });
+    }
+  };
+};

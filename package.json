@@ -9,7 +9,7 @@
     "release": "np --no-release-draft",
     "test": "mocha --no-timeout",
     "lint": "eslint \"**/*.js\" --ignore-path ./.gitignore ",
-    "prettify": "prettier --ignore-path ./.gitignore --write **/*.js"
+    "prettify": "prettier --ignore-path ./.gitignore --write \"**/*.js\""
   },
   "repository": {
     "type": "git",
