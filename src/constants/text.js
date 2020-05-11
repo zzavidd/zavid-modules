@@ -63,10 +63,10 @@ const sectionRegexMapping = {
 /**
  * Apply markdown-like formatting to a piece of text.
  * @param {string} fullText - The text to which hierarchical formatting will be applied.
- * @param {Object} hyperlinkClass - The CSS class to be passed into the next function.
+ * @param {Object} css - The CSS classes of styling.
  * @returns {React.Component} The text with formatting applied.
  */
-exports.formatText = (fullText, hyperlinkClass) => {
+exports.formatText = (fullText, css) => {
   if (!fullText) return '';
 
   const formattedText = fullText.split('\n').map((paragraph, key) => {
@@ -84,26 +84,42 @@ exports.formatText = (fullText, hyperlinkClass) => {
 
       switch (section) {
         case SECTIONS.HEADING:
-          transformedParagraph = <h1 key={key}>{text}</h1>;
+          transformedParagraph = (
+            <h1 className={css.heading} key={key}>
+              {text}
+            </h1>
+          );
           break;
         case SECTIONS.SUBHEADING:
-          transformedParagraph = <h2 key={key}>{text}</h2>;
+          transformedParagraph = (
+            <h2 className={css.subheading} key={key}>
+              {text}
+            </h2>
+          );
           break;
         case SECTIONS.IMAGE:
           const source = paragraph.match(regex)[2];
           transformedParagraph = (
-            <div key={key}>
+            <div className={css.image} key={key}>
               <img src={source} alt={text} style={STYLES.SECTIONS.IMAGE} />
             </div>
           );
           break;
         case SECTIONS.DIVIDER:
-          // TODO: Requires styling or classes
-          transformedParagraph = <hr style={STYLES.SECTIONS.DIVIDER} />;
+          transformedParagraph = (
+            <hr
+              className={css.divider}
+              style={STYLES.SECTIONS.DIVIDER}
+              key={key}
+            />
+          );
           break;
         case SECTIONS.BULLET_LIST_ITEM:
           transformedParagraph = (
-            <div key={key} style={STYLES.SECTIONS.LIST_ITEM}>
+            <div
+              className={css.listItem}
+              style={STYLES.SECTIONS.LIST_ITEM}
+              key={key}>
               <span>●</span>
               <span>{text}</span>
             </div>
@@ -111,7 +127,10 @@ exports.formatText = (fullText, hyperlinkClass) => {
           break;
         case SECTIONS.HYPHEN_LIST_ITEM:
           transformedParagraph = (
-            <div key={key} style={STYLES.SECTIONS.LIST_ITEM}>
+            <div
+              className={css.listItem}
+              style={STYLES.SECTIONS.LIST_ITEM}
+              key={key}>
               <span>-</span>
               <span>{text}</span>
             </div>
@@ -119,8 +138,11 @@ exports.formatText = (fullText, hyperlinkClass) => {
           break;
         case SECTIONS.BLOCKQUOTE:
           transformedParagraph = (
-            <div key={key} style={STYLES.SECTIONS.BLOCKQUOTE}>
-              {applyEmphasisFormatting(text, hyperlinkClass)}
+            <div
+              className={css.blockQuote}
+              style={STYLES.SECTIONS.BLOCKQUOTE}
+              key={key}>
+              {applyEmphasisFormatting(text, css)}
             </div>
           );
           break;
@@ -129,7 +151,9 @@ exports.formatText = (fullText, hyperlinkClass) => {
       }
     } else {
       transformedParagraph = (
-        <p key={key}>{applyEmphasisFormatting(paragraph, hyperlinkClass)}</p>
+        <p className={css.paragraph} key={key}>
+          {applyEmphasisFormatting(paragraph, css)}
+        </p>
       );
     }
 
@@ -235,10 +259,10 @@ exports.extractExcerpt = (originalText) => {
 /**
  * Apply emphasis formatting to paragraph of text.
  * @param {string} paragraph - The text to which formatting needs to be applied.
- * @param {Object} hyperlinkClass - The CSS class for hyperlinks.
+ * @param {Object} css - The CSS classes of styling.
  * @returns {React.Component} The formatted text as a component.
  */
-const applyEmphasisFormatting = (paragraph, hyperlinkClass) => {
+const applyEmphasisFormatting = (paragraph, css) => {
   if (!paragraph) return '';
 
   // Combine all emphasis regular expressions for splitting
@@ -294,7 +318,7 @@ const applyEmphasisFormatting = (paragraph, hyperlinkClass) => {
               rel={'noopener noreferrer'}
               href={link}
               key={key}
-              className={hyperlinkClass}>
+              className={css.hyperlink}>
               {text}
             </a>
           );
