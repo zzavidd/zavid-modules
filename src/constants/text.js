@@ -53,7 +53,7 @@ const emphasisRegexMapping = {
 const sectionRegexMapping = {
   [SECTIONS.HEADING]: new RegExp(/^\#\s(.*?)$/),
   [SECTIONS.SUBHEADING]: new RegExp(/^\#{2}\s(.*?)$/),
-  [SECTIONS.IMAGE]: new RegExp(/^\!\[(.*?)\]\((.*?)\)$/),
+  [SECTIONS.IMAGE]: new RegExp(/^\!\[(.*?)\]\((.*?)\)(F?)$/),
   [SECTIONS.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
   [SECTIONS.BULLET_LIST_ITEM]: new RegExp(/^[\*\+]\s(.*?)$/),
   [SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s(.*?)$/),
@@ -99,9 +99,11 @@ exports.formatText = (fullText, css) => {
           break;
         case SECTIONS.IMAGE:
           const source = paragraph.match(regex)[2];
+          const float = paragraph.match(regex)[3];
+          const className = float ? css.image.float : css.image.full;
           transformedParagraph = (
-            <div className={css.image} key={key}>
-              <img src={source} alt={text} style={STYLES.SECTIONS.IMAGE} />
+            <div className={className} key={key}>
+              <img src={source} alt={text} />
             </div>
           );
           break;
@@ -121,7 +123,7 @@ exports.formatText = (fullText, css) => {
               style={STYLES.SECTIONS.LIST_ITEM}
               key={key}>
               <span>●</span>
-              <span>{text}</span>
+              <span>{applyEmphasisFormatting(text, css)}</span>
             </div>
           );
           break;
@@ -132,7 +134,7 @@ exports.formatText = (fullText, css) => {
               style={STYLES.SECTIONS.LIST_ITEM}
               key={key}>
               <span>-</span>
-              <span>{text}</span>
+              <span>{applyEmphasisFormatting(text, css)}</span>
             </div>
           );
           break;
@@ -271,13 +273,14 @@ const applyEmphasisFormatting = (paragraph, css) => {
   );
   const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
-  // Split by regex and replace with formatted values
+  // Split by combined regex into fragments.
   const fragments = paragraph
     .split(combinedEmphasisRegex)
     .filter((e) => e != null);
   const formattedParagraph = fragments.map((fragment, key) => {
     let transformation = fragment;
 
+    // Find and replace all fragments with components.
     const foundEmphasis = Object.entries(
       emphasisRegexMapping
     ).find(([, regex]) => regex.pure.test(fragment));
@@ -334,13 +337,22 @@ const applyEmphasisFormatting = (paragraph, css) => {
   return formattedParagraph;
 };
 
+/**
+ * Strip emphasis formatting from paragraph of text.
+ * @param {string} paragraph - The paragraph text to be deformatted.
+ * @returns {string} The resulting deformatted text.
+ */
 const removeEmphasisFormatting = (paragraph) => {
   if (!paragraph) return '';
 
-  // Combine all emphasis regular expressions for splitting
-  const emphasisRegexList = Object.values(emphasisRegexMapping).map(
-    (regex) => regex.pure.source
-  );
+  // Combine all emphasis regular expressions for splitting.
+  // Also, prevent display of hyperlink text on deformat.
+  const emphasisRegexList = Object.values(emphasisRegexMapping).map((regex) => {
+    if (regex.pure === EMPHASIS.HYPERLINK) {
+      regex.pure = new RegExp(/\[(.*?)\]\((?:.*?)\)/);
+    }
+    return regex.pure.source;
+  });
   const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
   // Split by regex and replace with deformatted values
@@ -352,6 +364,7 @@ const removeEmphasisFormatting = (paragraph) => {
   return deformattedParagraph;
 };
 
+/** Styling for components */
 const STYLES = {
   SECTIONS: {
     BLOCKQUOTE: {
@@ -368,8 +381,7 @@ const STYLES = {
     LIST_ITEM: {
       display: 'grid',
       gridTemplateColumns: '1.2em 1fr'
-    },
-    IMAGE: { width: '100%' }
+    }
   },
   EMPHASIS: {
     UNDERLINE: { textDecoration: 'underline' }
