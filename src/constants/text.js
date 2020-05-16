@@ -63,10 +63,11 @@ const sectionRegexMapping = {
 /**
  * Apply markdown-like formatting to a piece of text.
  * @param {string} fullText - The text to which hierarchical formatting will be applied.
- * @param {Object} css - The CSS classes of styling.
+ * @param {Object} [css] - The CSS classes of styling.
  * @returns {React.Component} The text with formatting applied.
  */
-exports.formatText = (fullText, css) => {
+exports.formatText = (fullText, options) => {
+  const { css = {}, inline = false } = options;
   if (!fullText) return '';
 
   const formattedText = fullText.split('\n').map((paragraph, key) => {
@@ -152,7 +153,11 @@ exports.formatText = (fullText, css) => {
           break;
       }
     } else {
-      transformedParagraph = (
+      transformedParagraph = inline ? (
+        <span className={css.paragraph} key={key}>
+          {applyEmphasisFormatting(paragraph, css)}
+        </span>
+      ) : (
         <p className={css.paragraph} key={key}>
           {applyEmphasisFormatting(paragraph, css)}
         </p>
@@ -166,7 +171,6 @@ exports.formatText = (fullText, css) => {
 };
 
 /**
- * // TODO: Prevent hyperlink link remaining present in deformatting
  * Strip the formatting from a piece of text.
  * @param {string} fullText - The original text with formatting.
  * @returns {string} The new text void of all formatting.
