@@ -1,4 +1,5 @@
 const React = require('react');
+const { Tweet } = require('../components/widgets/tweet');
 
 /** A map of emphasis constants */
 const EMPHASIS = {
@@ -18,7 +19,8 @@ const SECTIONS = {
   DIVIDER: 'divider',
   BULLET_LIST_ITEM: 'bullet',
   HYPHEN_LIST_ITEM: 'hyphen',
-  BLOCKQUOTE: 'blockQuote'
+  BLOCKQUOTE: 'blockQuote',
+  TWEET: 'tweet'
 };
 
 /** The regex mapping for emphasis constants */
@@ -57,7 +59,8 @@ const sectionRegexMapping = {
   [SECTIONS.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
   [SECTIONS.BULLET_LIST_ITEM]: new RegExp(/^[\*\+]\s(.*?)$/),
   [SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s(.*?)$/),
-  [SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/)
+  [SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
+  [SECTIONS.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i)
 };
 
 /**
@@ -151,6 +154,11 @@ exports.formatText = (fullText, options) => {
             </div>
           );
           break;
+        case SECTIONS.TWEET:
+          const id = paragraph.match(regex)[1];
+          // transformedParagraph = <Tweet id={id} key={key} />;
+          transformedParagraph = null;
+          break;
         default:
           break;
       }
@@ -205,6 +213,7 @@ exports.deformatText = (fullText) => {
             break;
           case SECTIONS.IMAGE:
           case SECTIONS.DIVIDER:
+          case SECTIONS.TWEET:
             detransformedParagraph = null;
             break;
           case SECTIONS.BLOCKQUOTE:
