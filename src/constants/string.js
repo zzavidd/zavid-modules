@@ -1,10 +1,27 @@
 /**
+ * Generate a random string of characters.
+ * @param {string} length - The length of the string.
+ * @returns {string} The random string.
+ */
+exports.generateRandomString = (length) => {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
+/**
  * // TODO: Test
  * Make a string title case.
  * @param {string} string - The string to be converted.
  * @returns {string} The string in title case.
  */
-const toTitleCase = (string) => {
+exports.toTitleCase = (string) => {
   if (!string || typeof string !== 'string') return null;
 
   const sentence = string.toLowerCase().split(' ');
@@ -22,7 +39,7 @@ const toTitleCase = (string) => {
  * two elements of the list. Defaults to '&'
  * @returns {string} A correct-conjoined list.
  */
-const toPunctuatedList = (items, conjunction = '&') => {
+exports.toPunctuatedList = (items, conjunction = '&') => {
   const elements = [items.slice(0, -1).join(', '), items.slice(-1)[0]];
   const str = elements.join(items.length < 2 ? '' : ` ${conjunction} `);
   return str;
@@ -33,7 +50,7 @@ const toPunctuatedList = (items, conjunction = '&') => {
  * @param {string} value - The value which the slug is based off.
  * @returns {string} A clean slug.
  */
-const constructCleanSlug = (value) => {
+exports.constructCleanSlug = (value) => {
   return value
     .toLowerCase() // Turn to lowercase
     .replace(/[^a-zA-Z 0-9]+/g, '') // Remove all non-alphanumeric characters
@@ -47,7 +64,7 @@ const constructCleanSlug = (value) => {
  * @param {string} name - The value which the slug is based off.
  * @returns {string} Formatted first name and one character of last name.
  */
-const constructSimpleNameSlug = (name) => {
+exports.constructSimpleNameSlug = (name) => {
   let array = name.split(/[\W_]+/);
 
   for (let i = 0; i < array.length; i++) {
@@ -67,7 +84,7 @@ const constructSimpleNameSlug = (name) => {
  * @param {string} words - A string of comma-separated values.
  * @returns {string[]} A list of the values as an array.
  */
-const convertCsvToArray = (words) => {
+exports.convertCsvToArray = (words) => {
   if (!words) return [];
 
   let list = [];
@@ -88,17 +105,8 @@ const convertCsvToArray = (words) => {
  * @param {string[]} list - An array of string values.
  * @returns {string} A comma-separated list of values.
  */
-const convertArrayToCsv = (list) => {
+exports.convertArrayToCsv = (list) => {
   if (!list || !list.length) return '';
   list = list.filter((el) => el);
   return list.join(', ');
-};
-
-module.exports = {
-  toTitleCase,
-  toPunctuatedList,
-  constructCleanSlug,
-  constructSimpleNameSlug,
-  convertCsvToArray,
-  convertArrayToCsv
 };
