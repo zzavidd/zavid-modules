@@ -8,8 +8,8 @@
     "dev": "webpack --mode development",
     "release": "np --no-release-draft",
     "test": "mocha --no-timeout",
-    "lint": "eslint \"**/*.js\" --ignore-path ./.gitignore ",
-    "prettify": "prettier --ignore-path ./.gitignore --write \"**/*.js\""
+    "lint": "eslint --ignore-path .gitignore \"**/*.js\"",
+    "prettify": "prettier --ignore-path .gitignore --write \"**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,9 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.0",
     "eslint": "^7.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^26.0.0",
+    "eslint-plugin-mocha": "^7.0.0",
     "eslint-plugin-react": "^7.19.0",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^7.0.1",

@@ -63,7 +63,9 @@ const sectionRegexMapping = {
 /**
  * Apply markdown-like formatting to a piece of text.
  * @param {string} fullText - The text to which hierarchical formatting will be applied.
- * @param {Object} [css] - The CSS classes of styling.
+ * @param {object} options - A map of options to be applied.
+ * @param {object} [options.css] - The CSS styling for the emphasis.
+ * @param {boolean} [options.inline] - Whether the component will be inline.
  * @returns {React.Component} The text with formatting applied.
  */
 exports.formatText = (fullText, options) => {
@@ -225,7 +227,7 @@ exports.deformatText = (fullText) => {
 /**
  * Apply the variable substitutions to the text, swapping placeholders for dynamic values.
  * @param {string} text - The original text containing the variables to be substituted.
- * @param {Object} substitutions - The mapping specifying the values to substitute the placeholder variables.
+ * @param {object} substitutions - The mapping specifying the values to substitute the placeholder variables.
  * @returns {string} The full text with variables substitutions applied.
  */
 exports.applySubstitutions = (text, substitutions) => {
@@ -239,7 +241,7 @@ exports.applySubstitutions = (text, substitutions) => {
 /**
  * Truncate a piece of text to a certain number of words.
  * @param {string} originalText - The text to be truncated.
- * @param {int} [limit] - The number of words to be truncated to. Default value is 45.
+ * @param {number} [limit] - The number of words to be truncated to. Default value is 45.
  * @returns {string} The truncated text.
  */
 exports.truncateText = (originalText, limit = 45) => {
@@ -252,7 +254,7 @@ exports.truncateText = (originalText, limit = 45) => {
 
 /**
  * Extract an excerpt, which is a single deformatted paragraph, of a piece of text.
- * @param {string} text - The original text.
+ * @param {string} originalText - The original text.
  * @returns {string} The excerpt shown in previews.
  */
 exports.extractExcerpt = (originalText) => {
@@ -265,7 +267,7 @@ exports.extractExcerpt = (originalText) => {
 /**
  * Apply emphasis formatting to paragraph of text.
  * @param {string} paragraph - The text to which formatting needs to be applied.
- * @param {Object} css - The CSS classes of styling.
+ * @param {object} css - The CSS classes of styling.
  * @returns {React.Component} The formatted text as a component.
  */
 const applyEmphasisFormatting = (paragraph, css) => {
