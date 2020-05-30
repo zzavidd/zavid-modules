@@ -1,54 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import * as css from './form.styles';
 
-class ITextArea extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { rows: props.minRows };
-  }
-
-  handleTextChange = (event) => {
-    this.props.onChange(event);
-    const text = event.target.value;
-    this.setState({ wordCount: text.length });
-  };
-
-  render() {
-    const { className, name, placeholder, value } = this.props;
-    return (
-      <TextareaAutosize
-        name={name}
-        placeholder={placeholder}
-        className={className}
-        style={css.textarea}
-        rows={this.state.rows}
-        value={value || ''}
-        onChange={this.handleTextChange}
-      />
-    );
-  }
-}
+const ITextArea = ({
+  className,
+  name,
+  placeholder,
+  value,
+  minRows,
+  onChange
+}) => {
+  return (
+    <TextareaAutosize
+      name={name}
+      placeholder={placeholder}
+      className={className}
+      style={css.textarea}
+      rows={minRows}
+      value={value || ''}
+      onChange={onChange}
+    />
+  );
+};
 
 /** For shorter text inputs */
-export class ShortTextArea extends Component {
-  render() {
-    return <ITextArea minRows={1} {...this.props} />;
-  }
-}
+export const ShortTextArea = (props) => {
+  return <ITextArea minRows={1} {...props} />;
+};
 
 /** For long text inputs with word counters */
-export class LongTextArea extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wordCount: props.value ? props.value.length : 0
-    };
-  }
+export const LongTextArea = (props) => {
+  const { onChange, value, wordCountClassName } = props;
 
-  static getDerivedStateFromProps(props) {
-    return { wordCount: props.value ? props.value.length : 0 };
-  }
+  const [wordCount, setWordCount] = useState(value ? value.length : 0);
+
+  const handleTextChange = (event) => {
+    onChange(event);
+    const text = event.target.value;
+    setWordCount(text.length);
+  };
 
   render() {
     return (
