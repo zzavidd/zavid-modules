@@ -1,5 +1,4 @@
 const React = require('react');
-const { Tweet } = require('../components/widgets/tweet');
 
 /** A map of emphasis constants */
 const EMPHASIS = {
