@@ -18,7 +18,9 @@ const SECTIONS = {
   DIVIDER: 'divider',
   BULLET_LIST_ITEM: 'bullet',
   HYPHEN_LIST_ITEM: 'hyphen',
-  BLOCKQUOTE: 'blockQuote'
+  BLOCKQUOTE: 'blockQuote',
+  TWEET: 'tweet',
+  INSTAPOST: 'instagramPost'
 };
 
 /** The regex mapping for emphasis constants */
@@ -57,7 +59,9 @@ const sectionRegexMapping = {
   [SECTIONS.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
   [SECTIONS.BULLET_LIST_ITEM]: new RegExp(/^[\*\+]\s(.*?)$/),
   [SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s(.*?)$/),
-  [SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/)
+  [SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
+  [SECTIONS.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i),
+  [SECTIONS.INSTAPOST]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i)
 };
 
 /**
@@ -66,10 +70,12 @@ const sectionRegexMapping = {
  * @param {object} options - A map of options to be applied.
  * @param {object} [options.css] - The CSS styling for the emphasis.
  * @param {boolean} [options.inline] - Whether the component will be inline.
+ * @param {object} [options.socialWrappers] - Contains a map of the components for social media embeds.
  * @returns {React.Component} The text with formatting applied.
  */
 exports.formatText = (fullText, options) => {
-  const { css = {}, inline = false } = options;
+  const { css = {}, inline = false, socialWrappers = {} } = options;
+  const { Tweet, InstagramPost } = socialWrappers;
   if (!fullText) return '';
 
   const formattedText = fullText.split('\n').map((paragraph, key) => {
@@ -151,6 +157,22 @@ exports.formatText = (fullText, options) => {
             </div>
           );
           break;
+        case SECTIONS.TWEET:
+          if (Tweet) {
+            const id = paragraph.match(regex)[1];
+            transformedParagraph = <Tweet id={id} key={key} />;
+          } else {
+            transformedParagraph = null;
+          }
+          break;
+        case SECTIONS.INSTAPOST:
+          if (InstagramPost) {
+            const url = paragraph.match(regex)[1];
+            transformedParagraph = <InstagramPost url={url} key={key} />;
+          } else {
+            transformedParagraph = null;
+          }
+          break;
         default:
           break;
       }
@@ -205,6 +227,7 @@ exports.deformatText = (fullText) => {
             break;
           case SECTIONS.IMAGE:
           case SECTIONS.DIVIDER:
+          case SECTIONS.TWEET:
             detransformedParagraph = null;
             break;
           case SECTIONS.BLOCKQUOTE:
