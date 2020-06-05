@@ -177,7 +177,8 @@ const getDateAndSuffix = (day) => {
  * @param {string} [month] - The month of the year
  * @returns {string[]} An array of the day strings.
  */
-const getDatesForMonth = (month = MONTHS.JANUARY.NAME) => {
+const getDatesForMonth = (month) => {
+  if (!month) month = MONTHS.JANUARY.NAME;
   const daysInMonth = MONTHS[month.toUpperCase()].DAYS;
 
   const array = [];
