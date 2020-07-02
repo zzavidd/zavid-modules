@@ -1,6 +1,6 @@
 {
   "name": "zavid-modules",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "description": "A library containing reusable code modules for projects developed by Zavid Egbue.",
   "main": "./dist/main.js",
   "scripts": {
