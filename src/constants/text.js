@@ -18,6 +18,7 @@ const SECTIONS = {
   DIVIDER: 'divider',
   BULLET_LIST_ITEM: 'bullet',
   HYPHEN_LIST_ITEM: 'hyphen',
+  NUMBERED_LIST_ITEMS: 'numbered',
   BLOCKQUOTE: 'blockQuote',
   TWEET: 'tweet',
   INSTAPOST: 'instagramPost'
@@ -59,6 +60,10 @@ const sectionRegexMapping = {
   [SECTIONS.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
   [SECTIONS.BULLET_LIST_ITEM]: new RegExp(/^[\*\+]\s(.*?)$/),
   [SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s(.*?)$/),
+  // [SECTIONS.NUMBERED_LIST_ITEM]: new RegExp(/^([0-9]+)([\.\)])\s(.*?)$/),
+  [SECTIONS.NUMBERED_LIST_ITEMS]: new RegExp(
+    /^(?:\:\:ol(?:\(type=(?<type>[1|A|a|I|i])?\s?start=(?<start>[0-9]*)?\s?reverse=(?<reverse>true)?\))?)?\n(?<list>([0-9]+[\.\)]\s.*\n)*)(?:\:\:end-ol)/
+  ),
   [SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
   [SECTIONS.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i),
   [SECTIONS.INSTAPOST]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i)
@@ -147,6 +152,24 @@ exports.formatText = (fullText, options) => {
             </div>
           );
           break;
+        case SECTIONS.NUMBERED_LIST_ITEMS:
+          transformedParagraph = null;
+          // const [, index, delimiter, text] = paragraph.match(regex);
+          // const [numberedList] = paragraph.match(regex);
+          // transformedParagraph = (
+          //   <div
+          //     className={css.numberedListItem}
+          //     style={STYLES.SECTIONS.NUMBERED_LIST_ITEM}
+          //     key={key}>
+          //     <span style={{ textAlign: 'right' }}>
+          //       {index}
+          //       {delimiter}
+          //     </span>
+          //     <span>{applyEmphasisFormatting(text, css)}</span>
+          //   </div>
+          // );
+          console.log(paragraph.match(regex));
+          break;
         case SECTIONS.BLOCKQUOTE:
           transformedParagraph = (
             <div
@@ -223,6 +246,7 @@ exports.deformatText = (fullText) => {
           case SECTIONS.SUBHEADING:
           case SECTIONS.BULLET_LIST_ITEM:
           case SECTIONS.HYPHEN_LIST_ITEM:
+            // case SECTIONS.NUMBERED_LIST_ITEM:
             detransformedParagraph += text;
             break;
           case SECTIONS.IMAGE:
@@ -410,6 +434,12 @@ const STYLES = {
     LIST_ITEM: {
       display: 'grid',
       gridTemplateColumns: '1.2em 1fr'
+    },
+    NUMBERED_LIST_ITEM: {
+      columnGap: '.8em',
+      display: 'grid',
+      gridTemplateColumns: '1em 1fr',
+      padding: '0.5em 0'
     }
   },
   EMPHASIS: {
