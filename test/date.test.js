@@ -101,4 +101,36 @@ describe('Date functions', function () {
     assert.lengthOf(fiveIncrement, 12);
     assert.equal(fiveIncrement[fiveIncrement.length - 1].value, 55);
   });
+
+  // describe('Get adverb relative to today', function () {
+  //   it('Today', function () {
+  //     const adverb = zDate.getAdverbRelativeToToday(new Date());
+  //     assert.equal(adverb, 'Today');
+  //   });
+
+  //   it('Tomorrow', function () {
+  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-03');
+  //     assert.equal(adverb, 'Tomorrow');
+  //   });
+
+  //   it('Yesterday', function () {
+  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-01');
+  //     assert.equal(adverb, 'Yesterday');
+  //   });
+
+  //   it('2 days ago', function () {
+  //     const adverb = zDate.getAdverbRelativeToToday('2020-06-30');
+  //     assert.equal(adverb, '2 days ago');
+  //   });
+
+  //   it('Sunday', function () {
+  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-05');
+  //     assert.equal(adverb, 'on Sunday');
+  //   });
+
+  //   it('Another day', function () {
+  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-11');
+  //     assert.equal(adverb, 'Sunday 19th July');
+  //   });
+  // });
 });

@@ -1,5 +1,5 @@
 const { TYPE, validateArgumentType } = require('./error');
-const { toTitleCase } = require('./string');
+const zString = require('./string');
 
 const DAYS = {
   SUNDAY: 'Sunday',
@@ -11,7 +11,7 @@ const DAYS = {
   SATURDAY: 'Saturday'
 };
 
-const MONTHS = {
+exports.MONTHS = {
   JANUARY: { NAME: 'January', DAYS: 31, NUMBER: 1 },
   FEBRUARY: { NAME: 'February', DAYS: 29, NUMBER: 2 },
   MARCH: { NAME: 'March', DAYS: 31, NUMBER: 3 },
@@ -30,21 +30,26 @@ const MONTHS = {
  * Convert date to full string e.g. Monday 1st January 2020
  * @param {(string|Date)} value - The date value to be converted.
  * @param {boolean} [withWeekday] - Option to include the day of the week.
+ * @param {object} [options] - Options for the function.
+ * @param {boolean} [options.withYear] - Indicator to include the year. Defaults to true.
  * @returns {string} The full date string.
  */
-const formatDate = (value, withWeekday) => {
+exports.formatDate = (value, withWeekday, options = {}) => {
   if (!value) return null;
   // validateArgumentType(value, [TYPE.STRING, TYPE.DATE], 'Cannot format the date of an argument that is neither type String or Date.');
 
+  const { withYear = true } = options;
+
   const date = new Date(value);
-  const weekday = toTitleCase(Object.keys(DAYS)[date.getDay()]);
+  const weekday = getDayOfWeek(date.getDay());
   const day = date.getDate();
-  const month = getMonthByNumber(date.getMonth() + 1);
+  const month = this.getMonthByNumber(date.getMonth() + 1);
   const year = date.getFullYear();
 
-  let result = `${getDateAndSuffix(day)} ${month} ${year}`;
-  result = withWeekday ? `${weekday} ${result}` : result;
-
+  const base = `${this.getDateAndSuffix(day)} ${month}`;
+  const result = `${withWeekday ? weekday + ' ' : ''}${base}${
+    withYear ? ' ' + year : ''
+  }`;
   return result;
 };
 
@@ -53,7 +58,7 @@ const formatDate = (value, withWeekday) => {
  * @param {(string|object)} value - The time value to be converted.
  * @returns {object} The time in its new format.
  */
-const formatTime = (value) => {
+exports.formatTime = (value) => {
   if (!value) return null;
   validateArgumentType(
     value,
@@ -88,9 +93,9 @@ const formatTime = (value) => {
  * @param {string} value - The datetime value to be converted.
  * @returns {string} A full datetime stirng.
  */
-const formatDateTime = (value) => {
+exports.formatDateTime = (value) => {
   if (!value) return null;
-  return `${formatISOTime(value, false)}, ${formatDate(value)}`;
+  return `${this.formatISOTime(value, false)}, ${this.formatDate(value)}`;
 };
 
 /**
@@ -98,7 +103,7 @@ const formatDateTime = (value) => {
  * @param {string} date - The date value to be converted.
  * @returns {string} An ISO version of the date.
  */
-const formatISODate = (date) => {
+exports.formatISODate = (date) => {
   const value = new Date(date);
   let dd = makeDoubleDigit(value.getDate());
   let mm = makeDoubleDigit(value.getMonth() + 1);
@@ -113,7 +118,7 @@ const formatISODate = (date) => {
  * @param {boolean} [withSeconds] - Option to include the seconds. Defaults to true.
  * @returns {string} An ISO version of the time.
  */
-const formatISOTime = (time, withSeconds = true) => {
+exports.formatISOTime = (time, withSeconds = true) => {
   if (!time) return null;
 
   const isDateTime = typeof time === TYPE.OBJECT || time.includes('T');
@@ -145,7 +150,7 @@ const formatISOTime = (time, withSeconds = true) => {
  * @param {string} date - The date of birth which the age will be calculated from.
  * @returns {number} The calculated age.
  */
-const calculateAge = (date) => {
+exports.calculateAge = (date) => {
   const birthday = new Date(date);
 
   const dd = birthday.getDate();
@@ -168,7 +173,7 @@ const calculateAge = (date) => {
  * @param {number} day - A day number of the month.
  * @returns {string} The day with its corresponding ordinal.
  */
-const getDateAndSuffix = (day) => {
+exports.getDateAndSuffix = (day) => {
   return `${day}${getDateSuffix(day)}`;
 };
 
@@ -177,13 +182,13 @@ const getDateAndSuffix = (day) => {
  * @param {string} [month] - The month of the year
  * @returns {string[]} An array of the day strings.
  */
-const getDatesForMonth = (month) => {
-  if (!month) month = MONTHS.JANUARY.NAME;
-  const daysInMonth = MONTHS[month.toUpperCase()].DAYS;
+exports.getDatesForMonth = (month) => {
+  if (!month) month = this.MONTHS.JANUARY.NAME;
+  const daysInMonth = this.MONTHS[month.toUpperCase()].DAYS;
 
   const array = [];
   for (let i = 1; i <= daysInMonth; i++) {
-    array.push(getDateAndSuffix(i));
+    array.push(this.getDateAndSuffix(i));
   }
   return array;
 };
@@ -193,7 +198,7 @@ const getDatesForMonth = (month) => {
  * @param {number} number - A month number between 1 and 12.
  * @returns {string} An array of the month strings.
  */
-const getMonthByNumber = (number) => {
+exports.getMonthByNumber = (number) => {
   validateArgumentType(
     number,
     [TYPE.NUMBER],
@@ -201,17 +206,17 @@ const getMonthByNumber = (number) => {
   );
   if (number < 1 || number > 12)
     throw new RangeError('Number specified not within bounds');
-  return toTitleCase(Object.keys(MONTHS)[number - 1]);
+  return zString.toTitleCase(Object.keys(this.MONTHS)[number - 1]);
 };
 
 /**
  * Retrieves all of the months of the year.
  * @returns {string[]} An array of the month strings.
  */
-const getAllMonths = () => {
+exports.getAllMonths = () => {
   const array = [];
-  for (let [key] of Object.entries(MONTHS)) {
-    array.push(toTitleCase(key));
+  for (let [key] of Object.entries(this.MONTHS)) {
+    array.push(zString.toTitleCase(key));
   }
   return array;
 };
@@ -224,7 +229,7 @@ const getAllMonths = () => {
  * Default is 3 years ahead of today.
  * @returns {number[]} An array of the years within range.
  */
-const getYearsInRange = (startYear, endYear) => {
+exports.getYearsInRange = (startYear, endYear) => {
   const year = new Date().getFullYear();
   if (!startYear) startYear = year - 40;
   if (!endYear) endYear = year + 3;
@@ -238,7 +243,7 @@ const getYearsInRange = (startYear, endYear) => {
  * Returns a list of hours for dropdowns.
  * @returns {object} The object containing the hours.
  */
-const getAllHours = () => {
+exports.getAllHours = () => {
   const hours = [];
   for (let i = 0; i <= 23; i++) {
     hours.push({
@@ -253,9 +258,8 @@ const getAllHours = () => {
  * Returns a list of minutes for dropdowns.
  * @param {number} [increment] The minute interval. Defaults to 1.
  * @returns {object} The object containing the minutes.
- *
  */
-const getAllMinutes = (increment = 1) => {
+exports.getAllMinutes = (increment = 1) => {
   const minutes = [];
   for (let i = 0; i <= 59; i += increment) {
     minutes.push({
@@ -267,29 +271,62 @@ const getAllMinutes = (increment = 1) => {
 };
 
 /**
- * Custom date functions.
- * @module zavid-modules/date
+ * Get the adverb describing the date relative to today.
+ * @param {any} value - The date.
+ * @param {object} [options] - Options for this function.
+ * @param {string} [options.preposition] - The word to precede a future day of the week.
+ * @returns {string} The adverb description.
  */
-module.exports = {
-  formatDate,
-  formatISODate,
-  getDateAndSuffix,
+exports.getAdverbRelativeToToday = (value, options = {}) => {
+  if (!value) return '';
+  const { preposition = 'on' } = options;
 
-  formatTime,
-  formatISOTime,
+  const today = new Date();
+  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+  const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
 
-  formatDateTime,
-  calculateAge,
+  const date = new Date(value);
 
-  getDatesForMonth,
-  getMonthByNumber,
-  getAllMonths,
-  getYearsInRange,
+  if (isSameDay(date, today)) return 'today';
+  if (isSameDay(date, tomorrow)) return 'tomorrow';
+  if (isSameDay(date, yesterday)) return 'yesterday';
 
-  getAllHours,
-  getAllMinutes,
+  // If in the past...
+  if (date.getTime() <= today.getTime()) {
+    for (let i = 2; i < 7; i++) {
+      const past = new Date(new Date().setDate(new Date().getDate() - i));
+      if (isSameDay(date, past)) {
+        return `${i} days ago`;
+      }
+    }
+  } else {
+    for (let i = 2; i < 7; i++) {
+      const future = new Date(new Date().setDate(new Date().getDate() + i));
+      if (isSameDay(date, future)) {
+        return `${preposition} ${getDayOfWeek(future.getDay())}`;
+      }
+    }
+  }
 
-  MONTHS
+  return this.formatDate(date, true, {
+    withYear: date.getYear() !== today.getYear()
+  });
+};
+
+const getDayOfWeek = (number) => {
+  return zString.toTitleCase(Object.keys(DAYS)[number]);
+};
+
+const isSameDay = (date, comparator) => {
+  if (
+    date.getYear() === comparator.getYear() &&
+    date.getMonth() === comparator.getMonth() &&
+    date.getDate() === comparator.getDate()
+  ) {
+    return true;
+  }
+
+  return false;
 };
 
 /**
