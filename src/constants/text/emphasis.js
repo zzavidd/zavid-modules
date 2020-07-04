@@ -92,18 +92,24 @@ exports.removeEmphasisFormatting = (paragraph) => {
   // Combine all emphasis regular expressions for splitting.
   // Also, prevent display of hyperlink text on deformat.
   const emphasisRegexList = Object.values(emphasisRegexMapping).map((regex) => {
-    if (regex.pure === EMPHASIS.HYPERLINK) {
-      regex.pure = new RegExp(/\[(.*?)\]\((?:.*?)\)/);
+    if (regex === emphasisRegexMapping[EMPHASIS.HYPERLINK]) {
+      regex.pure = new RegExp(/\[(.*?)\]\(.*?\)/);
     }
     return regex.pure.source;
   });
   const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
-  // Split by regex and replace with deformatted values
-  const fragments = paragraph
+  // 1. Split by regex and replace with deformatted values.
+  // 2. Remove blank values.
+  // 3. Join separate text by whitespace.
+  // 4. Remove unnecessary whitespace characters.
+  // 5. Remove whitespace before commas.
+  const deformattedParagraph = paragraph
     .split(combinedEmphasisRegex)
-    .filter((e) => e != null);
+    .filter((e) => e)
+    .join(' ')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+\,/g, ',');
 
-  const deformattedParagraph = fragments.map((fragment) => fragment).join(' ');
   return deformattedParagraph;
 };

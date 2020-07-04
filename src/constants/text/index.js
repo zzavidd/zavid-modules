@@ -210,6 +210,10 @@ exports.deformatText = (fullText) => {
           case SECTIONS.HEADING:
           case SECTIONS.SUBHEADING:
           case SECTIONS.BULLET_LIST:
+            detransformedParagraph += text
+              .replace(/\:\:(?:ul(b)|end)/g, '')
+              .trim();
+            break;
           case SECTIONS.HYPHEN_LIST_ITEM:
             detransformedParagraph += text;
             break;
