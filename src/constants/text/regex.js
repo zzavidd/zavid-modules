@@ -14,7 +14,7 @@ exports.SECTIONS = {
   SUBHEADING: 'subheading',
   IMAGE: 'image',
   DIVIDER: 'divider',
-  BULLET_LIST_ITEM: 'bullet',
+  BULLET_LIST: 'bullet',
   HYPHEN_LIST_ITEM: 'hyphen',
   NUMBERED_LIST: 'numbered',
   BLOCKQUOTE: 'blockQuote',
@@ -56,8 +56,10 @@ exports.sectionRegexMapping = {
   [this.SECTIONS.SUBHEADING]: new RegExp(/^\#{2}\s(.*?)$/),
   [this.SECTIONS.IMAGE]: new RegExp(/^\!\[(.*?)\]\((.*?)\)(F?)$/),
   [this.SECTIONS.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
-  [this.SECTIONS.BULLET_LIST_ITEM]: new RegExp(/^[\*\+]\s(.*?)$/),
-  [this.SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s(.*?)$/),
+  [this.SECTIONS.BULLET_LIST]: new RegExp(
+    /\:\:ul(b)?\n((?:\+\s*.*\n+)*)\:\:end/
+  ),
+  [this.SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s*(.*?)$/),
   [this.SECTIONS.NUMBERED_LIST]: new RegExp(
     /\:\:ol(b)?\n((?:[0-9]+[\.\)]\s*.*\n+)*)\:\:end/
   ),

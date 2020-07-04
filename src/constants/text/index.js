@@ -4,7 +4,7 @@ const STYLES = require('./_styles');
 const {
   applyEmphasisFormatting,
   removeEmphasisFormatting
-} = require('./assist');
+} = require('./emphasis');
 const {
   SECTIONS,
   sectionRegexMapping,
@@ -74,15 +74,27 @@ exports.formatText = (fullText, options) => {
               />
             );
             break;
-          case SECTIONS.BULLET_LIST_ITEM:
+          case SECTIONS.BULLET_LIST:
+            const [, isSpacedBulletBlock, bulletList] = paragraph.match(regex);
+            const bulletListItems = bulletList
+              .split('\n')
+              .filter((e) => e)
+              .map((item, key) => {
+                const [, value] = item.match(/^\+\s*(.*)$/);
+                return (
+                  <li
+                    style={{
+                      padding: isSpacedBulletBlock ? '.5em 0' : 0,
+                      paddingLeft: '.5em'
+                    }}
+                    key={key}>
+                    {applyEmphasisFormatting(value, css)}
+                  </li>
+                );
+              });
+
             transformedParagraph = (
-              <div
-                className={css.listItem}
-                style={STYLES.SECTIONS.LIST_ITEM}
-                key={key}>
-                <span>●</span>
-                <span>{applyEmphasisFormatting(text, css)}</span>
-              </div>
+              <ul style={{ paddingInlineStart: '1em' }}>{bulletListItems}</ul>
             );
             break;
           case SECTIONS.HYPHEN_LIST_ITEM:
@@ -97,8 +109,10 @@ exports.formatText = (fullText, options) => {
             );
             break;
           case SECTIONS.NUMBERED_LIST:
-            const [, isBlock, list] = paragraph.match(regex);
-            const numberedListItems = list
+            const [, isSpacedNumberedBlock, numberedList] = paragraph.match(
+              regex
+            );
+            const numberedListItems = numberedList
               .split('\n')
               .filter((e) => e)
               .map((item, key) => {
@@ -106,7 +120,7 @@ exports.formatText = (fullText, options) => {
                 return (
                   <li
                     style={{
-                      padding: isBlock ? '.5em 0' : 0,
+                      padding: isSpacedNumberedBlock ? '.5em 0' : 0,
                       paddingLeft: '1em'
                     }}
                     key={key}>
@@ -195,7 +209,7 @@ exports.deformatText = (fullText) => {
         switch (section) {
           case SECTIONS.HEADING:
           case SECTIONS.SUBHEADING:
-          case SECTIONS.BULLET_LIST_ITEM:
+          case SECTIONS.BULLET_LIST:
           case SECTIONS.HYPHEN_LIST_ITEM:
             detransformedParagraph += text;
             break;

@@ -15,15 +15,5 @@ exports.SECTIONS = {
     borderStyle: 'solid',
     borderWidth: '1px',
     margin: '2rem 0 1rem'
-  },
-  LIST_ITEM: {
-    display: 'grid',
-    gridTemplateColumns: '1.2em 1fr'
-  },
-  NUMBERED_LIST_ITEM: {
-    columnGap: '.8em',
-    display: 'grid',
-    gridTemplateColumns: '1em 1fr',
-    padding: '0.5em 0'
   }
 };
