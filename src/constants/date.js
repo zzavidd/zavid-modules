@@ -1,4 +1,6 @@
 const { TYPE, validateArgumentType } = require('./error');
+
+const zNumber = require('./number');
 const zString = require('./string');
 
 const DAYS = {
@@ -82,7 +84,7 @@ exports.formatTime = (value) => {
   const period = getTimePeriod(hour);
 
   hour = convertTo12HourNumber(hour);
-  min = makeDoubleDigit(min);
+  min = zNumber.makeDoubleDigit(min);
 
   let result = `${hour}:${min}${period}`;
   return result;
@@ -105,8 +107,8 @@ exports.formatDateTime = (value) => {
  */
 exports.formatISODate = (date) => {
   const value = new Date(date);
-  let dd = makeDoubleDigit(value.getDate());
-  let mm = makeDoubleDigit(value.getMonth() + 1);
+  let dd = zNumber.makeDoubleDigit(value.getDate());
+  let mm = zNumber.makeDoubleDigit(value.getMonth() + 1);
   let yyyy = value.getFullYear();
 
   return `${yyyy}-${mm}-${dd}`;
@@ -135,9 +137,9 @@ exports.formatISOTime = (time, withSeconds = true) => {
     sec = parseInt(time.substring(6, 8));
   }
 
-  hour = makeDoubleDigit(hour);
-  min = makeDoubleDigit(min);
-  sec = makeDoubleDigit(sec);
+  hour = zNumber.makeDoubleDigit(hour);
+  min = zNumber.makeDoubleDigit(min);
+  sec = zNumber.makeDoubleDigit(sec);
 
   let result = `${hour}:${min}`;
   if (withSeconds) result += `:${sec}`;
@@ -247,7 +249,7 @@ exports.getAllHours = () => {
   const hours = [];
   for (let i = 0; i <= 23; i++) {
     hours.push({
-      label: makeDoubleDigit(i),
+      label: zNumber.makeDoubleDigit(i),
       value: i.toString()
     });
   }
@@ -263,7 +265,7 @@ exports.getAllMinutes = (increment = 1) => {
   const minutes = [];
   for (let i = 0; i <= 59; i += increment) {
     minutes.push({
-      label: makeDoubleDigit(i),
+      label: zNumber.makeDoubleDigit(i),
       value: i.toString()
     });
   }
@@ -380,13 +382,4 @@ const convertTo12HourNumber = (hour) => {
   }
 
   return hour;
-};
-
-/**
- * Converts a number to 2 significant figures.
- * @param {number} value - An integer value.
- * @returns {string} The converted number as a string.
- */
-const makeDoubleDigit = (value) => {
-  return (value = value < 10 ? '0' + value : value);
 };

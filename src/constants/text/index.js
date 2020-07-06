@@ -56,12 +56,11 @@ exports.formatText = (fullText, options) => {
             );
             break;
           case SECTIONS.IMAGE:
-            const source = paragraph.match(regex)[2];
-            const float = paragraph.match(regex)[3];
-            const className = float ? css.image.float : css.image.full;
+            const [, alt, src, isFloat] = paragraph.match(regex);
+            const className = isFloat ? css.image.float : css.image.full;
             transformedParagraph = (
               <div className={className} key={key}>
-                <img src={source} alt={text} />
+                <img src={src} alt={alt} />
               </div>
             );
             break;

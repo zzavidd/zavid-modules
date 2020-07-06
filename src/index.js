@@ -4,6 +4,7 @@ const countries = require('./constants/countries');
 const date = require('./constants/date');
 const file = require('./constants/file');
 const handlers = require('./constants/handlers');
+const number = require('./constants/number');
 const request = require('./constants/request');
 const string = require('./constants/string');
 const text = require('./constants/text');
@@ -15,6 +16,7 @@ module.exports = {
   zDate: date,
   zFile: file,
   zHandlers: handlers,
+  zNumber: number,
   zRequest: request,
   zString: string,
   zText: text
