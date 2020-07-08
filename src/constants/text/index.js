@@ -252,7 +252,9 @@ exports.deformatText = (fullText) => {
 exports.applySubstitutions = (text, substitutions) => {
   if (text) {
     const variableRegex = new RegExp(/\$\{(.*?)\}/g); // Regex for substitutions
-    text = text.replace(variableRegex, (match, p1) => substitutions[p1]);
+    text = text.replace(variableRegex, (match, p1) => {
+      return substitutions[p1] || '';
+    });
   }
   return text;
 };
