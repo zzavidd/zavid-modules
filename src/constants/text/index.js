@@ -137,7 +137,7 @@ exports.formatText = (fullText, options) => {
           case SECTIONS.BLOCKQUOTE:
             transformedParagraph = (
               <div
-                className={css.blockQuote}
+                className={css.blockquote}
                 style={STYLES.SECTIONS.BLOCKQUOTE}
                 key={key}>
                 {applyEmphasisFormatting(text, css)}
@@ -227,7 +227,7 @@ exports.deformatText = (fullText) => {
             detransformedParagraph = null;
             break;
           case SECTIONS.BLOCKQUOTE:
-            detransformedParagraph += removeEmphasisFormatting(text);
+            detransformedParagraph += `"${removeEmphasisFormatting(text)}"`;
             break;
           default:
             break;
