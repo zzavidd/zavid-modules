@@ -106,6 +106,8 @@ exports.formatDateTime = (value) => {
  * @returns {string} An ISO version of the date.
  */
 exports.formatISODate = (date) => {
+  if (!date) return '';
+
   const value = new Date(date);
   let dd = zNumber.makeDoubleDigit(value.getDate());
   let mm = zNumber.makeDoubleDigit(value.getMonth() + 1);
