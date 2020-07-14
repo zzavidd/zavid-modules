@@ -267,7 +267,9 @@ exports.applySubstitutions = (text, substitutions) => {
  */
 exports.truncateText = (originalText, limit = 45) => {
   if (!originalText) return '';
-  const deformattedText = this.deformatText(originalText);
+  // TODO: If the text is truncated in the middle of a regex expression containing a space, there'll be issues.
+  // const deformattedText = this.deformatText(originalText);
+  const deformattedText = originalText;
   const truncatedText = deformattedText.split(' ').slice(0, limit).join(' ');
   if (truncatedText.length <= limit) return originalText;
   return `${truncatedText}....`;
