@@ -262,14 +262,15 @@ exports.applySubstitutions = (text, substitutions) => {
 /**
  * Truncate a piece of text to a certain number of words.
  * @param {string} originalText - The text to be truncated.
- * @param {number} [limit] - The number of words to be truncated to. Default value is 45.
+ * @param {object} [options] - The options for truncation.
+ * @param {number} [options.limit] - The number of words to be truncated to. Default value is 45.
  * @returns {string} The truncated text.
  */
-exports.truncateText = (originalText, limit = 45) => {
+exports.truncateText = (originalText, options) => {
   if (!originalText) return '';
-  // TODO: If the text is truncated in the middle of a regex expression containing a space, there'll be issues.
-  // const deformattedText = this.deformatText(originalText);
-  const deformattedText = originalText;
+
+  const { limit = 45 } = options;
+  const deformattedText = this.deformatText(originalText);
   const truncatedText = deformattedText.split(' ').slice(0, limit).join(' ');
   if (truncatedText.length <= limit) return originalText;
   return `${truncatedText}....`;

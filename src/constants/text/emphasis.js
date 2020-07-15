@@ -93,9 +93,9 @@ exports.removeEmphasisFormatting = (paragraph) => {
   // Also, prevent display of hyperlink text on deformat.
   const emphasisRegexList = Object.values(emphasisRegexMapping).map((regex) => {
     if (regex === emphasisRegexMapping[EMPHASIS.HYPERLINK]) {
-      regex.pure = new RegExp(/\[(.*?)\]\(.*?\)/);
+      regex.split = new RegExp(/(\[.*?\]\(.*?\))/);
     }
-    return regex.pure.source;
+    return regex.split.source;
   });
   const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
