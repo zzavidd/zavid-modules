@@ -93,7 +93,9 @@ exports.formatText = (fullText, options) => {
               });
 
             transformedParagraph = (
-              <ul style={{ paddingInlineStart: '1em' }}>{bulletListItems}</ul>
+              <ul style={{ paddingInlineStart: '1em' }} key={key}>
+                {bulletListItems}
+              </ul>
             );
             break;
           case SECTIONS.HYPHEN_LIST_ITEM:
@@ -129,7 +131,7 @@ exports.formatText = (fullText, options) => {
               });
 
             transformedParagraph = (
-              <ol style={{ paddingInlineStart: '1.5em' }}>
+              <ol style={{ paddingInlineStart: '1.5em' }} key={key}>
                 {numberedListItems}
               </ol>
             );
