@@ -47,11 +47,12 @@ exports.toPunctuatedList = (items, conjunction = '&') => {
 
 /**
  * Create formatted slugs for URLs.
- * @param {string} value - The value which the slug is based off.
+ * @param {...string} input - The value which the slug is based off.
  * @returns {string} A clean slug.
  */
-exports.constructCleanSlug = (value) => {
-  return value
+exports.constructCleanSlug = (...input) => {
+  return input
+    .join(' ')
     .toLowerCase() // Turn to lowercase
     .replace(/[^a-zA-Z 0-9]+/g, '') // Remove all non-alphanumeric characters
     .replace(/\b(a|an|and|the|but|or|so)\b/g, '') // Remove stopwords

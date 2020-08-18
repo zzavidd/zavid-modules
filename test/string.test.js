@@ -15,9 +15,10 @@ describe('String functions', function () {
   });
 
   it('Create a clean slug', function () {
-    const title = 'Olaoluwa and Joseph from a town in Lagos';
+    const firstTitle = 'Olaoluwa and Joseph';
+    const secondTitle = 'from a town in Lagos';
     const expectedOutput = 'olaoluwa-joseph-from-town-in-lagos';
-    assert.equal(zString.constructCleanSlug(title), expectedOutput);
+    assert.equal(zString.constructCleanSlug(firstTitle, secondTitle), expectedOutput);
   });
 
   it('Construct a simple slug from a name', function () {
