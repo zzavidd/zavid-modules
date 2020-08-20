@@ -20,7 +20,7 @@ const {
  * @param {object} [options.socialWrappers] - Contains a map of the components for social media embeds.
  * @returns {React.Component} The text with formatting applied.
  */
-exports.formatText = (fullText, options) => {
+exports.formatText = (fullText, options = {}) => {
   const { css = {}, inline = false, socialWrappers = {} } = options;
   const { Tweet, InstagramPost } = socialWrappers;
   if (!fullText) return '';
