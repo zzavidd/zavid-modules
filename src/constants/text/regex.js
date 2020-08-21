@@ -5,7 +5,8 @@ exports.EMPHASIS = {
   BOLDITALIC: 'boldItalic',
   UNDERLINE: 'underline',
   STRIKETHROUGH: 'strikethrough',
-  HYPERLINK: 'hyperlink'
+  HYPERLINK: 'hyperlink',
+  COLOR: 'color'
 };
 
 /** A map of section constants */
@@ -47,6 +48,10 @@ exports.emphasisRegexMapping = {
   [this.EMPHASIS.HYPERLINK]: {
     pure: new RegExp(/\[(.*?)\]\((.*?)\)/),
     split: new RegExp(/(\[.*?\]\(.*?\))/)
+  },
+  [this.EMPHASIS.COLOR]: {
+    pure: new RegExp(/\<(\#[a-zA-Z0-9]{6})\>\[(.*?)\]/),
+    split: new RegExp(/(\<\#[a-zA-Z0-9]{6}\>\[.*?\])/)
   }
 };
 

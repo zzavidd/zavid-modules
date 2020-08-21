@@ -31,34 +31,40 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
 
     if (foundEmphasis) {
       const [emphasis, { pure: regex }] = foundEmphasis;
-      const [, text] = fragment.match(regex);
+      const matches = fragment.match(regex);
 
       switch (emphasis) {
         case EMPHASIS.BOLDITALIC:
+          const textToBoldItalize = this.applyEmphasisFormatting(matches[1]);
           transformation = (
             <strong key={key}>
-              <em>{text}</em>
+              <em>{textToBoldItalize}</em>
             </strong>
           );
           break;
-        case EMPHASIS.BOLD:
-          transformation = <strong key={key}>{text}</strong>;
-          break;
         case EMPHASIS.ITALIC:
-          transformation = <em key={key}>{text}</em>;
+          const textToItalize = this.applyEmphasisFormatting(matches[1]);
+          transformation = <em key={key}>{textToItalize}</em>;
+          break;
+        case EMPHASIS.BOLD:
+          const textToBold = this.applyEmphasisFormatting(matches[1]);
+          transformation = <strong key={key}>{textToBold}</strong>;
           break;
         case EMPHASIS.UNDERLINE:
+          const textToUnderline = this.applyEmphasisFormatting(matches[1]);
           transformation = (
-            <a key={key} style={STYLES.EMPHASIS.UNDERLINE}>
-              {text}
-            </a>
+            <span key={key} style={STYLES.EMPHASIS.UNDERLINE}>
+              {textToUnderline}
+            </span>
           );
           break;
         case EMPHASIS.STRIKETHROUGH:
-          transformation = <del key={key}>{text}</del>;
+          const textToStrikethrough = this.applyEmphasisFormatting(matches[1]);
+          transformation = <del key={key}>{textToStrikethrough}</del>;
           break;
         case EMPHASIS.HYPERLINK:
-          const link = fragment.match(regex)[2];
+          const textToHyperlink = this.applyEmphasisFormatting(matches[1]);
+          const link = matches[2];
           transformation = (
             <a
               target={'_blank'}
@@ -66,8 +72,17 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
               href={link}
               key={key}
               className={css.hyperlink}>
-              {text}
+              {textToHyperlink}
             </a>
+          );
+          break;
+        case EMPHASIS.COLOR:
+          const color = matches[1];
+          const textToColor = this.applyEmphasisFormatting(matches[2]);
+          transformation = (
+            <span style={{ color }} key={key}>
+              {textToColor}
+            </span>
           );
           break;
         default:

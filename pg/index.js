@@ -1,34 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { Col, Row } from 'react-bootstrap';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import { createStore } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import { LongTextArea } from '../src/components/form/textarea.js';
+import storage from 'redux-persist/lib/storage';
+import reducers from './reducers.js';
 import zText from '../src/constants/text/index';
 
 import 'bootstrap/scss/bootstrap.scss';
+import './styles.scss';
 
-import css from './styles.scss';
+const Home = () => {
+  const dispatch = useDispatch();
+  const text = useSelector(({ text }) => text);
 
-const App = () => {
-  const [text, setText] = useState('');
+  const handleText = (event) => {
+    const { value } = event.target;
+    dispatch({
+      type: 'SET_TEXT',
+      payload: value
+    });
+  };
 
   useEffect(() => {
     document.body.className = 'body';
   }, []);
 
   return (
-    <div className={'container'}>
-      <div className={'editor'}>
-        <textarea
-          className={'textarea'}
-          onChange={(event) => setText(event.target.value)}
-          value={text}
-        />
+    <Provider store={store}>
+      <div className={'container'}>
+        <div className={'editor'}>
+          <textarea
+            className={'textarea'}
+            onChange={handleText}
+            value={text}
+            placeholder={'Type some text...'}
+          />
+        </div>
+        <div className={'preview'}>
+          <Paragraph>{text}</Paragraph>
+        </div>
       </div>
-      <div className={'preview'}>
-        <Paragraph>{text}</Paragraph>
-      </div>
-    </div>
+    </Provider>
   );
 };
 
@@ -42,6 +57,27 @@ export const Paragraph = ({ children, substitutions, truncate = 0 }) => {
   });
 
   return <pre>{text}</pre>;
+};
+
+const store = createStore(
+  persistReducer(
+    {
+      key: 'root',
+      storage: storage
+    },
+    reducers
+  )
+);
+const persistor = persistStore(store);
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Home />
+      </PersistGate>
+    </Provider>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
