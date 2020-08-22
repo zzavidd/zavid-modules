@@ -2,48 +2,31 @@ const assert = require('chai').assert;
 const zLogic = require('../src/constants/logic.js');
 
 describe('Logic tests', function () {
-  describe('Test falsy verification', function () {
+  describe('Falsy Verify', function () {
+    const isTrue = (...values) => assert.isTrue(zLogic.isFalsy(...values));
+    const isFalse = (...values) => assert.isFalse(zLogic.isFalsy(...values));
+
     describe('Check falsy values return true', function () {
-      it('Test undefined', function () {
-        let falsyValue;
-        assert.isTrue(zLogic.isFalsy(falsyValue));
+      it('Test single falsy value', function () {
+        isTrue(undefined);
       });
 
-      it('Test null', function () {
-        const falsyValue = null;
-        assert.isTrue(zLogic.isFalsy(falsyValue));
-      });
-
-      it('Test empty string', function () {
-        const falsyValue = '';
-        assert.isTrue(zLogic.isFalsy(falsyValue));
-      });
-
-      it('Test empty array', function () {
-        const falsyValue = [];
-        assert.isTrue(zLogic.isFalsy(falsyValue));
-      });
-
-      it('Test empty object', function () {
-        const falsyValue = {};
-        assert.isTrue(zLogic.isFalsy(falsyValue));
+      it('Test multiple falsy values', function () {
+        isTrue(undefined, '', false, 0, null, [], {});
       });
     });
 
-    describe('Check truthy values return false', function () {
-      it('Test occupied string', function () {
-        const truthyValue = 'truthy';
-        assert.isFalse(zLogic.isFalsy(truthyValue));
+    describe('Check truthy values return true', function () {
+      it('Test single truthy value', function () {
+        isFalse('truthy');
       });
 
-      it('Test occupied array', function () {
-        const truthyValue = ['truthy'];
-        assert.isFalse(zLogic.isFalsy(truthyValue));
+      it('Test 1 truthy, 1 falsy', function () {
+        isFalse(['truthy'], '');
       });
 
-      it('Test occupied object', function () {
-        const truthyValue = { truthy: true };
-        assert.isFalse(zLogic.isFalsy(truthyValue));
+      it('Test 1 falsy, 1 truthy', function () {
+        isFalse({}, { truthy: true });
       });
     });
   });
