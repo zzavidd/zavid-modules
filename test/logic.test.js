@@ -16,7 +16,7 @@ describe('Logic tests', function () {
       });
     });
 
-    describe('Check truthy values return true', function () {
+    describe('Check truthy values return false', function () {
       it('Test single truthy value', function () {
         isFalse('truthy');
       });
