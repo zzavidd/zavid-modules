@@ -5,9 +5,6 @@ exports.EMPHASIS = {
 
 /** Default section styles */
 exports.SECTIONS = {
-  BLOCKQUOTE: {
-    color: '#dadada',
-  },
   DIVIDER: {
     borderStyle: 'solid',
     borderWidth: '1px',

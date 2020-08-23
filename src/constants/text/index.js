@@ -140,7 +140,6 @@ exports.formatText = (fullText, options = {}) => {
             transformedParagraph = (
               <div
                 className={css.blockquote}
-                style={STYLES.SECTIONS.BLOCKQUOTE}
                 key={key}>
                 {applyEmphasisFormatting(text, css)}
               </div>
