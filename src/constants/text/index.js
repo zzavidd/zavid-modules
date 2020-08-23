@@ -1,5 +1,4 @@
 const React = require('react');
-const STYLES = require('./_styles');
 
 const {
   applyEmphasisFormatting,
@@ -68,7 +67,11 @@ exports.formatText = (fullText, options = {}) => {
             transformedParagraph = (
               <hr
                 className={css.divider}
-                style={STYLES.SECTIONS.DIVIDER}
+                style={{
+                  borderStyle: 'solid',
+                  borderWidth: '1px',
+                  margin: '2rem 0 1rem'
+                }}
                 key={key}
               />
             );
@@ -102,7 +105,6 @@ exports.formatText = (fullText, options = {}) => {
             transformedParagraph = (
               <div
                 className={css.listItem}
-                style={STYLES.SECTIONS.LIST_ITEM}
                 key={key}>
                 <span>-</span>
                 <span>{applyEmphasisFormatting(text, css)}</span>

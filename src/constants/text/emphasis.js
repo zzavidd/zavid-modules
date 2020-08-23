@@ -1,5 +1,4 @@
 const React = require('react');
-const STYLES = require('./_styles');
 const { EMPHASIS, emphasisRegexMapping } = require('./regex');
 
 /**
@@ -53,7 +52,7 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
         case EMPHASIS.UNDERLINE:
           const textToUnderline = this.applyEmphasisFormatting(matches[1]);
           transformation = (
-            <span key={key} style={STYLES.EMPHASIS.UNDERLINE}>
+            <span key={key} style={{ textDecoration: 'underline' }}>
               {textToUnderline}
             </span>
           );
