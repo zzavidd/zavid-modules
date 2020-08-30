@@ -3,6 +3,7 @@
  * Ordered chronologically.
  */
 exports.EMPHASIS = {
+  ESCAPE: 'escape',
   BOLD: 'bold',
   ITALIC: 'italic',
   BOLDITALIC: 'bold-italic',
@@ -36,6 +37,10 @@ exports.SECTIONS = {
  * Ordered in terms of power.
  */
 exports.emphasisRegexMapping = {
+  [this.EMPHASIS.ESCAPE]: {
+    pure: new RegExp(/\\(.*?)\\/),
+    split: new RegExp(/(\\.*?\\)/)
+  },
   [this.EMPHASIS.HYPERLINK]: {
     pure: new RegExp(/\[(.*?)\]\((.*?)\)/),
     split: new RegExp(/(\[.*?\]\(.*?\))/)
@@ -69,8 +74,8 @@ exports.emphasisRegexMapping = {
     split: new RegExp(/(\^{1}.*?\^{1})/)
   },
   [this.EMPHASIS.COLOR]: {
-    pure: new RegExp(/\<(\#[a-zA-Z0-9]{6})\>\{(.*?)\}/),
-    split: new RegExp(/(\<\#[a-zA-Z0-9]{6}\>\{.*?\})/)
+    pure: new RegExp(/\<(\#[a-fA-F0-9]{6})\>\{(.*?)\}/),
+    split: new RegExp(/(\<\#[a-fA-F0-9]{6}\>\{.*?\})/)
   }
 };
 
@@ -95,4 +100,5 @@ exports.sectionRegexMapping = {
   [this.SECTIONS.INSTAPOST]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i)
 };
 
+/** Regular expression for new lines except numbered lists. */
 exports.newLinesExceptNumberedListsRegex = new RegExp(/\n\n(?![0-9]+[\.\)])/);

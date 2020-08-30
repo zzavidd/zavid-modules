@@ -10,7 +10,7 @@ const { EMPHASIS, emphasisRegexMapping } = require('./regex');
 exports.applyEmphasisFormatting = (paragraph, css) => {
   if (!paragraph) return '';
 
-  // Combine all emphasis regular expressions for splitting
+  // Combine all emphasis regular expressions for splitting.
   const emphasisRegexList = Object.values(emphasisRegexMapping).map(
     (regex) => regex.split.source
   );
@@ -102,6 +102,9 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
                 {textToSub}
               </sub>
             );
+            break;
+          case EMPHASIS.ESCAPE:
+            transformation = matches[1];
             break;
           default:
             break;

@@ -20,9 +20,10 @@ const {
  * @returns {React.Component} The text with formatting applied.
  */
 exports.formatText = (fullText, options = {}) => {
+  if (!fullText) return '';
+  
   const { css = {}, inline = false, socialWrappers = {} } = options;
   const { Tweet, InstagramPost } = socialWrappers;
-  if (!fullText) return '';
 
   const formattedText = fullText
     .split(newLinesExceptNumberedListsRegex)
