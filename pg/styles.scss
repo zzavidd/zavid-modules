@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Mulish:400,700|Calistoga&display=swap');
+
 .body {
   background: #242424;
   padding: 2em 1em;
@@ -25,7 +27,12 @@
   }
 }
 
-.preview {
+.preview-heading {
+  font-family: 'Calistoga', cursive;
+  padding: 1em 0;
+}
+
+.preview-text {
   background: #0f0f0f;
   padding: 1em 2em;
 }

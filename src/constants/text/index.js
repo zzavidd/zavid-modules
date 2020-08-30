@@ -269,7 +269,7 @@ exports.applySubstitutions = (text, substitutions) => {
  * @param {number} [options.limit] - The number of words to be truncated to. Default value is 45.
  * @returns {string} The truncated text.
  */
-exports.truncateText = (originalText, options) => {
+exports.truncateText = (originalText, options = {}) => {
   if (!originalText) return '';
 
   const { limit = 45 } = options;

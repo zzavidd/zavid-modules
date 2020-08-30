@@ -31,14 +31,14 @@ exports.MONTHS = {
 /**
  * Convert date to full string e.g. Monday 1st January 2020
  * @param {(string|Date)} value - The date value to be converted.
- * @param {boolean} [withWeekday] - Option to include the day of the week.
+ * @param {boolean} [withWeekday] - DEPRECATED: Option to include the day of the week.
  * @param {object} [options] - Options for the function.
  * @param {boolean} [options.withYear] - Indicator to include the year. Defaults to true.
  * @returns {string} The full date string.
  */
 exports.formatDate = (value, withWeekday, options = {}) => {
   if (!value) return null;
-  // validateArgumentType(value, [TYPE.STRING, TYPE.DATE], 'Cannot format the date of an argument that is neither type String or Date.');
+  if (withWeekday) console.warn('Parameter "withWeekday" has been deprecated since 3.1.3.');
 
   const { withYear = true } = options;
 

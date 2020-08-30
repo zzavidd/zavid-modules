@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider, useSelector, useDispatch } from 'react-redux';
-import { createStore } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './lib/reducers';
 
-import storage from 'redux-persist/lib/storage';
-import reducers from './reducers.js';
 import zText from '../src/constants/text/index';
 
 import 'bootstrap/scss/bootstrap.scss';
@@ -39,12 +36,23 @@ const Home = () => {
             placeholder={'Type some text...'}
           />
         </div>
-        <div className={'preview'}>
-          <Paragraph>{text}</Paragraph>
+        <div>
+          <div>
+            <Title>Preview:</Title>
+            <Paragraph>{text}</Paragraph>
+          </div>
+          <div>
+            <Title>Truncated:</Title>
+            {zText.truncateText(text)}
+          </div>
         </div>
       </div>
     </Provider>
   );
+};
+
+export const Title = ({ children }) => {
+  return <div className={'preview-heading'}>{children}</div>;
 };
 
 export const Paragraph = ({ children, substitutions, truncate = 0 }) => {
@@ -56,19 +64,8 @@ export const Paragraph = ({ children, substitutions, truncate = 0 }) => {
     }
   });
 
-  return <pre>{text}</pre>;
+  return <pre className={'preview-text'}>{text}</pre>;
 };
-
-const store = createStore(
-  persistReducer(
-    {
-      key: 'root',
-      storage: storage
-    },
-    reducers
-  )
-);
-const persistor = persistStore(store);
 
 const App = () => {
   return (
