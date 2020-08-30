@@ -1,15 +1,23 @@
-/** A map of emphasis constants */
+/** 
+ * A map of emphasis constants.
+ * Ordered chronologically.
+ */
 exports.EMPHASIS = {
   BOLD: 'bold',
   ITALIC: 'italic',
-  BOLDITALIC: 'boldItalic',
+  BOLDITALIC: 'bold-italic',
   UNDERLINE: 'underline',
   STRIKETHROUGH: 'strikethrough',
   HYPERLINK: 'hyperlink',
-  COLOR: 'color'
+  COLOR: 'color',
+  SUPERSCRIPT: 'superscript',
+  SUBSCRIPT: 'subscript'
 };
 
-/** A map of section constants */
+/**
+ * A map of section constants.
+ * Ordered chronologically
+ */
 exports.SECTIONS = {
   HEADING: 'heading',
   SUBHEADING: 'subheading',
@@ -18,13 +26,20 @@ exports.SECTIONS = {
   BULLET_LIST: 'bullet',
   HYPHEN_LIST_ITEM: 'hyphen',
   NUMBERED_LIST: 'numbered',
-  BLOCKQUOTE: 'blockQuote',
+  BLOCKQUOTE: 'blockquote',
   TWEET: 'tweet',
-  INSTAPOST: 'instagramPost'
+  INSTAPOST: 'instagram-post'
 };
 
-/** The regex mapping for emphasis constants */
+/**
+ * The regex mapping for emphasis constants.
+ * Ordered in terms of power.
+ */
 exports.emphasisRegexMapping = {
+  [this.EMPHASIS.HYPERLINK]: {
+    pure: new RegExp(/\[(.*?)\]\((.*?)\)/),
+    split: new RegExp(/(\[.*?\]\(.*?\))/)
+  },
   [this.EMPHASIS.BOLDITALIC]: {
     pure: new RegExp(/\*{3}(.*?)\*{3}/),
     split: new RegExp(/(\*{3}.*?\*{3})/)
@@ -45,17 +60,24 @@ exports.emphasisRegexMapping = {
     pure: new RegExp(/\~(.*?)\~/),
     split: new RegExp(/(\~.*?\~)/)
   },
-  [this.EMPHASIS.HYPERLINK]: {
-    pure: new RegExp(/\[(.*?)\]\((.*?)\)/),
-    split: new RegExp(/(\[.*?\]\(.*?\))/)
+  [this.EMPHASIS.SUPERSCRIPT]: {
+    pure: new RegExp(/\^{2}(.*?)\^{2}/),
+    split: new RegExp(/(\^{2}.*?\^{2})/)
+  },
+  [this.EMPHASIS.SUBSCRIPT]: {
+    pure: new RegExp(/\^{1}(.*?)\^{1}/),
+    split: new RegExp(/(\^{1}.*?\^{1})/)
   },
   [this.EMPHASIS.COLOR]: {
-    pure: new RegExp(/\<(\#[a-zA-Z0-9]{6})\>\[(.*?)\]/),
-    split: new RegExp(/(\<\#[a-zA-Z0-9]{6}\>\[.*?\])/)
+    pure: new RegExp(/\<(\#[a-zA-Z0-9]{6})\>\{(.*?)\}/),
+    split: new RegExp(/(\<\#[a-zA-Z0-9]{6}\>\{.*?\})/)
   }
 };
 
-/** The regex mapping for section constants */
+/**
+ * The regex mapping for section constants.
+ * Ordered in terms of power.
+ */
 exports.sectionRegexMapping = {
   [this.SECTIONS.HEADING]: new RegExp(/^\#\s(.*?)$/),
   [this.SECTIONS.SUBHEADING]: new RegExp(/^\#{2}\s(.*?)$/),

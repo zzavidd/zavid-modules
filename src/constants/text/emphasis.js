@@ -32,60 +32,82 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
       const [emphasis, { pure: regex }] = foundEmphasis;
       const matches = fragment.match(regex);
 
-      switch (emphasis) {
-        case EMPHASIS.BOLDITALIC:
-          const textToBoldItalize = this.applyEmphasisFormatting(matches[1]);
-          transformation = (
-            <strong key={key}>
-              <em>{textToBoldItalize}</em>
-            </strong>
-          );
-          break;
-        case EMPHASIS.ITALIC:
-          const textToItalize = this.applyEmphasisFormatting(matches[1]);
-          transformation = <em key={key}>{textToItalize}</em>;
-          break;
-        case EMPHASIS.BOLD:
-          const textToBold = this.applyEmphasisFormatting(matches[1]);
-          transformation = <strong key={key}>{textToBold}</strong>;
-          break;
-        case EMPHASIS.UNDERLINE:
-          const textToUnderline = this.applyEmphasisFormatting(matches[1]);
-          transformation = (
-            <span key={key} style={{ textDecoration: 'underline' }}>
-              {textToUnderline}
-            </span>
-          );
-          break;
-        case EMPHASIS.STRIKETHROUGH:
-          const textToStrikethrough = this.applyEmphasisFormatting(matches[1]);
-          transformation = <del key={key}>{textToStrikethrough}</del>;
-          break;
-        case EMPHASIS.HYPERLINK:
-          const textToHyperlink = this.applyEmphasisFormatting(matches[1]);
-          const link = matches[2];
-          transformation = (
-            <a
-              target={'_blank'}
-              rel={'noopener noreferrer'}
-              href={link}
-              key={key}
-              className={css.hyperlink}>
-              {textToHyperlink}
-            </a>
-          );
-          break;
-        case EMPHASIS.COLOR:
-          const color = matches[1];
-          const textToColor = this.applyEmphasisFormatting(matches[2]);
-          transformation = (
-            <span style={{ color }} key={key}>
-              {textToColor}
-            </span>
-          );
-          break;
-        default:
-          break;
+      try {
+        switch (emphasis) {
+          case EMPHASIS.BOLDITALIC:
+            const textToBoldItalize = this.applyEmphasisFormatting(matches[1]);
+            transformation = (
+              <strong key={key}>
+                <em>{textToBoldItalize}</em>
+              </strong>
+            );
+            break;
+          case EMPHASIS.ITALIC:
+            const textToItalize = this.applyEmphasisFormatting(matches[1]);
+            transformation = <em key={key}>{textToItalize}</em>;
+            break;
+          case EMPHASIS.BOLD:
+            const textToBold = this.applyEmphasisFormatting(matches[1]);
+            transformation = <strong key={key}>{textToBold}</strong>;
+            break;
+          case EMPHASIS.UNDERLINE:
+            const textToUnderline = this.applyEmphasisFormatting(matches[1]);
+            transformation = (
+              <span key={key} style={{ textDecoration: 'underline' }}>
+                {textToUnderline}
+              </span>
+            );
+            break;
+          case EMPHASIS.STRIKETHROUGH:
+            const textToStrikethrough = this.applyEmphasisFormatting(
+              matches[1]
+            );
+            transformation = <del key={key}>{textToStrikethrough}</del>;
+            break;
+          case EMPHASIS.HYPERLINK:
+            const textToHyperlink = this.applyEmphasisFormatting(matches[1]);
+            const link = matches[2];
+            transformation = (
+              <a
+                target={'_blank'}
+                rel={'noopener noreferrer'}
+                href={link}
+                key={key}
+                className={css['hyperlink']}>
+                {textToHyperlink}
+              </a>
+            );
+            break;
+          case EMPHASIS.COLOR:
+            const color = matches[1];
+            const textToColor = this.applyEmphasisFormatting(matches[2]);
+            transformation = (
+              <span style={{ color }} key={key}>
+                {textToColor}
+              </span>
+            );
+            break;
+          case EMPHASIS.SUPERSCRIPT:
+            const textToSuper = this.applyEmphasisFormatting(matches[1]);
+            transformation = (
+              <sup key={key} className={css['superscript']}>
+                {textToSuper}
+              </sup>
+            );
+            break;
+          case EMPHASIS.SUBSCRIPT:
+            const textToSub = this.applyEmphasisFormatting(matches[1]);
+            transformation = (
+              <sub key={key} className={css['subscript']}>
+                {textToSub}
+              </sub>
+            );
+            break;
+          default:
+            break;
+        }
+      } catch (e) {
+        console.error(e);
       }
     }
 

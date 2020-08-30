@@ -4,7 +4,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './lib/reducers';
 
-import zText from '../src/constants/text/index';
+import zText from '../src/constants/text';
 
 import 'bootstrap/scss/bootstrap.scss';
 import './styles.scss';
@@ -40,10 +40,6 @@ const Home = () => {
           <div>
             <Title>Preview:</Title>
             <Paragraph>{text}</Paragraph>
-          </div>
-          <div>
-            <Title>Truncated:</Title>
-            {zText.truncateText(text)}
           </div>
         </div>
       </div>
