@@ -4,38 +4,44 @@ const zString = require('../src/constants/string.js');
 describe('String functions', function () {
   const list = ['Abuja', 'Edo', 'Kaduna'];
 
-  it('Punctuate list with default conjunction ', function () {
-    const punctuatedList = zString.toPunctuatedList(list);
-    assert.equal(punctuatedList, 'Abuja, Edo & Kaduna');
-  });
+  it('Punctuate list ', function () {
+    const defaultConjunction = zString.toPunctuatedList(list);
+    assert.equal(defaultConjunction, 'Abuja, Edo & Kaduna');
 
-  it('Punctuate list with custom conjunction', function () {
-    const punctuatedListAnd = zString.toPunctuatedList(list, 'and');
-    assert.equal(punctuatedListAnd, 'Abuja, Edo and Kaduna');
+    const customConjunction = zString.toPunctuatedList(list, 'and');
+    assert.equal(customConjunction, 'Abuja, Edo and Kaduna');
   });
 
   it('Create a clean slug', function () {
-    const firstTitle = 'Olaoluwa and Joseph';
-    const secondTitle = 'from a town in Lagos';
-    const expectedOutput = 'olaoluwa-joseph-from-town-in-lagos';
-    assert.equal(zString.constructCleanSlug(firstTitle, secondTitle), expectedOutput);
+    const title1 = 'Olaoluwa and Joseph';
+    const title2 = 'from a town in Lagos';
+    let expected = 'olaoluwa-joseph-from-town-in-lagos';
+    assert.equal(zString.constructCleanSlug(title1, title2), expected);
+
+    const title3 = 'A Letter To Chidera';
+    expected = 'letter-to-chidera';
+    assert.equal(zString.constructCleanSlug(title3), expected);
+
+    const title4 = 'Men Are Trash...Sigh';
+    expected = 'men-are-trash-sigh';
+    assert.equal(zString.constructCleanSlug(title4), expected);
   });
 
   it('Construct a simple slug from a name', function () {
     const name = 'Chyna Anne-McClain';
-    const expectedOutput = 'chynaam';
-    assert.equal(zString.constructSimpleNameSlug(name), expectedOutput);
+    const expected = 'chynaam';
+    assert.equal(zString.constructSimpleNameSlug(name), expected);
   });
 
   it('Transform comma-separated list into array', function () {
     const list = 'woke, black women, nice, ';
-    const expectedOutput = ['woke', 'black women', 'nice'];
-    assert.deepEqual(zString.convertCsvToArray(list), expectedOutput);
+    const expected = ['woke', 'black women', 'nice'];
+    assert.deepEqual(zString.convertCsvToArray(list), expected);
   });
 
   it('Transform array of strings into comma-separated list', function () {
     const list = ['array', 'of', 'strings', ''];
-    const expectedOutput = 'array, of, strings';
-    assert.equal(zString.convertArrayToCsv(list), expectedOutput);
+    const expected = 'array, of, strings';
+    assert.equal(zString.convertArrayToCsv(list), expected);
   });
 });

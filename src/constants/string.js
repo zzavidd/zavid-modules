@@ -54,8 +54,9 @@ exports.constructCleanSlug = (...input) => {
   return input
     .join(' ')
     .toLowerCase() // Turn to lowercase
-    .replace(/[^a-zA-Z 0-9]+/g, '') // Remove all non-alphanumeric characters
+    .replace(/[^a-zA-Z 0-9]+/g, ' ') // Remove all non-alphanumeric characters
     .replace(/\b(a|an|and|the|but|or|so)\b/g, '') // Remove stopwords
+    .trim() // Trim remnant whitespace
     .replace(/\s+/g, '-'); // Replace spaces with dashes
 };
 
