@@ -25,6 +25,10 @@ describe('String functions', function () {
     const title4 = 'Men Are Trash...Sigh';
     expected = 'men-are-trash-sigh';
     assert.equal(zString.constructCleanSlug(title4), expected);
+
+    const title5 = 'Renée Ake Okpo';
+    expected = 'renee-ake-okpo';
+    assert.equal(zString.constructCleanSlug(title5), expected);
   });
 
   it('Construct a simple slug from a name', function () {
