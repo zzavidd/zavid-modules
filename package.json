@@ -6,9 +6,9 @@
   "scripts": {
     "build": "webpack --mode production --config-name battlefield",
     "dev": "webpack --mode development --config-name battlefield",
-    "dev-server": "webpack-dev-server --config-name playground",
+    "dev:server": "webpack-dev-server --config-name playground",
     "release": "npm run build && np --no-release-draft",
-    "release-only": "np --no-release-draft",
+    "release:only": "np --no-release-draft",
     "test": "mocha --no-timeout",
     "lint": "eslint --ignore-path .gitignore \"**/*.js\"",
     "prettify": "prettier --ignore-path .gitignore --write \"**/*.js\""

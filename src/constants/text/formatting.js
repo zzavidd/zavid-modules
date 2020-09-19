@@ -289,6 +289,6 @@ exports.truncateText = (originalText, options = {}) => {
 exports.extractExcerpt = (originalText) => {
   if (!originalText) return '';
   const deformattedText = this.deformatText(originalText);
-  const excerpt = deformattedText.split('\n').filter((e) => e != null)[0];
+  const [excerpt] = deformattedText.split(/\n|\s{2,}/).filter((e) => e);
   return excerpt;
 };
