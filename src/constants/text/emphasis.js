@@ -138,17 +138,62 @@ exports.removeEmphasisFormatting = (paragraph) => {
   });
   const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
+  const deformattedParagraph = paragraph
+    .split(combinedEmphasisRegex)
+    .map((fragment) => {
+      let transformation = fragment;
+
+      // Find and replace all fragments with components.
+      const foundEmphasis = Object.entries(
+        emphasisRegexMapping
+      ).find(([, regex]) => regex.pure.test(fragment));
+
+      if (foundEmphasis) {
+        const [emphasis, { pure: regex }] = foundEmphasis;
+        const matches = fragment.match(regex);
+
+        try {
+          switch (emphasis) {
+            case EMPHASIS.BOLDITALIC:
+            case EMPHASIS.ITALIC:
+            case EMPHASIS.BOLD:
+            case EMPHASIS.UNDERLINE:
+            case EMPHASIS.STRIKETHROUGH:
+            case EMPHASIS.HYPERLINK:
+            case EMPHASIS.SUPERSCRIPT:
+            case EMPHASIS.SUBSCRIPT:
+            case EMPHASIS.ESCAPE:
+              transformation = matches[1];
+              break;
+            case EMPHASIS.COLOR:
+              transformation = matches[2];
+              break;
+            default:
+              break;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      return transformation;
+    })
+    .filter((e) => e)
+    .join(' ')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s\./g, '.')
+    .replace(/\s+\,/g, ',');
+
   // 1. Split by regex and replace with deformatted values.
   // 2. Remove blank values.
   // 3. Join separate text by whitespace.
   // 4. Remove unnecessary whitespace characters.
   // 5. Remove whitespace before commas.
-  const deformattedParagraph = paragraph
-    .split(combinedEmphasisRegex)
-    .filter((e) => e)
-    .join(' ')
-    .replace(/\s{2,}/g, ' ')
-    .replace(/\s+\,/g, ',');
+  // const deformattedParagraph = paragraph
+  //   .split(combinedEmphasisRegex)
+  //   .filter((e) => e)
+  //   .join(' ')
+  //   .replace(/\s{2,}/g, ' ')
+  //   .replace(/\s+\,/g, ',');
 
   return deformattedParagraph;
 };

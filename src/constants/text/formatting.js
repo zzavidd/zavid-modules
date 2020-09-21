@@ -21,7 +21,7 @@ const {
  */
 exports.formatText = (fullText, options = {}) => {
   if (!fullText) return '';
-  
+
   const { css = {}, inline = false, socialWrappers = {} } = options;
   const { Tweet, InstagramPost } = socialWrappers;
 
@@ -104,9 +104,7 @@ exports.formatText = (fullText, options = {}) => {
             break;
           case SECTIONS.HYPHEN_LIST_ITEM:
             transformedParagraph = (
-              <div
-                className={css['listItem']}
-                key={key}>
+              <div className={css['listItem']} key={key}>
                 <span>-</span>
                 <span>{applyEmphasisFormatting(text, css)}</span>
               </div>
@@ -141,9 +139,7 @@ exports.formatText = (fullText, options = {}) => {
             break;
           case SECTIONS.BLOCKQUOTE:
             transformedParagraph = (
-              <div
-                className={css['blockquote']}
-                key={key}>
+              <div className={css['blockquote']} key={key}>
                 {applyEmphasisFormatting(text, css)}
               </div>
             );
@@ -190,8 +186,10 @@ exports.formatText = (fullText, options = {}) => {
  * @param {string} fullText - The original text with formatting.
  * @returns {string} The new text void of all formatting.
  */
-exports.deformatText = (fullText) => {
+exports.deformatText = (fullText, options = {}) => {
   if (!fullText) return '';
+
+  const { joinDelimiter = ' ' } = options;
 
   const deformattedText = fullText
     .split('\n')
@@ -242,7 +240,7 @@ exports.deformatText = (fullText) => {
 
       return detransformedParagraph;
     })
-    .join(' ');
+    .join(joinDelimiter);
 
   return deformattedText;
 };
