@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 const textReducer = (state = '', { type, payload }) => {
   switch (type) {
     case 'SET_TEXT':
-      return payload || state;
+      return payload || '';
     default:
       return state;
   }
