@@ -160,6 +160,30 @@ exports.formatText = (fullText, options = {}) => {
               transformedParagraph = null;
             }
             break;
+          case SECTIONS.SPOTIFY:
+            const spotifyUrl = paragraph.match(regex)[1];
+            transformedParagraph = (
+              <iframe
+                src={spotifyUrl}
+                height={'400'}
+                width={'100%'}
+                frameBorder={'0'}
+                allowtransparency={'true'}
+                allow={'encrypted-media'}
+              />
+            );
+            break;
+          case SECTIONS.SOUNDCLOUD:
+            const soundcloudUrl = paragraph.match(regex)[1];
+            transformedParagraph = (
+              <iframe
+                width={'100%'}
+                height={'300'}
+                scrolling={'no'}
+                frameBorder={'no'}
+                src={`https://w.soundcloud.com/player/?url=${soundcloudUrl}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true`}></iframe>
+            );
+            break;
           default:
             break;
         }

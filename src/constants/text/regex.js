@@ -29,7 +29,9 @@ exports.SECTIONS = {
   NUMBERED_LIST: 'numbered',
   BLOCKQUOTE: 'blockquote',
   TWEET: 'tweet',
-  INSTAPOST: 'instagram-post'
+  INSTAPOST: 'instagram-post',
+  SPOTIFY: 'spotify-track',
+  SOUNDCLOUD: 'soundcloud-track'
 };
 
 /**
@@ -97,7 +99,9 @@ exports.sectionRegexMapping = {
   ),
   [this.SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
   [this.SECTIONS.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i),
-  [this.SECTIONS.INSTAPOST]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i)
+  [this.SECTIONS.INSTAPOST]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i),
+  [this.SECTIONS.SPOTIFY]: new RegExp(/^\!\{Spotify\}\((.*?)\)$/i),
+  [this.SECTIONS.SOUNDCLOUD]: new RegExp(/^\!\{Soundcloud\}\((.*?)\)$/i),
 };
 
 /** Regular expression for new lines except numbered lists. */

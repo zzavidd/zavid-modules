@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import InstagramEmbed from 'react-instagram-embed';
 import { Provider, useSelector, useDispatch } from 'react-redux';
+import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './lib/reducers';
 
@@ -57,10 +59,22 @@ export const Paragraph = ({ children, substitutions, truncate = 0 }) => {
   text = zText.formatText(text, {
     css: {
       paragraph: 'paragraph'
+    },
+    socialWrappers: {
+      Tweet: ({ id }) => {
+        return <TwitterTweetEmbed tweetId={id} />;
+      },
+      InstagramPost: ({ url }) => {
+        return <InstagramEmbed url={url} maxWidth={500} />;
+      }
     }
   });
 
-  return <pre className={'preview-text'}>{text}</pre>;
+  return (
+    <pre className={'preview-text'}>
+      {text}
+    </pre>
+  );
 };
 
 const App = () => {
