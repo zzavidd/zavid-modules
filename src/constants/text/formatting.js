@@ -152,7 +152,7 @@ exports.formatText = (fullText, options = {}) => {
               const url = `https://www.twitter.com/zzavidd/status/${tweetId}`;
               transformedParagraph = (
                 <div className={css['twitter-button']} key={key}>
-                  <a href={url}>{url}</a>
+                  <a href={url}>View Tweet</a>
                 </div>
               );
             }
@@ -164,7 +164,7 @@ exports.formatText = (fullText, options = {}) => {
             } else {
               transformedParagraph = (
                 <div className={css['instagram-button']} key={key}>
-                  <a href={igUrl}>{url}</a>
+                  <a href={igUrl}>View Instagram Post</a>
                 </div>
               );
             }
