@@ -145,19 +145,28 @@ exports.formatText = (fullText, options = {}) => {
             );
             break;
           case SECTIONS.TWEET:
+            const tweetId = paragraph.match(regex)[1];
             if (Tweet) {
-              const id = paragraph.match(regex)[1];
-              transformedParagraph = <Tweet id={id} key={key} />;
+              transformedParagraph = <Tweet id={tweetId} key={key} />;
             } else {
-              transformedParagraph = null;
+              const url = `https://www.twitter.com/zzavidd/status/${tweetId}`;
+              transformedParagraph = (
+                <div className={css['twitter-button']} key={key}>
+                  <a href={url}>{url}</a>
+                </div>
+              );
             }
             break;
-          case SECTIONS.INSTAPOST:
+          case SECTIONS.INSTAGRAM:
+            const igUrl = paragraph.match(regex)[1];
             if (InstagramPost) {
-              const url = paragraph.match(regex)[1];
-              transformedParagraph = <InstagramPost url={url} key={key} />;
+              transformedParagraph = <InstagramPost url={igUrl} key={key} />;
             } else {
-              transformedParagraph = null;
+              transformedParagraph = (
+                <div className={css['instagram-button']} key={key}>
+                  <a href={igUrl}>{url}</a>
+                </div>
+              );
             }
             break;
           case SECTIONS.SPOTIFY:
@@ -250,6 +259,9 @@ exports.deformatText = (fullText, options = {}) => {
           case SECTIONS.IMAGE:
           case SECTIONS.DIVIDER:
           case SECTIONS.TWEET:
+          case SECTIONS.INSTAGRAM:
+          case SECTIONS.SPOTIFY:
+          case SECTIONS.SOUNDCLOUD:
             detransformedParagraph = null;
             break;
           case SECTIONS.BLOCKQUOTE:
