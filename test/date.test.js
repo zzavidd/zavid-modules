@@ -11,7 +11,7 @@ describe('Date functions', function () {
   });
 
   it('Format full date with day of week', function () {
-    const fullDate = zDate.formatDate(datetime, true);
+    const fullDate = zDate.formatDate(datetime, { withWeekday: true });
     assert.equal(fullDate, 'Monday 2nd December 1996');
   });
 
@@ -21,8 +21,8 @@ describe('Date functions', function () {
   });
 
   it('Format to full date and time', function () {
-    const fullDateTimeAM = zDate.formatDateTime(datetime, false);
-    const fullDateTimePM = zDate.formatDateTime(datetimePM, false);
+    const fullDateTimeAM = zDate.formatDateTime(datetime);
+    const fullDateTimePM = zDate.formatDateTime(datetimePM);
     assert.equal(fullDateTimeAM, '01:00, 2nd December 1996');
     assert.equal(fullDateTimePM, '23:59, 2nd December 1996');
   });

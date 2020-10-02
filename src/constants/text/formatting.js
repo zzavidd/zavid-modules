@@ -162,6 +162,7 @@ exports.formatText = (fullText, options = {}) => {
             if (InstagramPost) {
               transformedParagraph = <InstagramPost url={igUrl} key={key} />;
             } else {
+              // TODO: Link open new tab
               transformedParagraph = (
                 <div className={css['instagram-button']} key={key}>
                   <a href={igUrl}>View Instagram Post</a>
