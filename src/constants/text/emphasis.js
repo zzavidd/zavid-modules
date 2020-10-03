@@ -69,7 +69,6 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
             const link = matches[2];
             transformation = (
               <a
-                target={'_blank'}
                 rel={'noopener noreferrer'}
                 href={link}
                 key={key}

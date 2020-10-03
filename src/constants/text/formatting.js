@@ -152,7 +152,9 @@ exports.formatText = (fullText, options = {}) => {
               const url = `https://www.twitter.com/zzavidd/status/${tweetId}`;
               transformedParagraph = (
                 <div className={css['twitter-button']} key={key}>
-                  <a href={url}>View Tweet</a>
+                  <a href={url} rel={'noopener noreferrer'}>
+                    View Tweet
+                  </a>
                 </div>
               );
             }
@@ -162,10 +164,11 @@ exports.formatText = (fullText, options = {}) => {
             if (InstagramPost) {
               transformedParagraph = <InstagramPost url={igUrl} key={key} />;
             } else {
-              // TODO: Link open new tab
               transformedParagraph = (
                 <div className={css['instagram-button']} key={key}>
-                  <a href={igUrl}>View Instagram Post</a>
+                  <a href={igUrl} rel={'noopener noreferrer'}>
+                    View Instagram Post
+                  </a>
                 </div>
               );
             }
