@@ -118,7 +118,7 @@ exports.formatText = (fullText, options = {}) => {
               .split('\n')
               .filter((e) => e)
               .map((item, key) => {
-                const [, value] = item.match(/^[0-9]+[\.\)]\s*(.*)$/);
+                const [, value] = item.match(/^(?:[0-9]+[\.\)]|\+)\s*(.*)$/);
                 return (
                   <li
                     style={{

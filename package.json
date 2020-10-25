@@ -5,8 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "build": "webpack --mode production --config-name battlefield",
-    "dev": "webpack --mode development --config-name battlefield",
-    "dev:server": "webpack-dev-server --config-name playground",
+    "dev": "webpack-dev-server --config-name playground",
     "release": "npm run build && np --no-release-draft",
     "release:only": "np --no-release-draft",
     "test": "mocha --no-timeout",

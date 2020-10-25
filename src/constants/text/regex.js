@@ -95,7 +95,7 @@ exports.sectionRegexMapping = {
   ),
   [this.SECTIONS.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s*(.*?)$/),
   [this.SECTIONS.NUMBERED_LIST]: new RegExp(
-    /\:\:ol(b)?\n((?:[0-9]+[\.\)]\s*.*\n+)*)\:\:end/
+    /\:\:ol(b)?\n((?:(?:[0-9]+[\.\)]|\+)\s*.*\n+)*)\:\:end/
   ),
   [this.SECTIONS.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
   [this.SECTIONS.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i),
