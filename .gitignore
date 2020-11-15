@@ -1,5 +1,4 @@
 dist
 node_modules
 .vscode
-link-*.sh
-memory.txt
+config.env

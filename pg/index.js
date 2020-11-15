@@ -1,6 +1,6 @@
+import InstagramEmbed from '@aarnila/react-instagram-embed';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import InstagramEmbed from 'react-instagram-embed';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -65,16 +65,19 @@ export const Paragraph = ({ children, substitutions, truncate = 0 }) => {
         return <TwitterTweetEmbed tweetId={id} />;
       },
       InstagramPost: ({ url }) => {
-        return <InstagramEmbed url={url} maxWidth={500} />;
+        const accessToken = `${process.env.FB_APP_ID}|${process.env.FB_APP_CLIENT}`
+        return (
+          <InstagramEmbed
+            url={url}
+            accessToken={accessToken}
+            maxWidth={500}
+          />
+        );
       }
     }
   });
 
-  return (
-    <pre className={'preview-text'}>
-      {text}
-    </pre>
-  );
+  return <pre className={'preview-text'}>{text}</pre>;
 };
 
 const App = () => {
