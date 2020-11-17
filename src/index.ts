@@ -3,7 +3,7 @@ import * as zNumber from './constants/number';
 import * as zString from './constants/string';
 import * as zText from './constants/text';
 
-export default {
+export = {
   zDate,
   zNumber,
   zString,
