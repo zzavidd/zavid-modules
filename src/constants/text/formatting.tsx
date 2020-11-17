@@ -1,34 +1,27 @@
-const React = require('react');
+import React from 'react';
+import { applyEmphasisFormatting, removeEmphasisFormatting } from './emphasis';
+import {
+  FormatCSS,
+  FormatCSSImage,
+  newLinesExceptNumberedListsRegex,
+  SECTION,
+  sectionRegexMapping
+} from './regex';
 
-const {
-  applyEmphasisFormatting,
-  removeEmphasisFormatting
-} = require('./emphasis');
-const {
-  SECTIONS,
-  sectionRegexMapping,
-  newLinesExceptNumberedListsRegex
-} = require('./regex');
+export const formatText = (fullText: string, options: FormatOptions = {}) => {
+  if (!fullText) return null;
 
-/**
- * Apply markdown-like formatting to a piece of text.
- * @param {string} fullText - The text to which hierarchical formatting will be applied.
- * @param {object} options - A map of options to be applied.
- * @param {object} [options.css] - The CSS styling for the emphasis.
- * @param {boolean} [options.inline] - Whether the component will be inline.
- * @param {object} [options.socialWrappers] - Contains a map of the components for social media embeds.
- * @returns {React.Component} The text with formatting applied.
- */
-exports.formatText = (fullText, options = {}) => {
-  if (!fullText) return '';
-
-  const { css = {}, inline = false, socialWrappers = {} } = options;
+  const {
+    css = {} as FormatCSS,
+    inline = false,
+    socialWrappers = {}
+  } = options;
   const { Tweet, InstagramPost } = socialWrappers;
 
   const formattedText = fullText
     .split(newLinesExceptNumberedListsRegex)
     .map((paragraph, key) => {
-      if (!paragraph) return null;
+      if (!paragraph) return '';
 
       let transformedParagraph;
 
@@ -38,26 +31,26 @@ exports.formatText = (fullText, options = {}) => {
 
       if (foundSection) {
         const [section, regex] = foundSection;
-        const [, text] = paragraph.match(regex);
+        const [, text] = paragraph.match(regex)!;
 
         switch (section) {
-          case SECTIONS.HEADING:
+          case SECTION.HEADING:
             transformedParagraph = (
               <h1 className={css['heading']} key={key}>
                 {text}
               </h1>
             );
             break;
-          case SECTIONS.SUBHEADING:
+          case SECTION.SUBHEADING:
             transformedParagraph = (
               <h2 className={css['subheading']} key={key}>
                 {text}
               </h2>
             );
             break;
-          case SECTIONS.IMAGE:
-            const [, alt, src, isFloat] = paragraph.match(regex);
-            const { float, full } = css['image'] || {};
+          case SECTION.IMAGE:
+            const [, alt, src, isFloat] = paragraph.match(regex)!;
+            const { float, full } = (css['image'] as FormatCSSImage) || {};
             const className = isFloat ? float : full;
             transformedParagraph = (
               <div className={className} key={key}>
@@ -65,7 +58,7 @@ exports.formatText = (fullText, options = {}) => {
               </div>
             );
             break;
-          case SECTIONS.DIVIDER:
+          case SECTION.DIVIDER:
             transformedParagraph = (
               <hr
                 className={css['divider']}
@@ -78,13 +71,13 @@ exports.formatText = (fullText, options = {}) => {
               />
             );
             break;
-          case SECTIONS.BULLET_LIST:
-            const [, isSpacedBulletBlock, bulletList] = paragraph.match(regex);
+          case SECTION.BULLET_LIST:
+            const [, isSpacedBulletBlock, bulletList] = paragraph.match(regex)!;
             const bulletListItems = bulletList
               .split('\n')
               .filter((e) => e)
               .map((item, key) => {
-                const [, value] = item.match(/^\+\s*(.*)$/);
+                const [, value] = item.match(/^\+\s*(.*)$/)!;
                 return (
                   <li
                     style={{
@@ -103,23 +96,23 @@ exports.formatText = (fullText, options = {}) => {
               </ul>
             );
             break;
-          case SECTIONS.HYPHEN_LIST_ITEM:
+          case SECTION.HYPHEN_LIST_ITEM:
             transformedParagraph = (
-              <div className={css['listItem']} key={key}>
+              <div className={css['list-item']} key={key}>
                 <span>-</span>
                 <span>{applyEmphasisFormatting(text, css)}</span>
               </div>
             );
             break;
-          case SECTIONS.NUMBERED_LIST:
+          case SECTION.NUMBERED_LIST:
             const [, isSpacedNumberedBlock, numberedList] = paragraph.match(
               regex
-            );
+            )!;
             const numberedListItems = numberedList
               .split('\n')
               .filter((e) => e)
               .map((item, key) => {
-                const [, value] = item.match(/^(?:[0-9]+[\.\)]|\+)\s*(.*)$/);
+                const [, value] = item.match(/^(?:[0-9]+[\.\)]|\+)\s*(.*)$/)!;
                 return (
                   <li
                     style={{
@@ -138,15 +131,15 @@ exports.formatText = (fullText, options = {}) => {
               </ol>
             );
             break;
-          case SECTIONS.BLOCKQUOTE:
+          case SECTION.BLOCKQUOTE:
             transformedParagraph = (
               <div className={css['blockquote']} key={key}>
                 {applyEmphasisFormatting(text, css)}
               </div>
             );
             break;
-          case SECTIONS.TWEET:
-            const tweetId = paragraph.match(regex)[1];
+          case SECTION.TWEET:
+            const tweetId = paragraph.match(regex)![1];
             if (Tweet) {
               transformedParagraph = <Tweet id={tweetId} key={key} />;
             } else {
@@ -160,8 +153,8 @@ exports.formatText = (fullText, options = {}) => {
               );
             }
             break;
-          case SECTIONS.INSTAGRAM:
-            const igUrl = paragraph.match(regex)[1];
+          case SECTION.INSTAGRAM:
+            const igUrl = paragraph.match(regex)![1];
             if (InstagramPost) {
               transformedParagraph = <InstagramPost url={igUrl} key={key} />;
             } else {
@@ -174,21 +167,20 @@ exports.formatText = (fullText, options = {}) => {
               );
             }
             break;
-          case SECTIONS.SPOTIFY:
-            const spotifyUrl = paragraph.match(regex)[1];
+          case SECTION.SPOTIFY:
+            const spotifyUrl = paragraph.match(regex)![1];
             transformedParagraph = (
               <iframe
                 src={spotifyUrl}
                 height={'400'}
                 width={'100%'}
                 frameBorder={'0'}
-                allowtransparency={'true'}
                 allow={'encrypted-media'}
               />
             );
             break;
-          case SECTIONS.SOUNDCLOUD:
-            const soundcloudUrl = paragraph.match(regex)[1];
+          case SECTION.SOUNDCLOUD:
+            const soundcloudUrl = paragraph.match(regex)![1];
             transformedParagraph = (
               <iframe
                 width={'100%'}
@@ -219,12 +211,10 @@ exports.formatText = (fullText, options = {}) => {
   return formattedText;
 };
 
-/**
- * Strip the formatting from a piece of text.
- * @param {string} fullText - The original text with formatting.
- * @returns {string} The new text void of all formatting.
- */
-exports.deformatText = (fullText, options = {}) => {
+export const deformatText = (
+  fullText: string,
+  options: DeformatOptions = {}
+) => {
   if (!fullText) return '';
 
   const { joinDelimiter = ' ' } = options;
@@ -235,7 +225,8 @@ exports.deformatText = (fullText, options = {}) => {
       if (!paragraph) return null;
 
       // Initialise with space separate paragraphs
-      let detransformedParagraph = index > 0 ? ' ' : '';
+      const init = index > 0 ? ' ' : '';
+      let detransformedParagraph: string | null = init;
 
       const foundSection = Object.entries(
         sectionRegexMapping
@@ -243,33 +234,33 @@ exports.deformatText = (fullText, options = {}) => {
 
       if (foundSection) {
         const [section, regex] = foundSection;
-        const [, text] = paragraph.match(regex);
+        const [, text] = paragraph.match(regex)!;
 
         switch (section) {
-          case SECTIONS.HEADING:
-          case SECTIONS.SUBHEADING:
-          case SECTIONS.BULLET_LIST:
+          case SECTION.HEADING:
+          case SECTION.SUBHEADING:
+          case SECTION.BULLET_LIST:
             detransformedParagraph += text
               .replace(/\:\:(?:ul(b)|end)/g, '')
               .trim();
             break;
-          case SECTIONS.HYPHEN_LIST_ITEM:
+          case SECTION.HYPHEN_LIST_ITEM:
             detransformedParagraph += text;
             break;
-          case SECTIONS.NUMBERED_LIST:
+          case SECTION.NUMBERED_LIST:
             detransformedParagraph += text
               .replace(/\:\:(?:ol(b)|end)/g, '')
               .trim();
             break;
-          case SECTIONS.IMAGE:
-          case SECTIONS.DIVIDER:
-          case SECTIONS.TWEET:
-          case SECTIONS.INSTAGRAM:
-          case SECTIONS.SPOTIFY:
-          case SECTIONS.SOUNDCLOUD:
+          case SECTION.IMAGE:
+          case SECTION.DIVIDER:
+          case SECTION.TWEET:
+          case SECTION.INSTAGRAM:
+          case SECTION.SPOTIFY:
+          case SECTION.SOUNDCLOUD:
             detransformedParagraph = null;
             break;
-          case SECTIONS.BLOCKQUOTE:
+          case SECTION.BLOCKQUOTE:
             detransformedParagraph += `"${removeEmphasisFormatting(text)}"`;
             break;
           default:
@@ -286,13 +277,10 @@ exports.deformatText = (fullText, options = {}) => {
   return deformattedText;
 };
 
-/**
- * Apply the variable substitutions to the text, swapping placeholders for dynamic values.
- * @param {string} text - The original text containing the variables to be substituted.
- * @param {object} substitutions - The mapping specifying the values to substitute the placeholder variables.
- * @returns {string} The full text with variables substitutions applied.
- */
-exports.applySubstitutions = (text, substitutions) => {
+export const applySubstitutions = (
+  text: string,
+  substitutions: Substitutions
+): string => {
   if (text) {
     const variableRegex = new RegExp(/\$\{(.*?)\}/g); // Regex for substitutions
     text = text.replace(variableRegex, (match, p1) => {
@@ -302,32 +290,46 @@ exports.applySubstitutions = (text, substitutions) => {
   return text;
 };
 
-/**
- * Truncate a piece of text to a certain number of words.
- * @param {string} originalText - The text to be truncated.
- * @param {object} [options] - The options for truncation.
- * @param {number} [options.limit] - The number of words to be truncated to. Default value is 45.
- * @returns {string} The truncated text.
- */
-exports.truncateText = (originalText, options = {}) => {
+export const truncateText = (
+  originalText: string,
+  options: TruncateOptions = {}
+): string => {
   if (!originalText) return '';
 
   const { limit = 45 } = options;
-  const deformattedText = this.deformatText(originalText);
+  const deformattedText = deformatText(originalText);
   const truncatedText = deformattedText.split(' ').slice(0, limit).join(' ');
   if (truncatedText.length <= limit) return originalText;
 
   return `${truncatedText}....`;
 };
 
-/**
- * Extract an excerpt, which is a single deformatted paragraph, of a piece of text.
- * @param {string} originalText - The original text.
- * @returns {string} The excerpt shown in previews.
- */
-exports.extractExcerpt = (originalText) => {
+export const extractExcerpt = (originalText: string): string => {
   if (!originalText) return '';
-  const deformattedText = this.deformatText(originalText);
+  const deformattedText = deformatText(originalText);
   const [excerpt] = deformattedText.split(/\n|\s{2,}/).filter((e) => e);
   return excerpt;
 };
+
+export interface FormatOptions {
+  css?: FormatCSS;
+  inline?: boolean;
+  socialWrappers?: SocialWrappers;
+}
+
+export interface DeformatOptions {
+  joinDelimiter?: string;
+}
+
+export interface TruncateOptions {
+  limit?: number;
+}
+
+interface SocialWrappers {
+  Tweet?: any;
+  InstagramPost?: any;
+}
+
+export interface Substitutions {
+  [key: string]: string;
+}

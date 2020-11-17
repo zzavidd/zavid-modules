@@ -1,8 +1,8 @@
-import { combineReducers, createStore } from 'redux';
+import { AnyAction, combineReducers, createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const textReducer = (state = '', { type, payload }) => {
+const textReducer = (state = '', { type, payload }: AnyAction): string => {
   switch (type) {
     case 'SET_TEXT':
       return payload || '';

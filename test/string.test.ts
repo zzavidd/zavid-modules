@@ -1,5 +1,5 @@
-const assert = require('chai').assert;
-const zString = require('../src/constants/string.js');
+import { assert } from 'chai';
+import * as zString from '../src/constants/string';
 
 describe('String functions', function () {
   const list = ['Abuja', 'Edo', 'Kaduna'];

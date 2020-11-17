@@ -1,18 +1,15 @@
-const React = require('react');
-const { EMPHASIS, emphasisRegexMapping } = require('./regex');
+import React from 'react';
+import { EMPHASIS, emphasisRegexMapping, EmphasisRegexValue, FormatCSS } from './regex';
 
-/**
- * Apply emphasis formatting to paragraph of text.
- * @param {string} paragraph - The text to which formatting needs to be applied.
- * @param {object} css - The CSS classes of styling.
- * @returns {React.Component} The formatted text as a component.
- */
-exports.applyEmphasisFormatting = (paragraph, css) => {
+export const applyEmphasisFormatting = (
+  paragraph: string,
+  css?: FormatCSS
+) => {
   if (!paragraph) return '';
 
   // Combine all emphasis regular expressions for splitting.
   const emphasisRegexList = Object.values(emphasisRegexMapping).map(
-    (regex) => regex.split.source
+    (regex: EmphasisRegexValue) => regex.split.source
   );
   const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
@@ -21,7 +18,7 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
     .split(combinedEmphasisRegex)
     .filter((e) => e != null);
   const formattedParagraph = fragments.map((fragment, key) => {
-    let transformation = fragment;
+    let transformation: string | JSX.Element = fragment;
 
     // Find and replace all fragments with components.
     const foundEmphasis = Object.entries(
@@ -35,7 +32,7 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
       try {
         switch (emphasis) {
           case EMPHASIS.BOLDITALIC:
-            const textToBoldItalize = this.applyEmphasisFormatting(matches[1]);
+            const textToBoldItalize = applyEmphasisFormatting(matches![1]);
             transformation = (
               <strong key={key}>
                 <em>{textToBoldItalize}</em>
@@ -43,15 +40,15 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
             );
             break;
           case EMPHASIS.ITALIC:
-            const textToItalize = this.applyEmphasisFormatting(matches[1]);
+            const textToItalize = applyEmphasisFormatting(matches![1]);
             transformation = <em key={key}>{textToItalize}</em>;
             break;
           case EMPHASIS.BOLD:
-            const textToBold = this.applyEmphasisFormatting(matches[1]);
+            const textToBold = applyEmphasisFormatting(matches![1]);
             transformation = <strong key={key}>{textToBold}</strong>;
             break;
           case EMPHASIS.UNDERLINE:
-            const textToUnderline = this.applyEmphasisFormatting(matches[1]);
+            const textToUnderline = applyEmphasisFormatting(matches![1]);
             transformation = (
               <span key={key} style={{ textDecoration: 'underline' }}>
                 {textToUnderline}
@@ -59,27 +56,27 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
             );
             break;
           case EMPHASIS.STRIKETHROUGH:
-            const textToStrikethrough = this.applyEmphasisFormatting(
-              matches[1]
+            const textToStrikethrough = applyEmphasisFormatting(
+              matches![1]
             );
             transformation = <del key={key}>{textToStrikethrough}</del>;
             break;
           case EMPHASIS.HYPERLINK:
-            const textToHyperlink = this.applyEmphasisFormatting(matches[1]);
-            const link = matches[2];
+            const textToHyperlink = applyEmphasisFormatting(matches![1]);
+            const link = matches![2];
             transformation = (
               <a
                 rel={'noopener noreferrer'}
                 href={link}
                 key={key}
-                className={css['hyperlink']}>
+                className={css!['hyperlink']}>
                 {textToHyperlink}
               </a>
             );
             break;
           case EMPHASIS.COLOR:
-            const color = matches[1];
-            const textToColor = this.applyEmphasisFormatting(matches[2]);
+            const color = matches![1];
+            const textToColor = applyEmphasisFormatting(matches![2]);
             transformation = (
               <span style={{ color }} key={key}>
                 {textToColor}
@@ -87,23 +84,23 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
             );
             break;
           case EMPHASIS.SUPERSCRIPT:
-            const textToSuper = this.applyEmphasisFormatting(matches[1]);
+            const textToSuper = applyEmphasisFormatting(matches![1]);
             transformation = (
-              <sup key={key} className={css['superscript']}>
+              <sup key={key} className={css!['superscript']}>
                 {textToSuper}
               </sup>
             );
             break;
           case EMPHASIS.SUBSCRIPT:
-            const textToSub = this.applyEmphasisFormatting(matches[1]);
+            const textToSub = applyEmphasisFormatting(matches![1]);
             transformation = (
-              <sub key={key} className={css['subscript']}>
+              <sub key={key} className={css!['subscript']}>
                 {textToSub}
               </sub>
             );
             break;
           case EMPHASIS.ESCAPE:
-            transformation = matches[1];
+            transformation = matches![1];
             break;
           default:
             break;
@@ -119,12 +116,7 @@ exports.applyEmphasisFormatting = (paragraph, css) => {
   return formattedParagraph;
 };
 
-/**
- * Strip emphasis formatting from paragraph of text.
- * @param {string} paragraph - The paragraph text to be deformatted.
- * @returns {string} The resulting deformatted text.
- */
-exports.removeEmphasisFormatting = (paragraph) => {
+export const removeEmphasisFormatting = (paragraph: string): string => {
   if (!paragraph) return '';
 
   // Combine all emphasis regular expressions for splitting.
@@ -162,10 +154,10 @@ exports.removeEmphasisFormatting = (paragraph) => {
             case EMPHASIS.SUPERSCRIPT:
             case EMPHASIS.SUBSCRIPT:
             case EMPHASIS.ESCAPE:
-              transformation = matches[1];
+              transformation = matches![1];
               break;
             case EMPHASIS.COLOR:
-              transformation = matches[2];
+              transformation = matches![2];
               break;
             default:
               break;

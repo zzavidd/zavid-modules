@@ -5,8 +5,8 @@ const path = require('path');
 
 module.exports = [
   {
-    name: 'battlefield',
-    entry: './src/index.js',
+    name: 'production',
+    entry: './src/index.ts',
     output: {
       path: path.join(__dirname, './dist'),
       filename: 'main.js',
@@ -17,7 +17,7 @@ module.exports = [
     module: {
       rules: [
         {
-          test: /\.m?js$/,
+          test: /\.js$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -25,13 +25,14 @@ module.exports = [
               presets: ['@babel/preset-env', '@babel/preset-react']
             }
           }
-        }
+        },
+        { test: /\.tsx?$/, loader: "ts-loader" },
       ]
     },
     target: 'node',
     plugins: [new CleanWebpackPlugin()],
     resolve: {
-      extensions: ['.js']
+      extensions: ['.tsx', '.ts', '.js']
     },
     stats: {
       entrypoints: false,
@@ -39,27 +40,26 @@ module.exports = [
     }
   },
   {
-    name: 'playground',
+    name: 'development',
     devServer: {
-      contentBase: path.join(__dirname, './pg'),
+      contentBase: path.join(__dirname, './app'),
       port: 9000
     },
-    entry: './pg/index.js',
-    output: {
-      path: path.join(__dirname, './dist'),
-      filename: 'index.js'
-    },
+    entry: './app/index.tsx',
+    devtool: "source-map",
     module: {
       rules: [
         {
-          test: /\.m?js$/,
+          test: /\.js$/,
           exclude: /node_modules/,
           use: 'babel-loader'
         },
         {
           test: /\.scss$/,
           use: ['style-loader', 'css-loader', 'sass-loader']
-        }
+        },
+        { test: /\.tsx?$/, loader: "ts-loader" },
+        { test: /\.js$/, loader: "source-map-loader" }
       ]
     },
     target: 'node',
@@ -67,12 +67,12 @@ module.exports = [
       new CleanWebpackPlugin(),
       new Dotenv({ path: './config.env' }),
       new HtmlWebPackPlugin({
-        template: path.resolve(__dirname, 'pg/index.html'),
+        template: path.resolve(__dirname, 'app/index.html'),
         filename: 'index.html'
       })
     ],
     resolve: {
-      extensions: ['.js']
+      extensions: ['.tsx', '.ts', '.js']
     }
   }
 ];

@@ -1,4 +1,7 @@
-module.exports = require('./formatting');
+import zTextBuilder from './builder';
+
+export * as zText from './formatting';
+export * as zTextBuilder from './builder';
 
 /**
  * GUIDE TO ADDING NEW FORMAT FEATURES:
@@ -12,11 +15,11 @@ module.exports = require('./formatting');
  * the emphasis or section regex map.
  * 
  * #3: Define the resulting substitution.
- * For emphasis, {@see this.formatText}
- * For section, {@see this.applyEmphasisFormatting}
+ * For emphasis, {@see formatText}
+ * For section, {@see applyEmphasisFormatting}
  * 
  * #4. (Sections only) Define deformatting for
- * emphasis substitutions. {@see this.deformatText}
+ * emphasis substitutions. {@see deformatText}
  */
 
  /**

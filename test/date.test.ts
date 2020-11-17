@@ -1,5 +1,5 @@
-const assert = require('chai').assert;
-const zDate = require('../src/constants/date.js');
+import { assert } from 'chai';
+import * as zDate from '../src/constants/date';
 
 describe('Date functions', function () {
   const datetime = '1996-12-02T01:00:00';
@@ -43,17 +43,17 @@ describe('Date functions', function () {
     const birthday = '1996-12-02';
     const age = zDate.calculateAge(birthday);
 
-    const date = new Date(birthday);
-    const today = new Date();
+    const date = new Date(birthday).getTime();
+    const today = new Date().getTime();
     const expectedAge = Math.abs(date - today) / (365 * 24 * 3600000);
     assert.equal(age, Math.floor(expectedAge));
   });
 
   it('Get days for specified month', function () {
     const noMonth = zDate.getDatesForMonth();
-    const oddMonth = zDate.getDatesForMonth(zDate.MONTHS.JANUARY.NAME);
-    const evenMonth = zDate.getDatesForMonth(zDate.MONTHS.JUNE.NAME);
-    const intercalaryMonth = zDate.getDatesForMonth(zDate.MONTHS.FEBRUARY.NAME);
+    const oddMonth = zDate.getDatesForMonth(zDate.MONTH.JANUARY);
+    const evenMonth = zDate.getDatesForMonth(zDate.MONTH.JUNE);
+    const intercalaryMonth = zDate.getDatesForMonth(zDate.MONTH.FEBRUARY);
 
     assert.lengthOf(noMonth, 31);
     assert.lengthOf(oddMonth, 31);
@@ -97,40 +97,8 @@ describe('Date functions', function () {
     const fiveIncrement = zDate.getAllMinutes(5);
 
     assert.lengthOf(noIncrement, 60);
-    assert.equal(noIncrement[noIncrement.length - 1].value, 59);
+    assert.equal(noIncrement[noIncrement.length - 1].value, '59');
     assert.lengthOf(fiveIncrement, 12);
-    assert.equal(fiveIncrement[fiveIncrement.length - 1].value, 55);
+    assert.equal(fiveIncrement[fiveIncrement.length - 1].value, '55');
   });
-
-  // describe('Get adverb relative to today', function () {
-  //   it('Today', function () {
-  //     const adverb = zDate.getAdverbRelativeToToday(new Date());
-  //     assert.equal(adverb, 'Today');
-  //   });
-
-  //   it('Tomorrow', function () {
-  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-03');
-  //     assert.equal(adverb, 'Tomorrow');
-  //   });
-
-  //   it('Yesterday', function () {
-  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-01');
-  //     assert.equal(adverb, 'Yesterday');
-  //   });
-
-  //   it('2 days ago', function () {
-  //     const adverb = zDate.getAdverbRelativeToToday('2020-06-30');
-  //     assert.equal(adverb, '2 days ago');
-  //   });
-
-  //   it('Sunday', function () {
-  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-05');
-  //     assert.equal(adverb, 'on Sunday');
-  //   });
-
-  //   it('Another day', function () {
-  //     const adverb = zDate.getAdverbRelativeToToday('2020-07-11');
-  //     assert.equal(adverb, 'Sunday 19th July');
-  //   });
-  // });
 });
