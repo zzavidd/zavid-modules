@@ -3,12 +3,20 @@ const Dotenv = require('dotenv-webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
+const common = {
+  devtool: 'source-map',
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
+  target: 'node'
+};
+
 module.exports = [
   {
     name: 'production',
-    entry: './src/index.ts',
+    entry: './_dist/index.js',
     output: {
-      path: path.join(__dirname, './dist'),
+      path: path.join(__dirname, './_dist/build'),
       filename: 'main.js',
       library: 'ZavidLibrary',
       libraryTarget: 'umd',
@@ -26,18 +34,11 @@ module.exports = [
             }
           }
         },
-        { test: /\.tsx?$/, loader: "ts-loader" },
+        { test: /\.tsx?$/, loader: 'ts-loader' }
       ]
     },
-    target: 'node',
     plugins: [new CleanWebpackPlugin()],
-    resolve: {
-      extensions: ['.tsx', '.ts', '.js']
-    },
-    stats: {
-      entrypoints: false,
-      children: false
-    }
+    ...common
   },
   {
     name: 'development',
@@ -46,7 +47,6 @@ module.exports = [
       port: 9000
     },
     entry: './app/index.tsx',
-    devtool: "source-map",
     module: {
       rules: [
         {
@@ -58,11 +58,10 @@ module.exports = [
           test: /\.scss$/,
           use: ['style-loader', 'css-loader', 'sass-loader']
         },
-        { test: /\.tsx?$/, loader: "ts-loader" },
-        { test: /\.js$/, loader: "source-map-loader" }
+        { test: /\.tsx?$/, loader: 'ts-loader' },
+        { test: /\.js$/, loader: 'source-map-loader' }
       ]
     },
-    target: 'node',
     plugins: [
       new CleanWebpackPlugin(),
       new Dotenv({ path: './config.env' }),
@@ -71,8 +70,6 @@ module.exports = [
         filename: 'index.html'
       })
     ],
-    resolve: {
-      extensions: ['.tsx', '.ts', '.js']
-    }
+    ...common
   }
 ];

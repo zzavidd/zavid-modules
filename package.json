@@ -2,8 +2,10 @@
   "name": "zavid-modules",
   "version": "4.0.0",
   "description": "A library containing reusable code modules for projects developed by Zavid Egbue.",
-  "main": "./dist/main.js",
+  "main": "./_dist/build/main.js",
+  "types": "./_dist/index.d.ts",
   "scripts": {
+    "prebuild": "rm -rf build _dist && tsc --project tsconfig.json",
     "build": "webpack --mode production --config-name production",
     "dev": "webpack-dev-server --config-name development",
     "release": "npm run build && np --no-release-draft",
