@@ -1,7 +1,5 @@
-import zTextBuilder from './builder';
-
-export * as zText from './formatting';
-export * as zTextBuilder from './builder';
+export * from './formatting';
+export * from './builder';
 
 /**
  * GUIDE TO ADDING NEW FORMAT FEATURES:

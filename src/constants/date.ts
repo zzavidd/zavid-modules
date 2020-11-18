@@ -26,7 +26,7 @@ export enum MONTH {
   DECEMBER = 'December'
 }
 
-export const Months = {
+export const Months: MonthMapType = {
   [MONTH.JANUARY]: { days: 31, index: 1 },
   [MONTH.FEBRUARY]: { days: 29, index: 2 },
   [MONTH.MARCH]: { days: 31, index: 3 },
@@ -354,6 +354,15 @@ const convertTo12HourNumber = (hour: number): number => {
 const isDateString = (value: unknown): value is string => {
   return typeof value === 'string';
 };
+
+type MonthMapType = {
+  [key in MONTH]: MonthValue
+}
+
+interface MonthValue {
+  days: number
+  index: number
+}
 
 interface FormatDateOptions {
   withYear?: boolean;
