@@ -124,7 +124,7 @@ export interface FormatCSS {
   heading?: string;
   subheading?: string;
   paragraph?: string;
-  image?: string;
+  image?: FormatCSSImage;
   divider?: string;
   blockquote?: string;
   hyperlink?: string;
