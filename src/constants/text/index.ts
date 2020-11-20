@@ -1,4 +1,4 @@
-export * from './formatting';
+export * from './functions';
 export * from './builder';
 
 /**

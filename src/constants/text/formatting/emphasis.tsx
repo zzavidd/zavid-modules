@@ -1,5 +1,5 @@
 import React from 'react';
-import { EMPHASIS, emphasisRegexMapping, EmphasisRegexValue, FormatCSS } from './regex';
+import { Emphasis, emphasisRegexMapping, EmphasisRegexValue, FormatCSS } from '../regex';
 
 export const applyEmphasisFormatting = (
   paragraph: string,
@@ -31,7 +31,7 @@ export const applyEmphasisFormatting = (
 
       try {
         switch (emphasis) {
-          case EMPHASIS.BOLDITALIC:
+          case Emphasis.BOLDITALIC:
             const textToBoldItalize = applyEmphasisFormatting(matches![1]);
             transformation = (
               <strong key={key}>
@@ -39,15 +39,15 @@ export const applyEmphasisFormatting = (
               </strong>
             );
             break;
-          case EMPHASIS.ITALIC:
+          case Emphasis.ITALIC:
             const textToItalize = applyEmphasisFormatting(matches![1]);
             transformation = <em key={key}>{textToItalize}</em>;
             break;
-          case EMPHASIS.BOLD:
+          case Emphasis.BOLD:
             const textToBold = applyEmphasisFormatting(matches![1]);
             transformation = <strong key={key}>{textToBold}</strong>;
             break;
-          case EMPHASIS.UNDERLINE:
+          case Emphasis.UNDERLINE:
             const textToUnderline = applyEmphasisFormatting(matches![1]);
             transformation = (
               <span key={key} style={{ textDecoration: 'underline' }}>
@@ -55,13 +55,13 @@ export const applyEmphasisFormatting = (
               </span>
             );
             break;
-          case EMPHASIS.STRIKETHROUGH:
+          case Emphasis.STRIKETHROUGH:
             const textToStrikethrough = applyEmphasisFormatting(
               matches![1]
             );
             transformation = <del key={key}>{textToStrikethrough}</del>;
             break;
-          case EMPHASIS.HYPERLINK:
+          case Emphasis.HYPERLINK:
             const textToHyperlink = applyEmphasisFormatting(matches![1]);
             const link = matches![2];
             transformation = (
@@ -74,7 +74,7 @@ export const applyEmphasisFormatting = (
               </a>
             );
             break;
-          case EMPHASIS.COLOR:
+          case Emphasis.COLOR:
             const color = matches![1];
             const textToColor = applyEmphasisFormatting(matches![2]);
             transformation = (
@@ -83,7 +83,7 @@ export const applyEmphasisFormatting = (
               </span>
             );
             break;
-          case EMPHASIS.SUPERSCRIPT:
+          case Emphasis.SUPERSCRIPT:
             const textToSuper = applyEmphasisFormatting(matches![1]);
             transformation = (
               <sup key={key} className={css!['superscript']}>
@@ -91,7 +91,7 @@ export const applyEmphasisFormatting = (
               </sup>
             );
             break;
-          case EMPHASIS.SUBSCRIPT:
+          case Emphasis.SUBSCRIPT:
             const textToSub = applyEmphasisFormatting(matches![1]);
             transformation = (
               <sub key={key} className={css!['subscript']}>
@@ -99,7 +99,7 @@ export const applyEmphasisFormatting = (
               </sub>
             );
             break;
-          case EMPHASIS.ESCAPE:
+          case Emphasis.ESCAPE:
             transformation = matches![1];
             break;
           default:
@@ -122,7 +122,7 @@ export const removeEmphasisFormatting = (paragraph: string): string => {
   // Combine all emphasis regular expressions for splitting.
   // Also, prevent display of hyperlink text on deformat.
   const emphasisRegexList = Object.values(emphasisRegexMapping).map((regex) => {
-    if (regex === emphasisRegexMapping[EMPHASIS.HYPERLINK]) {
+    if (regex === emphasisRegexMapping[Emphasis.HYPERLINK]) {
       regex.split = new RegExp(/(\[.*?\]\(.*?\))/);
     }
     return regex.split.source;
@@ -145,18 +145,18 @@ export const removeEmphasisFormatting = (paragraph: string): string => {
 
         try {
           switch (emphasis) {
-            case EMPHASIS.BOLDITALIC:
-            case EMPHASIS.ITALIC:
-            case EMPHASIS.BOLD:
-            case EMPHASIS.UNDERLINE:
-            case EMPHASIS.STRIKETHROUGH:
-            case EMPHASIS.HYPERLINK:
-            case EMPHASIS.SUPERSCRIPT:
-            case EMPHASIS.SUBSCRIPT:
-            case EMPHASIS.ESCAPE:
+            case Emphasis.BOLDITALIC:
+            case Emphasis.ITALIC:
+            case Emphasis.BOLD:
+            case Emphasis.UNDERLINE:
+            case Emphasis.STRIKETHROUGH:
+            case Emphasis.HYPERLINK:
+            case Emphasis.SUPERSCRIPT:
+            case Emphasis.SUBSCRIPT:
+            case Emphasis.ESCAPE:
               transformation = matches![1];
               break;
-            case EMPHASIS.COLOR:
+            case Emphasis.COLOR:
               transformation = matches![2];
               break;
             default:

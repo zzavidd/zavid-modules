@@ -1,4 +1,12 @@
-import * as zText from './formatting';
+import {
+  applySubstitutions,
+  deformatText,
+  DeformatTextOptions,
+  formatText,
+  FormatTextOptions,
+  TruncateOptions,
+  truncateText
+} from './functions';
 
 export default class zTextBuilder {
   private text: unknown;
@@ -7,23 +15,23 @@ export default class zTextBuilder {
     this.text = text;
   }
 
-  formatText(options?: zText.FormatOptions): zTextBuilder {
-    this.text = zText.formatText(this.text as string, options);
+  formatText(options?: FormatTextOptions): zTextBuilder {
+    this.text = formatText(this.text as string, options);
     return this;
   }
 
-  deformatText(options?: zText.DeformatOptions): zTextBuilder {
-    this.text = zText.deformatText(this.text as string, options);
+  deformatText(options?: DeformatTextOptions): zTextBuilder {
+    this.text = deformatText(this.text as string, options);
     return this;
   }
 
-  applySubstitutions(substitutions: zText.Substitutions): zTextBuilder {
-    this.text = zText.applySubstitutions(this.text as string, substitutions);
+  applySubstitutions(substitutions: Record<string, string>): zTextBuilder {
+    this.text = applySubstitutions(this.text as string, substitutions);
     return this;
   }
 
-  truncateText(options?: zText.TruncateOptions) {
-    this.text = zText.truncateText(this.text as string, options);
+  truncateText(options?: TruncateOptions): zTextBuilder {
+    this.text = truncateText(this.text as string, options);
     return this;
   }
 

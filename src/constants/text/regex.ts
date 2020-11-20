@@ -2,7 +2,7 @@
  * A map of emphasis constants.
  * Ordered chronologically.
  */
-export enum EMPHASIS {
+export enum Emphasis {
   ESCAPE = 'escape',
   BOLD = 'bold',
   ITALIC = 'italic',
@@ -19,7 +19,7 @@ export enum EMPHASIS {
  * A map of section constants.
  * Ordered chronologically
  */
-export enum SECTION {
+export enum Section {
   HEADING = 'heading',
   SUBHEADING = 'subheading',
   IMAGE = 'image',
@@ -38,44 +38,44 @@ export enum SECTION {
  * The regex mapping for emphasis constants.
  * Ordered in terms of power.
  */
-export const emphasisRegexMapping: EmphasisRegexMapping = {
-  [EMPHASIS.ESCAPE]: {
+export const emphasisRegexMapping: Record<Emphasis, EmphasisRegexValue> = {
+  [Emphasis.ESCAPE]: {
     pure: new RegExp(/\\(.*?)\\/),
     split: new RegExp(/(\\.*?\\)/)
   },
-  [EMPHASIS.HYPERLINK]: {
+  [Emphasis.HYPERLINK]: {
     pure: new RegExp(/\[(.*?)\]\((.*?)\)/),
     split: new RegExp(/(\[.*?\]\(.*?\))/)
   },
-  [EMPHASIS.BOLDITALIC]: {
+  [Emphasis.BOLDITALIC]: {
     pure: new RegExp(/\*{3}(.*?)\*{3}/),
     split: new RegExp(/(\*{3}.*?\*{3})/)
   },
-  [EMPHASIS.BOLD]: {
+  [Emphasis.BOLD]: {
     pure: new RegExp(/\*{2}(.*?)\*{2}/),
     split: new RegExp(/(\*{2}.*?\*{2})/)
   },
-  [EMPHASIS.ITALIC]: {
+  [Emphasis.ITALIC]: {
     pure: new RegExp(/\*{1}(.*?)\*{1}/),
     split: new RegExp(/(\*{1}.*?\*{1})/)
   },
-  [EMPHASIS.UNDERLINE]: {
+  [Emphasis.UNDERLINE]: {
     pure: new RegExp(/\_(.*?)\_/),
     split: new RegExp(/(\_.*?\_)/)
   },
-  [EMPHASIS.STRIKETHROUGH]: {
+  [Emphasis.STRIKETHROUGH]: {
     pure: new RegExp(/\~(.*?)\~/),
     split: new RegExp(/(\~.*?\~)/)
   },
-  [EMPHASIS.SUPERSCRIPT]: {
+  [Emphasis.SUPERSCRIPT]: {
     pure: new RegExp(/\^{2}(.*?)\^{2}/),
     split: new RegExp(/(\^{2}.*?\^{2})/)
   },
-  [EMPHASIS.SUBSCRIPT]: {
+  [Emphasis.SUBSCRIPT]: {
     pure: new RegExp(/\^{1}(.*?)\^{1}/),
     split: new RegExp(/(\^{1}.*?\^{1})/)
   },
-  [EMPHASIS.COLOR]: {
+  [Emphasis.COLOR]: {
     pure: new RegExp(/\<(\#[a-fA-F0-9]{6})\>\{(.*?)\}/),
     split: new RegExp(/(\<\#[a-fA-F0-9]{6}\>\{.*?\})/)
   }
@@ -85,21 +85,21 @@ export const emphasisRegexMapping: EmphasisRegexMapping = {
  * The regex mapping for section constants.
  * Ordered in terms of power.
  */
-export const sectionRegexMapping: SectionRegexMapping = {
-  [SECTION.HEADING]: new RegExp(/^\#\s(.*?)$/),
-  [SECTION.SUBHEADING]: new RegExp(/^\#{2}\s(.*?)$/),
-  [SECTION.IMAGE]: new RegExp(/^\!\[(.*?)\]\((.*?)\)(F?)$/),
-  [SECTION.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
-  [SECTION.BULLET_LIST]: new RegExp(/\:\:ul(b)?\n((?:\+\s*.*\n+)*)\:\:end/),
-  [SECTION.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s*(.*?)$/),
-  [SECTION.NUMBERED_LIST]: new RegExp(
+export const sectionRegexMapping: Record<Section, RegExp> = {
+  [Section.HEADING]: new RegExp(/^\#\s(.*?)$/),
+  [Section.SUBHEADING]: new RegExp(/^\#{2}\s(.*?)$/),
+  [Section.IMAGE]: new RegExp(/^\!\[(.*?)\]\((.*?)\)(F?)$/),
+  [Section.DIVIDER]: new RegExp(/^(\-{3}|\_{3})$/),
+  [Section.BULLET_LIST]: new RegExp(/\:\:ul(b)?\n((?:\+\s*.*\n+)*)\:\:end/),
+  [Section.HYPHEN_LIST_ITEM]: new RegExp(/^\-\s*(.*?)$/),
+  [Section.NUMBERED_LIST]: new RegExp(
     /\:\:ol(b)?\n((?:(?:[0-9]+[\.\)]|\+)\s*.*\n+)*)\:\:end/
   ),
-  [SECTION.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
-  [SECTION.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i),
-  [SECTION.INSTAGRAM]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i),
-  [SECTION.SPOTIFY]: new RegExp(/^\!\{Spotify\}\((.*?)\)$/i),
-  [SECTION.SOUNDCLOUD]: new RegExp(/^\!\{Soundcloud\}\((.*?)\)$/i)
+  [Section.BLOCKQUOTE]: new RegExp(/^\>\s(.*?)$/),
+  [Section.TWEET]: new RegExp(/^\!\{Tweet\}\(([0-9]+)\)$/i),
+  [Section.INSTAGRAM]: new RegExp(/^\!\{Insta\}\((.*?)\)$/i),
+  [Section.SPOTIFY]: new RegExp(/^\!\{Spotify\}\((.*?)\)$/i),
+  [Section.SOUNDCLOUD]: new RegExp(/^\!\{Soundcloud\}\((.*?)\)$/i)
 };
 
 /** Regular expression for new lines except numbered lists. */
@@ -107,12 +107,8 @@ export const newLinesExceptNumberedListsRegex = new RegExp(
   /\n\n(?![0-9]+[\.\)])/
 );
 
-type EmphasisRegexMapping = {
-  [key in EMPHASIS]: EmphasisRegexValue;
-};
-
 type SectionRegexMapping = {
-  [key in SECTION]: RegExp;
+  [key in Section]: RegExp;
 };
 
 export interface EmphasisRegexValue {
@@ -128,8 +124,8 @@ export interface FormatCSS {
   divider?: string;
   blockquote?: string;
   hyperlink?: string;
-  superscript?: string
-  subscript?: string
+  superscript?: string;
+  subscript?: string;
   'list-item'?: string;
   'twitter-button'?: string;
   'instagram-button'?: string;
