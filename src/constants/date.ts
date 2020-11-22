@@ -1,3 +1,4 @@
+import { stringify } from 'querystring';
 import * as zNumber from './number';
 import * as zString from './string';
 
@@ -42,10 +43,16 @@ export const Months: MonthMapType = {
 };
 
 export const formatDate = (
-  value: string | Date,
+  value: string | number | Date,
   options: FormatDateOptions = {}
 ): string => {
   if (!value) return '';
+
+  if (typeof value === 'string') {
+    if (new RegExp(/^[0-9]+$/).test(value) && !isNaN(parseInt(value))) {
+      value = parseInt(value);
+    }
+  }
 
   const { withYear = true, withWeekday = false } = options;
 
@@ -356,12 +363,12 @@ const isDateString = (value: unknown): value is string => {
 };
 
 type MonthMapType = {
-  [key in MONTH]: MonthValue
-}
+  [key in MONTH]: MonthValue;
+};
 
 interface MonthValue {
-  days: number
-  index: number
+  days: number;
+  index: number;
 }
 
 interface FormatDateOptions {

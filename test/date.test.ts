@@ -6,8 +6,17 @@ describe('Date functions', function () {
   const datetimePM = '1996-12-02T23:59:59';
 
   it('Format full date', function () {
-    const fullDate = zDate.formatDate(datetime);
-    assert.equal(fullDate, '2nd December 1996');
+    const expectedDate = '2nd December 1996';
+
+    const dateFromString = zDate.formatDate(datetime);
+    const dateFromDate = zDate.formatDate(new Date(1996, 11, 2));
+    const dateFromNumber = zDate.formatDate(849484800000);
+    const dateFromNumberString = zDate.formatDate('849484800000');
+
+    assert.equal(dateFromString, expectedDate);
+    assert.equal(dateFromDate, expectedDate);
+    assert.equal(dateFromNumber, expectedDate);
+    assert.equal(dateFromNumberString, expectedDate);
   });
 
   it('Format full date with day of week', function () {

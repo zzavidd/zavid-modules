@@ -11,7 +11,7 @@ describe('Number functions', function () {
     const start = 1;
     const end = 10;
     const number = zNumber.generateRandom(start, end);
-    assert.isAbove(number, start);
-    assert.isBelow(number, end);
+    assert.isAbove(number, start - 1);
+    assert.isBelow(number, end + 1);
   });
 });
