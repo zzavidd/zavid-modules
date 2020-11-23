@@ -26,10 +26,10 @@ export const formatParagraph = (
     regex.test(paragraph)
   );
 
-  const [section, regex] = foundSection!;
-  const [, text] = paragraph.match(regex)!;
-
   if (foundSection) {
+    const [section, regex] = foundSection!;
+    const [, text] = paragraph.match(regex)!;
+
     switch (section) {
       case Section.HEADING:
         return (
