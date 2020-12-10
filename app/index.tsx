@@ -72,7 +72,7 @@ export const Paragraph = ({
     .formatText({
       css: {
         paragraph: 'paragraph',
-        // highlight: 'highlight'
+        custom: 'custom'
       },
       socialWrappers: {
         Tweet: ({ id }: Tweet) => {

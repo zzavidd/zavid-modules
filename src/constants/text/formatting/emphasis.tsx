@@ -33,6 +33,10 @@ export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {
 
       try {
         switch (emphasis) {
+          case Emphasis.CUSTOM:
+            const textToCustomise = matches![1];
+            transformation = <span className={css!['custom']} key={key}>{textToCustomise}</span>;
+            break;
           case Emphasis.BOLDITALIC:
             const textToBoldItalize = applyEmphasisFormatting(matches![1]);
             transformation = (
@@ -77,18 +81,14 @@ export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {
           case Emphasis.HIGHLIGHT:
             const highlightColor = matches![1];
             const textToHighlight = applyEmphasisFormatting(matches![2]);
-
-            let style: CSSProperties = {};
-            if (!css!['highlight']) {
-              style = {
-                backgroundColor: highlightColor,
-                borderRadius: '10px',
-                padding: '0.2em'
-              };
-            }
-            
             transformation = (
-              <span className={css!['highlight']} style={style} key={key}>
+              <span
+                style={{
+                  backgroundColor: highlightColor,
+                  borderRadius: '10px',
+                  padding: '0.2em'
+                }}
+                key={key}>
                 {textToHighlight}
               </span>
             );
@@ -164,6 +164,7 @@ export const removeEmphasisFormatting = (paragraph: string): string => {
 
         try {
           switch (emphasis) {
+            case Emphasis.CUSTOM:
             case Emphasis.BOLDITALIC:
             case Emphasis.ITALIC:
             case Emphasis.BOLD:

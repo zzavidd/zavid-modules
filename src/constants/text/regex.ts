@@ -13,7 +13,8 @@ export enum Emphasis {
   COLOR = 'color',
   HIGHLIGHT = 'highlight',
   SUPERSCRIPT = 'superscript',
-  SUBSCRIPT = 'subscript'
+  SUBSCRIPT = 'subscript',
+  CUSTOM = 'custom'
 }
 
 /**
@@ -40,6 +41,10 @@ export enum Section {
  * Ordered in terms of power.
  */
 export const emphasisRegexMapping: Record<Emphasis, EmphasisRegexValue> = {
+  [Emphasis.CUSTOM]: {
+    pure: new RegExp(/\%{2}(.*?)\%{2}/),
+    split: new RegExp(/(\%{2}.*?\%{2})/)
+  },
   [Emphasis.ESCAPE]: {
     pure: new RegExp(/\\(.*?)\\/),
     split: new RegExp(/(\\.*?\\)/)
@@ -130,8 +135,7 @@ export interface FormatCSS {
   'list-item'?: string;
   'twitter-button'?: string;
   'instagram-button'?: string;
-
-  highlight?: string;
+  custom?: string
 }
 
 export type FormatCSSImage = {
