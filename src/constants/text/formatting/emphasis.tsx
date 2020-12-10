@@ -1,10 +1,12 @@
-import React from 'react';
-import { Emphasis, emphasisRegexMapping, EmphasisRegexValue, FormatCSS } from '../regex';
+import React, { CSSProperties } from 'react';
+import {
+  Emphasis,
+  emphasisRegexMapping,
+  EmphasisRegexValue,
+  FormatCSS
+} from '../regex';
 
-export const applyEmphasisFormatting = (
-  paragraph: string,
-  css?: FormatCSS
-) => {
+export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {
   if (!paragraph) return '';
 
   // Combine all emphasis regular expressions for splitting.
@@ -56,9 +58,7 @@ export const applyEmphasisFormatting = (
             );
             break;
           case Emphasis.STRIKETHROUGH:
-            const textToStrikethrough = applyEmphasisFormatting(
-              matches![1]
-            );
+            const textToStrikethrough = applyEmphasisFormatting(matches![1]);
             transformation = <del key={key}>{textToStrikethrough}</del>;
             break;
           case Emphasis.HYPERLINK:
@@ -72,6 +72,25 @@ export const applyEmphasisFormatting = (
                 className={css!['hyperlink']}>
                 {textToHyperlink}
               </a>
+            );
+            break;
+          case Emphasis.HIGHLIGHT:
+            const highlightColor = matches![1];
+            const textToHighlight = applyEmphasisFormatting(matches![2]);
+
+            let style: CSSProperties = {};
+            if (!css!['highlight']) {
+              style = {
+                backgroundColor: highlightColor,
+                borderRadius: '10px',
+                padding: '0.2em'
+              };
+            }
+            
+            transformation = (
+              <span className={css!['highlight']} style={style} key={key}>
+                {textToHighlight}
+              </span>
             );
             break;
           case Emphasis.COLOR:
@@ -156,6 +175,7 @@ export const removeEmphasisFormatting = (paragraph: string): string => {
             case Emphasis.ESCAPE:
               transformation = matches![1];
               break;
+            case Emphasis.HIGHLIGHT:
             case Emphasis.COLOR:
               transformation = matches![2];
               break;

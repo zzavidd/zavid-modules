@@ -11,6 +11,7 @@ export enum Emphasis {
   STRIKETHROUGH = 'strikethrough',
   HYPERLINK = 'hyperlink',
   COLOR = 'color',
+  HIGHLIGHT = 'highlight',
   SUPERSCRIPT = 'superscript',
   SUBSCRIPT = 'subscript'
 }
@@ -75,6 +76,10 @@ export const emphasisRegexMapping: Record<Emphasis, EmphasisRegexValue> = {
     pure: new RegExp(/\^{1}(.*?)\^{1}/),
     split: new RegExp(/(\^{1}.*?\^{1})/)
   },
+  [Emphasis.HIGHLIGHT]: {
+    pure: new RegExp(/\<(\#[a-fA-F0-9]{6})\>\{{2}(.*?)\}{2}/),
+    split: new RegExp(/(\<\#[a-fA-F0-9]{6}\>\{{2}.*?\}{2})/)
+  },
   [Emphasis.COLOR]: {
     pure: new RegExp(/\<(\#[a-fA-F0-9]{6})\>\{(.*?)\}/),
     split: new RegExp(/(\<\#[a-fA-F0-9]{6}\>\{.*?\})/)
@@ -107,14 +112,10 @@ export const newLinesExceptNumberedListsRegex = new RegExp(
   /\n\n(?![0-9]+[\.\)])/
 );
 
-type SectionRegexMapping = {
-  [key in Section]: RegExp;
-};
-
-export interface EmphasisRegexValue {
+export type EmphasisRegexValue = {
   pure: RegExp;
   split: RegExp;
-}
+};
 
 export interface FormatCSS {
   heading?: string;
@@ -129,9 +130,11 @@ export interface FormatCSS {
   'list-item'?: string;
   'twitter-button'?: string;
   'instagram-button'?: string;
+
+  highlight?: string;
 }
 
-export interface FormatCSSImage {
+export type FormatCSSImage = {
   float?: string;
   full?: string;
-}
+};

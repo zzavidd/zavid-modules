@@ -71,7 +71,8 @@ export const Paragraph = ({
     .applySubstitutions(substitutions!)
     .formatText({
       css: {
-        paragraph: 'paragraph'
+        paragraph: 'paragraph',
+        // highlight: 'highlight'
       },
       socialWrappers: {
         Tweet: ({ id }: Tweet) => {
