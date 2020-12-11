@@ -3,7 +3,6 @@
  * Ordered chronologically.
  */
 export enum Emphasis {
-  ESCAPE = 'escape',
   BOLD = 'bold',
   ITALIC = 'italic',
   BOLDITALIC = 'bold-italic',
@@ -14,7 +13,8 @@ export enum Emphasis {
   HIGHLIGHT = 'highlight',
   SUPERSCRIPT = 'superscript',
   SUBSCRIPT = 'subscript',
-  CUSTOM = 'custom'
+  CUSTOM = 'custom',
+  ESCAPE = 'escape',
 }
 
 /**
@@ -117,6 +117,34 @@ export const newLinesExceptNumberedListsRegex = new RegExp(
   /\n\n(?![0-9]+[\.\)])/
 );
 
+/**
+ * Combine all emphasis regular expressions for splitting.
+ * If the 'alterForHyperlinks' flag is set to true, will prevent
+ * display of hyperlink text on deformat.
+ * @param options The options for combining emphasis regex.
+ */
+export function getCombinedEmphasisRegex(
+  options: CombinedEmphasisOptions = {}
+) {
+  const { alterForHyperlinks = false } = options;
+
+  const emphasisRegexList = Object.values(emphasisRegexMapping).map(
+    (regex: EmphasisRegexValue) => {
+      const isHyperlink = regex === emphasisRegexMapping[Emphasis.HYPERLINK];
+      if (alterForHyperlinks && isHyperlink) {
+        regex.split = new RegExp(/(\[.*?\]\(.*?\))/);
+      }
+      return regex.split.source;
+    }
+  );
+
+  return new RegExp(emphasisRegexList.join('|'), 'g');
+}
+
+export type CombinedEmphasisOptions = {
+  alterForHyperlinks?: boolean;
+};
+
 export type EmphasisRegexValue = {
   pure: RegExp;
   split: RegExp;
@@ -135,7 +163,7 @@ export interface FormatCSS {
   'list-item'?: string;
   'twitter-button'?: string;
   'instagram-button'?: string;
-  custom?: string
+  custom?: string;
 }
 
 export type FormatCSSImage = {

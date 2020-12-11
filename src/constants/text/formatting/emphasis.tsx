@@ -1,19 +1,14 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import {
   Emphasis,
   emphasisRegexMapping,
-  EmphasisRegexValue,
+  getCombinedEmphasisRegex,
   FormatCSS
 } from '../regex';
 
 export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {
   if (!paragraph) return '';
-
-  // Combine all emphasis regular expressions for splitting.
-  const emphasisRegexList = Object.values(emphasisRegexMapping).map(
-    (regex: EmphasisRegexValue) => regex.split.source
-  );
-  const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
+  const combinedEmphasisRegex = getCombinedEmphasisRegex();
 
   // Split by combined regex into fragments.
   const fragments = paragraph
@@ -35,7 +30,11 @@ export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {
         switch (emphasis) {
           case Emphasis.CUSTOM:
             const textToCustomise = matches![1];
-            transformation = <span className={css!['custom']} key={key}>{textToCustomise}</span>;
+            transformation = (
+              <span className={css!['custom']} key={key}>
+                {textToCustomise}
+              </span>
+            );
             break;
           case Emphasis.BOLDITALIC:
             const textToBoldItalize = applyEmphasisFormatting(matches![1]);
@@ -138,15 +137,9 @@ export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {
 export const removeEmphasisFormatting = (paragraph: string): string => {
   if (!paragraph) return '';
 
-  // Combine all emphasis regular expressions for splitting.
-  // Also, prevent display of hyperlink text on deformat.
-  const emphasisRegexList = Object.values(emphasisRegexMapping).map((regex) => {
-    if (regex === emphasisRegexMapping[Emphasis.HYPERLINK]) {
-      regex.split = new RegExp(/(\[.*?\]\(.*?\))/);
-    }
-    return regex.split.source;
+  const combinedEmphasisRegex = getCombinedEmphasisRegex({
+    alterForHyperlinks: true
   });
-  const combinedEmphasisRegex = new RegExp(emphasisRegexList.join('|'), 'g');
 
   const deformattedParagraph = paragraph
     .split(combinedEmphasisRegex)

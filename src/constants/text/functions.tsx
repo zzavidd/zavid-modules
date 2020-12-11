@@ -70,9 +70,11 @@ export const truncateText = (
 ): string => {
   if (!originalText) return '';
 
-  const { limit = 45 } = options;
-  const deformattedText = deformatText(originalText);
-  const truncatedText = deformattedText.split(' ').slice(0, limit).join(' ');
+  const { limit = 45, keepRichFormatting = false } = options;
+
+  let text = originalText;
+  if (!keepRichFormatting) text = deformatText(originalText);
+  const truncatedText = text.split(' ').slice(0, limit).join(' ');
   if (truncatedText.length <= limit) return originalText;
 
   return `${truncatedText}....`;
@@ -101,6 +103,7 @@ export interface DeformatTextOptions {
 
 export interface TruncateOptions {
   limit?: number;
+  keepRichFormatting?: boolean;
 }
 
 interface SocialWrappers {
