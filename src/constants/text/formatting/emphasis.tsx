@@ -167,11 +167,11 @@ export const removeEmphasisFormatting = (paragraph: string): string => {
             case Emphasis.SUPERSCRIPT:
             case Emphasis.SUBSCRIPT:
             case Emphasis.ESCAPE:
-              transformation = matches![1];
+              transformation = removeEmphasisFormatting(matches![1]);
               break;
             case Emphasis.HIGHLIGHT:
             case Emphasis.COLOR:
-              transformation = matches![2];
+              transformation = removeEmphasisFormatting(matches![2]);
               break;
             default:
               break;

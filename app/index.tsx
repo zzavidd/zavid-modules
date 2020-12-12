@@ -69,6 +69,7 @@ export const Paragraph = ({
       limit: truncate
     })
     .applySubstitutions(substitutions!)
+    // .deformatText()
     .formatText({
       css: {
         paragraph: 'paragraph',

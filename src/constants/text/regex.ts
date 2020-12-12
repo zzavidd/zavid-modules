@@ -14,7 +14,7 @@ export enum Emphasis {
   SUPERSCRIPT = 'superscript',
   SUBSCRIPT = 'subscript',
   CUSTOM = 'custom',
-  ESCAPE = 'escape',
+  ESCAPE = 'escape'
 }
 
 /**
@@ -116,6 +116,9 @@ export const sectionRegexMapping: Record<Section, RegExp> = {
 export const newLinesExceptNumberedListsRegex = new RegExp(
   /\n\n(?![0-9]+[\.\)])/
 );
+
+/** Regular expression for new lines except numbered lists. */
+export const strayRegexToOmit = new RegExp(/\:{2}[a-z]+/);
 
 /**
  * Combine all emphasis regular expressions for splitting.

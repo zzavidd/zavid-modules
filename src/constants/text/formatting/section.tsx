@@ -1,7 +1,12 @@
 import React, { ReactElement } from 'react';
 import { FormatTextOptions } from '..';
 import { applyEmphasisFormatting, removeEmphasisFormatting } from './emphasis';
-import { sectionRegexMapping, Section, FormatCSSImage } from '../regex';
+import {
+  sectionRegexMapping,
+  Section,
+  FormatCSSImage,
+  strayRegexToOmit
+} from '../regex';
 
 /**
  * Formats a paragraph of text.
@@ -200,30 +205,30 @@ export const formatParagraph = (
  */
 export const deformatParagraph = (paragraph: string, key: number): string => {
   if (!paragraph) return '';
+  if (strayRegexToOmit.test(paragraph)) return '';
+
+  // Replace plus symbols with bullet points
+  paragraph = paragraph.replace(/\+\s/g, '• ');
 
   // Initialise with space separate paragraphs
   const init = key > 0 ? ' ' : '';
   let detransformedParagraph: string = init;
 
-  const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) =>
-    regex.test(paragraph)
-  );
+  const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) => {
+    return regex.test(paragraph);
+  });
 
   if (foundSection) {
     const [section, regex] = foundSection;
-    const [, text] = paragraph.match(regex)!;
+    let [, text] = paragraph.match(regex)!;
 
     switch (section) {
       case Section.HEADING:
       case Section.SUBHEADING:
       case Section.BULLET_LIST:
-        detransformedParagraph += text.replace(/\:\:(?:ul(b)|end)/g, '').trim();
-        break;
       case Section.HYPHEN_LIST_ITEM:
-        detransformedParagraph += text;
-        break;
       case Section.NUMBERED_LIST:
-        detransformedParagraph += text.replace(/\:\:(?:ol(b)|end)/g, '').trim();
+        detransformedParagraph += removeEmphasisFormatting(text);
         break;
       case Section.IMAGE:
       case Section.DIVIDER:
