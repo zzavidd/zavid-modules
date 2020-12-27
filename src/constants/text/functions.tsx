@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { deformatParagraph, formatParagraph } from './formatting/section';
-import { FormatCSS, newLinesExceptNumberedListsRegex } from './regex';
+import { newLinesExceptNumberedListsRegex } from './regex';
 
-export { FormatCSS };
+import type { FormatCSS } from '../../types'
 
 /**
  * Apply rich formatting to text.
