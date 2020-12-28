@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, MouseEvent } from 'react';
 import { deformatParagraph, formatParagraph } from './formatting/section';
 import { FormatCSS, newLinesExceptNumberedListsRegex } from './regex';
 
@@ -95,6 +95,7 @@ export interface FormatTextOptions {
   css?: FormatCSS;
   inline?: boolean;
   socialWrappers?: SocialWrappers;
+  onMouseUpEachParagraph?: onMouseUpType
 }
 
 export interface DeformatTextOptions {
@@ -110,3 +111,5 @@ interface SocialWrappers {
   Tweet?: any;
   InstagramPost?: any;
 }
+
+type onMouseUpType = (event: MouseEvent<HTMLParagraphElement>) => void;

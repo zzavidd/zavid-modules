@@ -24,7 +24,8 @@ export const formatParagraph = (
   const {
     css = {},
     inline = false,
-    socialWrappers: { Tweet, InstagramPost } = {}
+    socialWrappers: { Tweet, InstagramPost } = {},
+    onMouseUpEachParagraph = () => {}
   } = options;
 
   const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) =>
@@ -191,7 +192,10 @@ export const formatParagraph = (
         {applyEmphasisFormatting(paragraph, css)}
       </span>
     ) : (
-      <p className={css['paragraph']} key={key}>
+      <p
+        className={css['paragraph']}
+        key={key}
+        onMouseUp={onMouseUpEachParagraph}>
         {applyEmphasisFormatting(paragraph, css)}
       </p>
     );

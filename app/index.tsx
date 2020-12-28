@@ -89,6 +89,9 @@ export const Paragraph = ({
             />
           );
         }
+      },
+      onMouseUpEachParagraph: (e) => {
+        alert(e.currentTarget.innerHTML)
       }
     })
     .build() as ReactNode;
