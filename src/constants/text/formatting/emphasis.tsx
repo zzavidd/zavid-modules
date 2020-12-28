@@ -1,9 +1,9 @@
 import React from 'react';
+import { FormatCSS } from '../../../types';
 import {
   Emphasis,
   emphasisRegexMapping,
-  getCombinedEmphasisRegex,
-  FormatCSS
+  getCombinedEmphasisRegex
 } from '../regex';
 
 export const applyEmphasisFormatting = (paragraph: string, css?: FormatCSS) => {

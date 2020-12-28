@@ -14,7 +14,7 @@ export interface FormatCSS {
   custom?: string;
 }
 
-type FormatCSSImage = {
+export type FormatCSSImage = {
   float?: string;
   full?: string;
 };

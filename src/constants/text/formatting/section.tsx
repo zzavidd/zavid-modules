@@ -1,12 +1,8 @@
 import React, { ReactElement } from 'react';
 import { FormatTextOptions } from '..';
 import { applyEmphasisFormatting, removeEmphasisFormatting } from './emphasis';
-import {
-  sectionRegexMapping,
-  Section,
-  FormatCSSImage,
-  strayRegexToOmit
-} from '../regex';
+import { sectionRegexMapping, Section, strayRegexToOmit } from '../regex';
+import { FormatCSSImage } from '../../../types';
 
 /**
  * Formats a paragraph of text.
