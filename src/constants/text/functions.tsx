@@ -95,7 +95,7 @@ export interface FormatTextOptions {
   css?: FormatCSS;
   inline?: boolean;
   socialWrappers?: SocialWrappers;
-  onMouseUpEachParagraph?: onMouseUpType
+  onLongPress?: onLongPressType
 }
 
 export interface DeformatTextOptions {
@@ -112,4 +112,4 @@ interface SocialWrappers {
   InstagramPost?: any;
 }
 
-type onMouseUpType = (event: MouseEvent<HTMLParagraphElement>) => void;
+type onLongPressType = (event: MouseEvent<HTMLElement>) => void;

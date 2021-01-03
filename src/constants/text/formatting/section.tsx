@@ -25,12 +25,14 @@ export const formatParagraph = (
     css = {},
     inline = false,
     socialWrappers: { Tweet, InstagramPost } = {},
-    onMouseUpEachParagraph = () => {}
+    onLongPress = () => {}
   } = options;
 
   const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) =>
     regex.test(paragraph)
   );
+
+  const LONG_PRESS_HANDLERS = createLongPressHandlers(onLongPress);
 
   if (foundSection) {
     const [section, regex] = foundSection!;
@@ -127,7 +129,7 @@ export const formatParagraph = (
         );
       case Section.BLOCKQUOTE:
         return (
-          <div className={css['blockquote']} key={key}>
+          <div className={css['blockquote']} key={key} {...LONG_PRESS_HANDLERS}>
             {applyEmphasisFormatting(text, css)}
           </div>
         );
@@ -188,14 +190,11 @@ export const formatParagraph = (
     }
   } else {
     return inline ? (
-      <span className={css['paragraph']} key={key}>
+      <span className={css['paragraph']} key={key} {...LONG_PRESS_HANDLERS}>
         {applyEmphasisFormatting(paragraph, css)}
       </span>
     ) : (
-      <p
-        className={css['paragraph']}
-        key={key}
-        onMouseUp={onMouseUpEachParagraph}>
+      <p className={css['paragraph']} key={key} {...LONG_PRESS_HANDLERS}>
         {applyEmphasisFormatting(paragraph, css)}
       </p>
     );
@@ -253,4 +252,27 @@ export const deformatParagraph = (paragraph: string, key: number): string => {
   }
 
   return detransformedParagraph;
+};
+
+/**
+ * Create handlers for long press events on elements.
+ * @param onLongPress The long press event.
+ */
+const createLongPressHandlers = (
+  onLongPress: (event: React.MouseEvent<HTMLElement>) => void
+) => {
+  let longPressTimeout: NodeJS.Timeout;
+
+  const longPressHandlers = {
+    onMouseDown: (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      longPressTimeout = setTimeout(() => {
+        onLongPress(e);
+      }, 1250);
+    },
+    onMouseUp: () => {
+      clearTimeout(longPressTimeout);
+    }
+  };
+
+  return longPressHandlers;
 };
