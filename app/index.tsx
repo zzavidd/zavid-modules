@@ -90,8 +90,8 @@ export const Paragraph = ({
           );
         }
       },
-      onLongPress: (e: React.MouseEvent<HTMLElement>) => {
-        alert(e.currentTarget.innerText);
+      onLongPress: (text: string) => {
+        alert(text);
       }
     })
     .build() as ReactNode;

@@ -256,17 +256,18 @@ export const deformatParagraph = (paragraph: string, key: number): string => {
 
 /**
  * Create handlers for long press events on elements.
- * @param onLongPress The long press event.
+ * @param onLongPress 
  */
 const createLongPressHandlers = (
-  onLongPress: (event: React.MouseEvent<HTMLElement>) => void
+  onLongPress: (text: string) => void
 ) => {
   let longPressTimeout: NodeJS.Timeout;
 
   const longPressHandlers = {
     onMouseDown: (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      const text = e.currentTarget.innerText;
       longPressTimeout = setTimeout(() => {
-        onLongPress(e);
+        onLongPress(text);
       }, 1250);
     },
     onMouseUp: () => {
