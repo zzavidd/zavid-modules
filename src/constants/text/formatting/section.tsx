@@ -265,7 +265,7 @@ const createLongPressHandlers = (onLongPress: (text: string) => void) => {
     const text = e.currentTarget.innerText;
     longPressTimeout = setTimeout(() => {
       onLongPress(text);
-    }, 1250);
+    }, 1000);
   };
 
   const onRelease = () => {
