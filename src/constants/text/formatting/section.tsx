@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { DetailedHTMLProps, HTMLAttributes, ReactElement } from 'react';
 import { FormatTextOptions } from '..';
 import { applyEmphasisFormatting, removeEmphasisFormatting } from './emphasis';
 import {
@@ -256,23 +256,30 @@ export const deformatParagraph = (paragraph: string, key: number): string => {
 
 /**
  * Create handlers for long press events on elements.
- * @param onLongPress 
+ * @param onLongPress
  */
-const createLongPressHandlers = (
-  onLongPress: (text: string) => void
-) => {
+const createLongPressHandlers = (onLongPress: (text: string) => void) => {
   let longPressTimeout: NodeJS.Timeout;
 
-  const longPressHandlers = {
-    onMouseDown: (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-      const text = e.currentTarget.innerText;
-      longPressTimeout = setTimeout(() => {
-        onLongPress(text);
-      }, 1250);
-    },
-    onMouseUp: () => {
-      clearTimeout(longPressTimeout);
-    }
+  const onPress = <T extends React.UIEvent<HTMLElement>>(e: T) => {
+    const text = e.currentTarget.innerText;
+    longPressTimeout = setTimeout(() => {
+      onLongPress(text);
+    }, 1250);
+  };
+
+  const onRelease = () => {
+    clearTimeout(longPressTimeout);
+  };
+
+  const longPressHandlers: DetailedHTMLProps<
+    HTMLAttributes<HTMLParagraphElement>,
+    HTMLParagraphElement
+  > = {
+    onMouseDown: onPress,
+    onMouseUp: onRelease,
+    onTouchStart: onPress,
+    onTouchEnd: onRelease
   };
 
   return longPressHandlers;
