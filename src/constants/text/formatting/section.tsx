@@ -260,7 +260,7 @@ export const deformatParagraph = (paragraph: string, key: number): string => {
  * @param onLongPress
  */
 const createLongPressHandlers = (onLongPress?: onLongPress) => {
-  if (!onLongPress) return {};
+  if (!onLongPress || !onLongPress.action) return {};
 
   const { action, duration = 1000 } = onLongPress;
   let longPressTimeout: NodeJS.Timeout;

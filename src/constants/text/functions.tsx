@@ -113,6 +113,6 @@ type SocialWrappers = {
 };
 
 export type onLongPress = {
-  action: (text: string) => void;
+  action?: (text: string) => void;
   duration?: number;
 };
