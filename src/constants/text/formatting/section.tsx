@@ -7,6 +7,7 @@ import {
   FormatCSSImage,
   strayRegexToOmit
 } from '../regex';
+import { onLongPress } from '../functions';
 
 /**
  * Formats a paragraph of text.
@@ -25,7 +26,7 @@ export const formatParagraph = (
     css = {},
     inline = false,
     socialWrappers: { Tweet, InstagramPost } = {},
-    onLongPress = () => {}
+    onLongPress
   } = options;
 
   const foundSection = Object.entries(sectionRegexMapping).find(([, regex]) =>
@@ -258,14 +259,17 @@ export const deformatParagraph = (paragraph: string, key: number): string => {
  * Create handlers for long press events on elements.
  * @param onLongPress
  */
-const createLongPressHandlers = (onLongPress: (text: string) => void) => {
+const createLongPressHandlers = (onLongPress?: onLongPress) => {
+  if (!onLongPress) return {};
+
+  const { action, duration = 1000 } = onLongPress;
   let longPressTimeout: NodeJS.Timeout;
 
   const onPress = <T extends React.UIEvent<HTMLElement>>(e: T) => {
     const text = e.currentTarget.innerText;
     longPressTimeout = setTimeout(() => {
-      onLongPress(text);
-    }, 1000);
+      action(text);
+    }, duration);
   };
 
   const onRelease = () => {

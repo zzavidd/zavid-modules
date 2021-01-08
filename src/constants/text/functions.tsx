@@ -91,23 +91,28 @@ export const extractExcerpt = (originalText: string): string => {
   return excerpt;
 };
 
-export interface FormatTextOptions {
+export type FormatTextOptions = {
   css?: FormatCSS;
   inline?: boolean;
   socialWrappers?: SocialWrappers;
-  onLongPress?: (text: string) => void;
-}
+  onLongPress?: onLongPress;
+};
 
-export interface DeformatTextOptions {
+export type DeformatTextOptions = {
   joinDelimiter?: string;
-}
+};
 
-export interface TruncateOptions {
+export type TruncateOptions = {
   limit?: number;
   keepRichFormatting?: boolean;
-}
+};
 
-interface SocialWrappers {
+type SocialWrappers = {
   Tweet?: any;
   InstagramPost?: any;
-}
+};
+
+export type onLongPress = {
+  action: (text: string) => void;
+  duration?: number;
+};
