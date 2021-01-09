@@ -92,7 +92,7 @@ export const Paragraph = ({
       },
       onLongPress: {
         action: alert,
-        duration: 5000
+        duration: 1000
       }
     })
     .build() as ReactNode;

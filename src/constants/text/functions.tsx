@@ -1,4 +1,4 @@
-import React, { ReactElement, MouseEvent } from 'react';
+import React, { ReactElement } from 'react';
 import { deformatParagraph, formatParagraph } from './formatting/section';
 import { FormatCSS, newLinesExceptNumberedListsRegex } from './regex';
 
@@ -113,6 +113,9 @@ type SocialWrappers = {
 };
 
 export type onLongPress = {
-  action?: (text: string) => void;
+  action?: (target: CurrentEventTarget) => void;
   duration?: number;
 };
+
+export type Target = EventTarget | CurrentEventTarget;
+export type CurrentEventTarget = EventTarget & HTMLElement;

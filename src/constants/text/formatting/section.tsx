@@ -7,7 +7,7 @@ import {
   FormatCSSImage,
   strayRegexToOmit
 } from '../regex';
-import { onLongPress } from '../functions';
+import { CurrentEventTarget, onLongPress, Target } from '../functions';
 
 /**
  * Formats a paragraph of text.
@@ -170,6 +170,7 @@ export const formatParagraph = (
             width={'100%'}
             frameBorder={'0'}
             allow={'encrypted-media'}
+            key={key}
           />
         );
       case Section.SOUNDCLOUD:
@@ -184,7 +185,8 @@ export const formatParagraph = (
               `https://w.soundcloud.com/player/?url=${soundcloudUrl}&color=%23ff5500&` +
               `auto_play=false&hide_related=true&show_comments=false&show_user=true&` +
               `show_reposts=false&show_teaser=true&visual=true`
-            }></iframe>
+            }
+            key={key}></iframe>
         );
       default:
         return <></>;
@@ -266,9 +268,9 @@ const createLongPressHandlers = (onLongPress?: onLongPress) => {
   let longPressTimeout: NodeJS.Timeout;
 
   const onPress = <T extends React.UIEvent<HTMLElement>>(e: T) => {
-    const text = e.currentTarget.innerText;
+    const target: Target = e.target;
     longPressTimeout = setTimeout(() => {
-      action(text);
+      action((target as CurrentEventTarget));
     }, duration);
   };
 
