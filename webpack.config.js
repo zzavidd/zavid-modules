@@ -19,7 +19,7 @@ module.exports = [
       path: path.join(__dirname, './_dist/build'),
       filename: 'main.js',
       library: 'ZavidLibrary',
-      libraryTarget: 'umd',
+      libraryTarget: 'commonjs2',
       umdNamedDefine: true
     },
     module: {
@@ -38,6 +38,10 @@ module.exports = [
       ]
     },
     plugins: [new CleanWebpackPlugin()],
+    externals: {
+      react: 'commonjs react',
+     'react-dom': 'commonjs react-dom',
+   },
     ...common
   },
   {

@@ -17,8 +17,6 @@ parserOptions:
   sourceType: module
   ecmaFeatures:
     jsx: true
-  project:
-    - "./tsconfig.json"
 plugins:
   - react
   - filenames
@@ -35,7 +33,6 @@ settings:
         - ".js"
         - ".ts"
         - ".tsx"
-        - ".scss"
   react:
     version: detect
 
@@ -55,23 +52,6 @@ rules:
         - builtin
         - internal
         - sibling
-      pathGroups:
-        - pattern: 'reducers/**'
-          group: external
-          position: before
-
-        - pattern: 'components/**'
-          group: internal
-          position: after
-        - pattern: 'constants/**'
-          group: internal
-          position: after
-        - pattern: 'pages/**'
-          group: internal
-          position: after
-        - pattern: 'styles/**'
-          group: internal
-          position: after
       pathGroupsExcludedImportTypes:
         - internal
       newlines-between: always

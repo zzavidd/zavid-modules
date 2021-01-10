@@ -1,7 +1,5 @@
-import InstagramEmbed from '@aarnila/react-instagram-embed';
 import 'bootstrap/scss/bootstrap.scss';
-import React, { PropsWithChildren, useEffect } from 'react';
-import { ReactNode } from 'react';
+import React, { useEffect, useState, CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Provider,
@@ -9,15 +7,21 @@ import {
   useDispatch,
   useSelector
 } from 'react-redux';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
 import { PersistGate } from 'redux-persist/integration/react';
-import zTextBuilder from '../src/constants/text/builder';
 import { persistor, store } from './lib/reducers';
+import { Paragraph, Title } from './text';
 import './styles.scss';
 
+import { zComponents } from '../_dist';
+const { Tabler, TablerColumnHeader, TablerItemCell } = zComponents;
+
 const Home = () => {
-  const dispatch = useDispatch();
   const text = useSelector(({ text }: RootStateOrAny) => text);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.body.className = 'body';
+  }, []);
 
   const handleText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
@@ -27,12 +31,9 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
-    document.body.className = 'body';
-  }, []);
-
   return (
     <Provider store={store}>
+      <Table />
       <div className={'container'}>
         <div className={'editor'}>
           <textarea
@@ -53,51 +54,28 @@ const Home = () => {
   );
 };
 
-export const Title = <P extends unknown>({
-  children
-}: PropsWithChildren<P>) => {
-  return <div className={'preview-heading'}>{children}</div>;
-};
+const Table = () => {
+  const [isLoaded, setLoaded] = useState(false);
+  useEffect(() => {
+    setLoaded(true);
+  }, [isLoaded]);
 
-export const Paragraph = ({
-  children,
-  substitutions,
-  truncate = 0
-}: Paragraph) => {
-  const text = new zTextBuilder(children)
-    .truncateText({
-      limit: truncate
-    })
-    .applySubstitutions(substitutions!)
-    // .deformatText()
-    .formatText({
-      css: {
-        paragraph: 'paragraph',
-        custom: 'custom'
-      },
-      socialWrappers: {
-        Tweet: ({ id }: Tweet) => {
-          return <TwitterTweetEmbed tweetId={id} />;
-        },
-        InstagramPost: ({ url }: InstagramPost) => {
-          const accessToken = `${process.env.FB_APP_ID}|${process.env.FB_APP_CLIENT}`;
-          return (
-            <InstagramEmbed
-              url={url}
-              accessToken={accessToken}
-              maxWidth={500}
-            />
-          );
-        }
-      },
-      onLongPress: {
-        action: alert,
-        duration: 1000
-      }
-    })
-    .build() as ReactNode;
-
-  return <pre className={'preview-text'}>{text}</pre>;
+  return (
+    <Tabler<3>
+      heading={'List of Items'}
+      emptyMessage={'No items found.'}
+      itemsLoaded={isLoaded}
+      columns={[new TablerColumnHeader('#'), new TablerColumnHeader('Message')]}
+      items={[
+        [
+          new TablerItemCell(1),
+          new TablerItemCell('bye'),
+          new TablerItemCell('hi')
+        ]
+      ]}
+      distribution={['40%', '40%', '10%']}
+    />
+  );
 };
 
 const App = () => {
@@ -111,21 +89,3 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-interface Paragraph {
-  children: string;
-  substitutions?: ParagraphSubstitutions;
-  truncate?: number;
-}
-
-interface ParagraphSubstitutions {
-  [key: string]: string;
-}
-
-interface Tweet {
-  id: number;
-}
-
-interface InstagramPost {
-  url: string;
-}
