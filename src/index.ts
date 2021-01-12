@@ -3,7 +3,11 @@ import * as zNumber from './constants/number';
 import * as zString from './constants/string';
 import * as zText from './constants/text';
 
+import * as zIcon from './components/icon';
+import * as zLoader from './components/loader';
+import * as zResponsive from './components/responsive';
 import * as zTabler from './components/tabler';
+import * as zTransitioner from './components/transitioner';
 
 export = {
   zDate,
@@ -12,6 +16,10 @@ export = {
   zText,
 
   zComponents: {
-    ...zTabler
+    ...zIcon,
+    ...zLoader,
+    ...zResponsive,
+    ...zTabler,
+    ...zTransitioner
   }
 };

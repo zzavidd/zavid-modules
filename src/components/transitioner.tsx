@@ -1,7 +1,10 @@
 import React, { CSSProperties, ReactElement, ReactNode } from 'react';
 import { Transition } from 'react-transition-group';
 
-export const Fader = (props: TransitionerProps) => {
+/**
+ * The transitioner for fading in components.
+ */
+export const Fader = (props: FaderProps) => {
   const { duration, delay = 0, postTransitions } = props;
 
   const defaultStyle = {
@@ -18,7 +21,7 @@ export const Fader = (props: TransitionerProps) => {
   };
 
   return (
-    <BaseTransitioner
+    <Transitioner
       {...props}
       defaultStyle={defaultStyle}
       transitionStyles={transitionStyles}
@@ -26,7 +29,10 @@ export const Fader = (props: TransitionerProps) => {
   );
 };
 
-export const Zoomer = (props: TransitionerProps) => {
+/**
+ * The transitioner for zooming in components.
+ */
+export const Zoomer = (props: ZoomerProps) => {
   const { duration, delay = 0, postTransitions } = props;
 
   const defaultStyle = {
@@ -43,7 +49,7 @@ export const Zoomer = (props: TransitionerProps) => {
   };
 
   return (
-    <BaseTransitioner
+    <Transitioner
       {...props}
       defaultStyle={defaultStyle}
       transitionStyles={transitionStyles}
@@ -51,7 +57,10 @@ export const Zoomer = (props: TransitionerProps) => {
   );
 };
 
-export const Slider = (props: SlideTransitionerProps) => {
+/**
+ * The transitioner for sliding in components.
+ */
+export const Slider = (props: SliderProps) => {
   const { duration, delay = 0, direction, postTransitions = '' } = props;
 
   const defaultStyle = {
@@ -73,7 +82,7 @@ export const Slider = (props: SlideTransitionerProps) => {
   };
 
   return (
-    <BaseTransitioner
+    <Transitioner
       {...props}
       defaultStyle={defaultStyle as CSSProperties}
       transitionStyles={transitionStyles}
@@ -81,7 +90,10 @@ export const Slider = (props: SlideTransitionerProps) => {
   );
 };
 
-const BaseTransitioner = ({
+/**
+ * The superclass transitioner.
+ */
+const Transitioner = ({
   children,
   className,
   defaultStyle,
@@ -89,7 +101,7 @@ const BaseTransitioner = ({
   hollow,
   style,
   transitionStyles
-}: BaseTransitionerProps) => {
+}: TransitionerProps) => {
   return (
     <Transition in={determinant} timeout={{}}>
       {(state) => {
@@ -115,7 +127,19 @@ const BaseTransitioner = ({
   );
 };
 
-interface TransitionerProps {
+export type FaderProps = Template;
+export type ZoomerProps = Template;
+export type SliderProps = Template & { direction: string };
+
+type TransitionerProps = Template & {
+  defaultStyle: CSSProperties;
+  transitionStyles: {
+    [key: string]: CSSProperties;
+  };
+};
+
+
+type Template = {
   determinant: boolean;
   duration: number;
   delay?: number;
@@ -124,17 +148,4 @@ interface TransitionerProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
-}
-
-interface BaseTransitionerProps extends TransitionerProps {
-  defaultStyle: CSSProperties;
-  transitionStyles: TransitionStyles;
-}
-
-interface SlideTransitionerProps extends TransitionerProps {
-  direction: string;
-}
-
-interface TransitionStyles {
-  [key: string]: CSSProperties;
-}
+};
