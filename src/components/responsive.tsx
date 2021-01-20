@@ -6,7 +6,8 @@ export enum ScreenWidth {
   MEDIUM = '(max-width: 768px)',
   LARGE = '(max-width: 992px)',
   XLARGE = '(max-width: 1200px)',
-  XXLARGE = '(max-width: 1408px)'
+  XXLARGE = '(max-width: 1408px)',
+  XXXLARGE = '(max-width: 1600px)'
 }
 
 export const Responsive = ({
