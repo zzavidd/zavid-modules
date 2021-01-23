@@ -163,7 +163,7 @@ export const formatParagraph = (
         }
       case Section.SPOTIFY:
         const spotifyUrl = paragraph.match(regex)![1];
-        const height = spotifyUrl.includes('podcast') ? '100%' : 400;
+        const height = spotifyUrl.includes('podcast') ? '240' : 400;
         return (
           <iframe
             src={spotifyUrl}
